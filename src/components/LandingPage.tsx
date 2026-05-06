@@ -1,4 +1,5 @@
-import { Layout, Button, Typography, Row, Col, Space, ConfigProvider, theme, Card, Timeline, Divider, Statistic, Tabs, Form, Input, Select, Badge, message } from 'antd';
+import React from 'react';
+import { Layout, Button, Typography, Row, Col, Space, ConfigProvider, theme, Card, Timeline, Divider, Statistic, Tabs, Form, Input, Select, Badge, notification } from 'antd';
 import { RocketOutlined, CalendarOutlined, ArrowRightOutlined, GlobalOutlined, TeamOutlined, RiseOutlined, CheckCircleOutlined, ClockCircleOutlined, SolutionOutlined, BulbOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, GoogleOutlined, CompassOutlined, UserOutlined, ShopOutlined, MailOutlined as MailIcon, PhoneOutlined as PhoneIcon } from '@ant-design/icons';
 
 const { Header, Content, Footer } = Layout;
@@ -6,6 +7,45 @@ const { Title, Text, Paragraph } = Typography;
 
 const LandingPage: React.FC = () => {
   const [activeTab, setActiveTab] = React.useState('1');
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  const handleFormSubmit = async (values: any, type: 'Participante' | 'Parceiro') => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/register-whatsapp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formType: type,
+          name: values.nome || values.responsavel,
+          email: values.email,
+          phone: values.telemovel,
+          company: values.empresa || '',
+          sponsorshipLevel: values.nivel || ''
+        }),
+      });
+
+      if (response.ok) {
+        notification.success({
+          message: 'Inscrição Confirmada!',
+          description: 'O seu comprovativo foi gerado e enviado com sucesso.',
+          placement: 'topRight'
+        });
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Erro no Processamento',
+        description: 'Não foi possível processar a sua inscrição. Por favor, tente novamente.',
+        placement: 'topRight'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const scrollToRegistration = (tabKey: string) => {
     setActiveTab(tabKey);
@@ -634,6 +674,7 @@ const LandingPage: React.FC = () => {
                     onChange={(key) => setActiveTab(key)}
                     centered 
                     size="large"
+                    renderTabBar={() => <></>}
                     items={[
                       {
                         key: '1',
@@ -648,10 +689,7 @@ const LandingPage: React.FC = () => {
 
                             <Form 
                               layout="vertical" 
-                              onFinish={(values) => {
-                                console.log('Participante Data:', values);
-                                message.success('Inscrição enviada com sucesso! Verifique o seu email.');
-                              }}
+                              onFinish={(values) => handleFormSubmit(values, 'Participante')}
                             >
                               <Row gutter={16}>
                                 <Col xs={24} md={12}>
@@ -681,6 +719,7 @@ const LandingPage: React.FC = () => {
                                     size="large" 
                                     shape="round" 
                                     htmlType="submit"
+                                    loading={isSubmitting}
                                     style={{ 
                                       height: '60px', 
                                       padding: '0 40px', 
@@ -714,10 +753,7 @@ const LandingPage: React.FC = () => {
 
                             <Form 
                               layout="vertical"
-                              onFinish={(values) => {
-                                console.log('Parceiro Data:', values);
-                                message.success('Candidatura recebida. A nossa equipa entrará em contacto em breve.');
-                              }}
+                              onFinish={(values) => handleFormSubmit(values, 'Parceiro')}
                             >
                               <Row gutter={16}>
                                 <Col xs={24} md={12}>
@@ -759,12 +795,13 @@ const LandingPage: React.FC = () => {
                               </Form.Item>
 
                               <Form.Item style={{ marginTop: '40px' }}>
-                                <Button 
+                                  <Button 
                                   type="default" 
                                   htmlType="submit" 
                                   block 
                                   size="large" 
                                   className="investor-btn"
+                                  loading={isSubmitting}
                                   style={{ 
                                     height: '64px', 
                                     fontSize: '1.2rem', 
