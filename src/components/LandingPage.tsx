@@ -1,4 +1,4 @@
-import { Layout, Button, Typography, Row, Col, Space, ConfigProvider, theme, Card, Timeline, Divider, Statistic, Avatar, Carousel, Descriptions } from 'antd';
+import { Layout, Button, Typography, Row, Col, Space, ConfigProvider, theme, Card, Timeline, Divider, Statistic } from 'antd';
 import { RocketOutlined, CalendarOutlined, ArrowRightOutlined, GlobalOutlined, TeamOutlined, RiseOutlined, CheckCircleOutlined, ClockCircleOutlined, SolutionOutlined, BulbOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, GoogleOutlined, CompassOutlined } from '@ant-design/icons';
 
 const { Header, Content, Footer } = Layout;
