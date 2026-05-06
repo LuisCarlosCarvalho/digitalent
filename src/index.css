@@ -118,3 +118,33 @@ h1.ant-typography {
 .marquee-container:hover .marquee-content {
   animation-play-state: paused;
 }
+
+.investor-btn:hover {
+  border-color: #2563eb !important;
+  color: #2563eb !important;
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+}
+
+/* Ant Design Form Overrides for Dark Theme */
+.ant-form-item-label > label {
+  color: #cbd5e1 !important;
+}
+
+.ant-input, .ant-input-password, .ant-select-selector, .ant-input-affix-wrapper {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+.ant-input:focus, .ant-input-focused, .ant-select-focused .ant-select-selector {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1) !important;
+}
+
+.ant-tabs-tab {
+  color: #94a3b8 !important;
+}
+
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #2563eb !important;
+}

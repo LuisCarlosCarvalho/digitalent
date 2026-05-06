@@ -1,10 +1,19 @@
-import { Layout, Button, Typography, Row, Col, Space, ConfigProvider, theme, Card, Timeline, Divider, Statistic } from 'antd';
-import { RocketOutlined, CalendarOutlined, ArrowRightOutlined, GlobalOutlined, TeamOutlined, RiseOutlined, CheckCircleOutlined, ClockCircleOutlined, SolutionOutlined, BulbOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, GoogleOutlined, CompassOutlined } from '@ant-design/icons';
+import { Layout, Button, Typography, Row, Col, Space, ConfigProvider, theme, Card, Timeline, Divider, Statistic, Tabs, Form, Input, Select, Badge, message } from 'antd';
+import { RocketOutlined, CalendarOutlined, ArrowRightOutlined, GlobalOutlined, TeamOutlined, RiseOutlined, CheckCircleOutlined, ClockCircleOutlined, SolutionOutlined, BulbOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, GoogleOutlined, CompassOutlined, UserOutlined, ShopOutlined, MailOutlined as MailIcon, PhoneOutlined as PhoneIcon } from '@ant-design/icons';
 
 const { Header, Content, Footer } = Layout;
 const { Title, Text, Paragraph } = Typography;
 
 const LandingPage: React.FC = () => {
+  const [activeTab, setActiveTab] = React.useState('1');
+
+  const scrollToRegistration = (tabKey: string) => {
+    setActiveTab(tabKey);
+    const element = document.getElementById('inscricao');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   return (
     <ConfigProvider
       theme={{
@@ -42,14 +51,25 @@ const LandingPage: React.FC = () => {
             </Title>
           </div>
           
-          <div className="desktop-menu" style={{ display: 'flex', gap: '30px' }}>
-            <Button type="text" href="#sobre" style={{ color: '#cbd5e1' }}>Sobre</Button>
-            <Button type="text" href="#oradores" style={{ color: '#cbd5e1' }}>Oradores</Button>
-            <Button type="text" href="#cronograma" style={{ color: '#cbd5e1' }}>Cronograma</Button>
-            <Button type="text" href="#informacoes" style={{ color: '#cbd5e1' }}>Informações</Button>
+          <div className="desktop-menu" style={{ display: 'flex', gap: '20px' }}>
+            <Button type="link" href="#sobre" style={{ color: '#cbd5e1' }}>Sobre</Button>
+            <Button type="link" href="#oradores" style={{ color: '#cbd5e1' }}>Oradores</Button>
+            <Button type="link" href="#cronograma" style={{ color: '#cbd5e1' }}>Cronograma</Button>
+            <Button type="link" href="#informacoes" style={{ color: '#cbd5e1' }}>Informações</Button>
           </div>
 
-          <Button type="primary" shape="round" href="#inscricao">
+          <Button 
+            type="primary" 
+            shape="round" 
+            size="large" 
+            onClick={() => scrollToRegistration('1')}
+            style={{ 
+              background: 'linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%)',
+              border: 'none',
+              fontWeight: 600,
+              padding: '0 30px'
+            }}
+          >
             Reservar Lugar
           </Button>
         </Header>
@@ -121,12 +141,20 @@ const LandingPage: React.FC = () => {
                   <Space size="middle" wrap style={{ justifyContent: 'center' }}>
                     <Button 
                       type="primary" 
+                      shape="round" 
                       size="large" 
-                      icon={<RocketOutlined />} 
-                      href="#inscricao"
-                      style={{ fontSize: '18px', display: 'flex', alignItems: 'center' }}
+                      onClick={() => scrollToRegistration('1')}
+                      style={{ 
+                        height: '60px', 
+                        padding: '0 40px', 
+                        fontSize: '1.1rem', 
+                        fontWeight: 700,
+                        background: 'linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%)', 
+                        border: 'none',
+                        boxShadow: '0 10px 30px rgba(37, 99, 235, 0.4)'
+                      }}
                     >
-                      Começar Agora
+                      Reservar o Meu Lugar
                     </Button>
                     <Button 
                       type="default" 
@@ -406,7 +434,7 @@ const LandingPage: React.FC = () => {
                     {
                       children: (
                         <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                          <Button type="primary" size="large" href="#inscricao">Quero Inscrever-me</Button>
+                          <Button type="primary" size="large" onClick={() => scrollToRegistration('1')}>Quero Inscrever-me</Button>
                         </div>
                       ),
                       dot: <ClockCircleOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
@@ -453,7 +481,12 @@ const LandingPage: React.FC = () => {
                   <Paragraph style={{ color: '#94a3b8' }}>
                     Posicione a sua marca diante de centenas de pequenas empresas locais e lidere a transformação digital na região.
                   </Paragraph>
-                  <Button type="primary" shape="round" icon={<RocketOutlined />}>
+                  <Button 
+                    type="primary" 
+                    shape="round" 
+                    icon={<RocketOutlined />}
+                    onClick={() => scrollToRegistration('2')}
+                  >
                     Receber Dossier de Patrocínio
                   </Button>
                 </Card>
@@ -580,9 +613,181 @@ const LandingPage: React.FC = () => {
             </Row>
           </section>
 
-          <section id="inscricao" style={{ padding: '80px 0', textAlign: 'center', background: 'rgba(37, 99, 235, 0.05)' }}>
-            <Title level={2}>Inscrições Abertas</Title>
-            <Text type="secondary">Garanta o seu lugar na transformação digital.</Text>
+          {/* Registration Section */}
+          <section id="inscricao" style={{ padding: '120px 5%', background: '#0b0f19' }}>
+            <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+              <Title level={2} style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', color: '#f8fafc' }}>Garanta a Sua Presença</Title>
+              <Paragraph style={{ fontSize: '1.2rem', color: '#94a3b8' }}>Escolha a sua forma de participar na transformação digital de Rio Meão.</Paragraph>
+            </div>
+
+            <Row justify="center">
+              <Col xs={24} md={20} lg={16} xl={14}>
+                <div style={{ 
+                  background: 'rgba(255, 255, 255, 0.02)', 
+                  border: '1px solid rgba(255, 255, 255, 0.05)', 
+                  borderRadius: '32px', 
+                  padding: '40px',
+                  boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)'
+                }}>
+                  <Tabs 
+                    activeKey={activeTab}
+                    onChange={(key) => setActiveTab(key)}
+                    centered 
+                    size="large"
+                    items={[
+                      {
+                        key: '1',
+                        label: 'Inscrição de Participante',
+                        children: (
+                          <div style={{ paddingTop: '30px' }}>
+                            <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+                              <Badge count="100% Gratuito" style={{ backgroundColor: '#2563eb', padding: '0 15px', height: '30px', lineHeight: '30px', fontSize: '1rem', borderRadius: '15px' }} />
+                              <Title level={4} style={{ marginTop: '20px' }}>Ouvinte / Participante Local</Title>
+                              <Text style={{ color: '#94a3b8' }}>Acesso total às palestras, networking e recursos exclusivos do evento.</Text>
+                            </div>
+
+                            <Form 
+                              layout="vertical" 
+                              onFinish={(values) => {
+                                console.log('Participante Data:', values);
+                                message.success('Inscrição enviada com sucesso! Verifique o seu email.');
+                              }}
+                            >
+                              <Row gutter={16}>
+                                <Col xs={24} md={12}>
+                                  <Form.Item label="Nome Completo" name="nome" rules={[{ required: true, message: 'Por favor, insira o seu nome.' }]}>
+                                    <Input prefix={<UserOutlined />} placeholder="Ex: João Silva" size="large" />
+                                  </Form.Item>
+                                </Col>
+                                <Col xs={24} md={12}>
+                                  <Form.Item label="Telemóvel" name="telemovel" rules={[{ required: true, message: 'Por favor, insira o seu contacto.' }]}>
+                                    <Input prefix={<PhoneIcon />} placeholder="912 345 678" size="large" />
+                                  </Form.Item>
+                                </Col>
+                              </Row>
+
+                              <Form.Item label="E-mail Profissional" name="email" rules={[{ required: true, type: 'email', message: 'Insira um e-mail válido.' }]}>
+                                <Input prefix={<MailIcon />} placeholder="joao@empresa.pt" size="large" />
+                              </Form.Item>
+
+                              <Form.Item label="Nome da Empresa / Ramo (Opcional)" name="empresa">
+                                <Input prefix={<ShopOutlined />} placeholder="Ex: Café Central / Restauração" size="large" />
+                              </Form.Item>
+
+                              <Form.Item style={{ marginTop: '40px' }}>
+                                <Space size="large">
+                                  <Button 
+                                    type="primary" 
+                                    size="large" 
+                                    shape="round" 
+                                    htmlType="submit"
+                                    style={{ 
+                                      height: '60px', 
+                                      padding: '0 40px', 
+                                      fontSize: '1.1rem', 
+                                      fontWeight: 700,
+                                      background: 'linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%)',
+                                      border: 'none',
+                                      boxShadow: '0 10px 30px rgba(37, 99, 235, 0.4)'
+                                    }}
+                                  >
+                                    Quero me inscrever agora
+                                  </Button>
+                                </Space>
+                                <Text type="secondary" style={{ display: 'block', textAlign: 'center', marginTop: '16px', fontSize: '0.85rem' }}>
+                                  Ao inscrever-se, concorda com a nossa Política de Privacidade.
+                                </Text>
+                              </Form.Item>
+                            </Form>
+                          </div>
+                        ),
+                      },
+                      {
+                        key: '2',
+                        label: 'Parceiro / Investidor',
+                        children: (
+                          <div style={{ paddingTop: '30px' }}>
+                            <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+                              <Title level={4}>Candidatura a Patrocínio</Title>
+                              <Text style={{ color: '#94a3b8' }}>Posicione a sua marca perante centenas de decisões locais e lidere o mercado.</Text>
+                            </div>
+
+                            <Form 
+                              layout="vertical"
+                              onFinish={(values) => {
+                                console.log('Parceiro Data:', values);
+                                message.success('Candidatura recebida. A nossa equipa entrará em contacto em breve.');
+                              }}
+                            >
+                              <Row gutter={16}>
+                                <Col xs={24} md={12}>
+                                  <Form.Item label="Nome da Empresa" name="empresa" rules={[{ required: true }]}>
+                                    <Input prefix={<ShopOutlined />} placeholder="Empresa S.A." size="large" />
+                                  </Form.Item>
+                                </Col>
+                                <Col xs={24} md={12}>
+                                  <Form.Item label="Nome do Responsável" name="responsavel" rules={[{ required: true }]}>
+                                    <Input prefix={<UserOutlined />} placeholder="Nome Completo" size="large" />
+                                  </Form.Item>
+                                </Col>
+                              </Row>
+
+                              <Row gutter={16}>
+                                <Col xs={24} md={12}>
+                                  <Form.Item label="E-mail de Contacto" name="email" rules={[{ required: true, type: 'email' }]}>
+                                    <Input prefix={<MailIcon />} placeholder="email@empresa.pt" size="large" />
+                                  </Form.Item>
+                                </Col>
+                                <Col xs={24} md={12}>
+                                  <Form.Item label="Telemóvel" name="telemovel" rules={[{ required: true }]}>
+                                    <Input prefix={<PhoneIcon />} placeholder="9xx xxx xxx" size="large" />
+                                  </Form.Item>
+                                </Col>
+                              </Row>
+
+                              <Form.Item label="Nível de Interesse" name="nivel" rules={[{ required: true }]}>
+                                <Select size="large" placeholder="Selecione o nível de patrocínio">
+                                  <Select.Option value="bronze">Passe Bronze</Select.Option>
+                                  <Select.Option value="prata">Passe Prata</Select.Option>
+                                  <Select.Option value="ouro">Passe Ouro</Select.Option>
+                                  <Select.Option value="investidor">Quero ser Investidor Principal</Select.Option>
+                                </Select>
+                              </Form.Item>
+
+                              <Form.Item label="Objetivos no Evento" name="objetivos">
+                                <Input.TextArea rows={4} placeholder="Conte-nos brevemente o que espera alcançar com esta parceria..." style={{ borderRadius: '12px' }} />
+                              </Form.Item>
+
+                              <Form.Item style={{ marginTop: '40px' }}>
+                                <Button 
+                                  type="default" 
+                                  htmlType="submit" 
+                                  block 
+                                  size="large" 
+                                  className="investor-btn"
+                                  style={{ 
+                                    height: '64px', 
+                                    fontSize: '1.2rem', 
+                                    fontWeight: 700, 
+                                    borderRadius: '16px',
+                                    border: '2px solid #cbd5e1',
+                                    background: 'transparent',
+                                    color: '#cbd5e1',
+                                    transition: 'all 0.3s ease'
+                                  }}
+                                >
+                                  Enviar Candidatura a Patrocínio
+                                </Button>
+                              </Form.Item>
+                            </Form>
+                          </div>
+                        ),
+                      },
+                    ]}
+                  />
+                </div>
+              </Col>
+            </Row>
           </section>
         </Content>
 
