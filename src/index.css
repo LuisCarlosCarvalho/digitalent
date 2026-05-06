@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+:root {
+  --bg-color: #0b0f19;
+  --primary-color: #2563eb;
+  --text-color: #cbd5e1;
+  --platinum: #f8fafc;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0f19;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
+/* Ant Design Overrides */
+.ant-layout {
+  background: transparent !important;
+}
+
+.ant-btn-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  border: none !important;
+  box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39) !important;
+  height: 48px !important;
+  padding: 0 32px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+.ant-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5) !important;
+}
+
+.ant-typography {
+  color: var(--text-color) !important;
+}
+
+h1.ant-typography {
+  color: var(--platinum) !important;
+}
+
+.speaker-card:hover {
+  border-color: #2563eb !important;
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.1) !important;
+}
+
+.speaker-card .ant-avatar {
+  transition: all 0.3s ease;
+}
+
+.speaker-card:hover .ant-avatar {
+  border-color: #2563eb !important;
+  transform: scale(1.05);
+}
+
+/* Marquee Animation */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  padding: 20px 0;
+}
+
+.marquee-content {
+  display: flex;
+  gap: 80px;
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+
+.sponsor-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Optional: Pause on hover */
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
