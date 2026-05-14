@@ -1,10 +1,49 @@
-import React, { useEffect, useState, Suspense, lazy } from 'react';
-import { Layout, Button, Typography, Row, Col, Space, ConfigProvider, Card, Divider, Statistic, Tabs, Form, Input, Select, Badge, notification, Dropdown, theme, Drawer, Grid } from 'antd';
-import { RocketOutlined, CalendarOutlined, GlobalOutlined, TeamOutlined, RiseOutlined, CheckCircleOutlined, SolutionOutlined, UserOutlined, ShopOutlined, MailOutlined as MailIcon, PhoneOutlined as PhoneIcon, InstagramOutlined, LinkedinOutlined, DesktopOutlined, MoonOutlined, SunOutlined, MenuOutlined } from '@ant-design/icons';
+import React, { useEffect, useState, Suspense, lazy } from "react";
+import {
+  Layout,
+  Button,
+  Typography,
+  Row,
+  Col,
+  Space,
+  ConfigProvider,
+  Card,
+  Divider,
+  Statistic,
+  Tabs,
+  Form,
+  Input,
+  Select,
+  Badge,
+  notification,
+  Dropdown,
+  theme,
+  Drawer,
+  Grid,
+} from "antd";
+import {
+  RocketOutlined,
+  CalendarOutlined,
+  GlobalOutlined,
+  TeamOutlined,
+  RiseOutlined,
+  CheckCircleOutlined,
+  SolutionOutlined,
+  UserOutlined,
+  ShopOutlined,
+  MailOutlined as MailIcon,
+  PhoneOutlined as PhoneIcon,
+  InstagramOutlined,
+  LinkedinOutlined,
+  DesktopOutlined,
+  MoonOutlined,
+  SunOutlined,
+  MenuOutlined,
+} from "@ant-design/icons";
 
-const SpeakersSection = lazy(() => import('./sections/SpeakersSection'));
-const LocationSection = lazy(() => import('./sections/LocationSection'));
-const ScheduleSection = lazy(() => import('./sections/ScheduleSection'));
+const SpeakersSection = lazy(() => import("./sections/SpeakersSection"));
+const LocationSection = lazy(() => import("./sections/LocationSection"));
+const ScheduleSection = lazy(() => import("./sections/ScheduleSection"));
 
 const { Header, Content, Footer } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -12,56 +51,59 @@ const { Title, Text, Paragraph } = Typography;
 const getBaseThemeConfig = (isDark: boolean) => ({
   algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
   token: {
-    colorPrimary: '#2563eb', // Azul Royal da Marca
-    colorBgBase: isDark ? '#0b0f19' : '#f8fafc',
-    colorTextBase: isDark ? '#f8fafc' : '#0f172a',
+    colorPrimary: "#2563eb", // Azul Royal da Marca
+    colorBgBase: isDark ? "#0b0f19" : "#f8fafc",
+    colorTextBase: isDark ? "#f8fafc" : "#0f172a",
     borderRadius: 8,
     fontFamily: "'Outfit', sans-serif",
   },
   components: {
     Button: {
-      colorPrimary: '#2563eb',
+      colorPrimary: "#2563eb",
       algorithm: true,
     },
     Input: {
-      colorBgContainer: isDark ? '#111827' : '#f8fafc',
-    }
-  }
+      colorBgContainer: isDark ? "#111827" : "#f8fafc",
+    },
+  },
 });
 
-type ThemeMode = 'light' | 'dark' | 'auto';
+type ThemeMode = "light" | "dark" | "auto";
 
 const { useBreakpoint } = Grid;
 
 const LandingPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('1');
+  const [activeTab, setActiveTab] = useState("1");
   const [isSubmitting, setIsSubmitting] = useState(false);
   // Inicialização do tema
   const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
-    if (typeof window !== 'undefined') {
-      return (localStorage.getItem('themeMode') as ThemeMode) || 'auto';
+    if (typeof window !== "undefined") {
+      return (localStorage.getItem("themeMode") as ThemeMode) || "auto";
     }
-    return 'auto';
+    return "auto";
   });
 
   // Estado para capturar a preferência do sistema
-  const [systemDarkMode, setSystemDarkMode] = useState(() => 
-    typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)').matches : false
+  const [systemDarkMode, setSystemDarkMode] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(prefers-color-scheme: dark)").matches
+      : false,
   );
 
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const handler = (e: MediaQueryListEvent) => setSystemDarkMode(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
   }, []);
 
   // Valor derivado para o modo escuro atual
-  const isDarkMode = themeMode === 'auto' ? systemDarkMode : themeMode === 'dark';
+  const isDarkMode =
+    themeMode === "auto" ? systemDarkMode : themeMode === "dark";
 
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const [showStickyCTA, setShowStickyCTA] = useState(false);
-  
+
   const screens = useBreakpoint();
 
   // Scroll listener for Sticky CTA
@@ -69,58 +111,62 @@ const LandingPage: React.FC = () => {
     const handleScroll = () => {
       setShowStickyCTA(window.scrollY > 600);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Atualizar a tag HTML para as variáveis CSS globais funcionarem e persistir escolha
   useEffect(() => {
     if (isDarkMode) {
-      document.body.setAttribute('data-theme', 'dark');
+      document.body.setAttribute("data-theme", "dark");
     } else {
-      document.body.removeAttribute('data-theme');
+      document.body.removeAttribute("data-theme");
     }
-    localStorage.setItem('themeMode', themeMode);
+    localStorage.setItem("themeMode", themeMode);
   }, [isDarkMode, themeMode]);
 
   const handleThemeChange = (info: { key: string }) => {
     setThemeMode(info.key as ThemeMode);
   };
 
-  const handleFormSubmit = async (values: Record<string, string>, type: 'Participante' | 'Parceiro') => {
+  const handleFormSubmit = async (
+    values: Record<string, string>,
+    type: "Participante" | "Parceiro",
+  ) => {
     setIsSubmitting(true);
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const apiUrl = import.meta.env.VITE_API_URL || "";
       const response = await fetch(`${apiUrl}/api/register-whatsapp`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           formType: type,
           name: values.nome || values.responsavel,
           email: values.email,
           phone: values.telemovel,
-          company: values.empresa || '',
-          sponsorshipLevel: values.nivel || '',
-          adminNumber: '351964300708'
+          company: values.empresa || "",
+          sponsorshipLevel: values.nivel || "",
+          adminNumber: "351964300708",
         }),
       });
 
       if (response.ok) {
         notification.success({
-          message: 'Inscrição Confirmada!',
-          description: 'O seu comprovativo foi gerado e enviado com sucesso.',
-          placement: 'topRight'
+          message: "Inscrição Confirmada!",
+          description: "O seu comprovativo foi gerado e enviado com sucesso.",
+          placement: "topRight",
         });
       } else {
-        throw new Error('Server error');
+        throw new Error("Server error");
       }
     } catch {
       notification.error({
-        message: 'Erro no Processamento',
-        description: 'Não foi possível processar a sua inscrição. Por favor, tente novamente.',
-        placement: 'topRight'
+        message: "Erro no Processamento",
+        description:
+          "Não foi possível processar a sua inscrição. Por favor, tente novamente.",
+        placement: "topRight",
       });
     } finally {
       setIsSubmitting(false);
@@ -129,75 +175,129 @@ const LandingPage: React.FC = () => {
 
   const scrollToRegistration = (tabKey: string) => {
     setActiveTab(tabKey);
-    const element = document.getElementById('inscricao');
+    const element = document.getElementById("inscricao");
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   return (
     <ConfigProvider theme={getBaseThemeConfig(isDarkMode)}>
-      <Layout style={{ minHeight: '100vh', background: 'var(--bg-base)' }}>
+      <Layout style={{ minHeight: "100vh", background: "var(--bg-base)" }}>
         {/* Navigation Bar */}
-        <Header 
-          style={{ 
-            position: 'sticky', 
-            top: 0, 
-            zIndex: 1000, 
-            width: '100%', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'space-between',
-            background: 'var(--header-bg)',
-            backdropFilter: 'blur(10px)',
-            borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
-            padding: '0 5%',
-            height: '80px'
+        <Header
+          style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 1000,
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            background: "var(--header-bg)",
+            backdropFilter: "blur(10px)",
+            borderBottom: "1px solid rgba(0, 0, 0, 0.05)",
+            padding: "0 5%",
+            height: "80px",
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img src="https://i.imgur.com/UgYNeIO.png" alt="Digitalent26 Logo" style={{ height: '50px', width: 'auto', marginRight: '10px' }} />
-            <Title level={4} style={{ margin: 0, color: '#2563eb', fontWeight: 800 }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <img
+              src="https://i.imgur.com/UgYNeIO.png"
+              alt="Digitalent26 Logo"
+              style={{ height: "50px", width: "auto", marginRight: "10px" }}
+            />
+            <Title
+              level={4}
+              style={{ margin: 0, color: "#2563eb", fontWeight: 800 }}
+            >
               Digitalent26
             </Title>
           </div>
-          
+
           {screens.md && (
-            <div className="desktop-menu" style={{ display: 'flex', gap: '20px' }}>
-              <Button type="link" href="#sobre" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Sobre</Button>
-              <Button type="link" href="#oradores" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Oradores</Button>
-              <Button type="link" href="#cronograma" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Cronograma</Button>
-              <Button type="link" href="#informacoes" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Informações</Button>
+            <div
+              className="desktop-menu"
+              style={{ display: "flex", gap: "20px" }}
+            >
+              <Button
+                type="link"
+                href="#sobre"
+                style={{ color: "var(--text-main)", fontWeight: 600 }}
+              >
+                Sobre
+              </Button>
+              <Button
+                type="link"
+                href="#oradores"
+                style={{ color: "var(--text-main)", fontWeight: 600 }}
+              >
+                Oradores
+              </Button>
+              <Button
+                type="link"
+                href="#cronograma"
+                style={{ color: "var(--text-main)", fontWeight: 600 }}
+              >
+                Cronograma
+              </Button>
+              <Button
+                type="link"
+                href="#informacoes"
+                style={{ color: "var(--text-main)", fontWeight: 600 }}
+              >
+                Informações
+              </Button>
             </div>
           )}
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: screens.xs ? '8px' : '16px' }}>
-            <Dropdown 
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: screens.xs ? "8px" : "16px",
+            }}
+          >
+            <Dropdown
               menu={{
                 items: [
-                  { key: 'light', icon: <SunOutlined />, label: 'Light Mode' },
-                  { key: 'dark', icon: <MoonOutlined />, label: 'Dark Mode' },
-                  { key: 'auto', icon: <DesktopOutlined />, label: 'System (Auto)' }
+                  { key: "light", icon: <SunOutlined />, label: "Light Mode" },
+                  { key: "dark", icon: <MoonOutlined />, label: "Dark Mode" },
+                  {
+                    key: "auto",
+                    icon: <DesktopOutlined />,
+                    label: "System (Auto)",
+                  },
                 ],
                 onClick: handleThemeChange,
-                selectedKeys: [themeMode]
+                selectedKeys: [themeMode],
               }}
               placement="bottomRight"
             >
-              <Button type="text" shape="circle" style={{ color: 'var(--text-main)', fontSize: '1.2rem' }}>
-                {themeMode === 'light' ? <SunOutlined /> : themeMode === 'dark' ? <MoonOutlined /> : <DesktopOutlined />}
+              <Button
+                type="text"
+                shape="circle"
+                style={{ color: "var(--text-main)", fontSize: "1.2rem" }}
+              >
+                {themeMode === "light" ? (
+                  <SunOutlined />
+                ) : themeMode === "dark" ? (
+                  <MoonOutlined />
+                ) : (
+                  <DesktopOutlined />
+                )}
               </Button>
             </Dropdown>
 
             {screens.md && (
-              <Button 
-                type="primary" 
-                shape="round" 
-                size="large" 
-                onClick={() => scrollToRegistration('1')}
-                style={{ 
+              <Button
+                type="primary"
+                shape="round"
+                size="large"
+                onClick={() => scrollToRegistration("1")}
+                style={{
                   fontWeight: 600,
-                  padding: '0 30px'
+                  padding: "0 30px",
                 }}
               >
                 Inscrição Gratuita
@@ -205,42 +305,112 @@ const LandingPage: React.FC = () => {
             )}
 
             {!screens.md && (
-              <Button 
-                type="text" 
-                icon={<MenuOutlined />} 
-                style={{ fontSize: '1.5rem', color: '#2563eb' }}
+              <Button
+                type="text"
+                icon={<MenuOutlined />}
+                style={{ fontSize: "1.5rem", color: "#2563eb" }}
                 onClick={() => setMobileMenuVisible(true)}
               />
             )}
           </div>
 
           <Drawer
-            title={<span style={{ color: '#2563eb', fontWeight: 800 }}>Menu</span>}
+            title={
+              <span style={{ color: "#2563eb", fontWeight: 800 }}>Menu</span>
+            }
             placement="right"
             onClose={() => setMobileMenuVisible(false)}
             open={mobileMenuVisible}
-            bodyStyle={{ padding: '24px', background: 'var(--bg-base)' }}
-            headerStyle={{ background: 'var(--header-bg)', borderBottom: '1px solid rgba(0,0,0,0.05)' }}
-            closeIcon={<span style={{ color: 'var(--text-main)' }}>X</span>}
+            bodyStyle={{ padding: "24px", background: "var(--bg-base)" }}
+            headerStyle={{
+              background: "var(--header-bg)",
+              borderBottom: "1px solid rgba(0,0,0,0.05)",
+            }}
+            closeIcon={<span style={{ color: "var(--text-main)" }}>X</span>}
           >
-            <Space direction="vertical" size="large" style={{ width: '100%' }}>
-              <Button type="link" block href="#sobre" onClick={() => setMobileMenuVisible(false)} style={{ textAlign: 'left', color: 'var(--text-main)', fontSize: '1.2rem', padding: 0 }}>Sobre</Button>
-              <Divider style={{ margin: 0, borderColor: 'var(--border-color)' }} />
-              <Button type="link" block href="#oradores" onClick={() => setMobileMenuVisible(false)} style={{ textAlign: 'left', color: 'var(--text-main)', fontSize: '1.2rem', padding: 0 }}>Oradores</Button>
-              <Divider style={{ margin: 0, borderColor: 'var(--border-color)' }} />
-              <Button type="link" block href="#cronograma" onClick={() => setMobileMenuVisible(false)} style={{ textAlign: 'left', color: 'var(--text-main)', fontSize: '1.2rem', padding: 0 }}>Cronograma</Button>
-              <Divider style={{ margin: 0, borderColor: 'var(--border-color)' }} />
-              <Button type="link" block href="#informacoes" onClick={() => setMobileMenuVisible(false)} style={{ textAlign: 'left', color: 'var(--text-main)', fontSize: '1.2rem', padding: 0 }}>Informações</Button>
-              <Divider style={{ margin: 0, borderColor: 'var(--border-color)' }} />
-              <Button 
-                type="primary" 
-                block 
-                size="large" 
+            <Space direction="vertical" size="large" style={{ width: "100%" }}>
+              <Button
+                type="link"
+                block
+                href="#sobre"
+                onClick={() => setMobileMenuVisible(false)}
+                style={{
+                  textAlign: "left",
+                  color: "var(--text-main)",
+                  fontSize: "1.2rem",
+                  padding: 0,
+                }}
+              >
+                Sobre
+              </Button>
+              <Divider
+                style={{ margin: 0, borderColor: "var(--border-color)" }}
+              />
+              <Button
+                type="link"
+                block
+                href="#oradores"
+                onClick={() => setMobileMenuVisible(false)}
+                style={{
+                  textAlign: "left",
+                  color: "var(--text-main)",
+                  fontSize: "1.2rem",
+                  padding: 0,
+                }}
+              >
+                Oradores
+              </Button>
+              <Divider
+                style={{ margin: 0, borderColor: "var(--border-color)" }}
+              />
+              <Button
+                type="link"
+                block
+                href="#cronograma"
+                onClick={() => setMobileMenuVisible(false)}
+                style={{
+                  textAlign: "left",
+                  color: "var(--text-main)",
+                  fontSize: "1.2rem",
+                  padding: 0,
+                }}
+              >
+                Cronograma
+              </Button>
+              <Divider
+                style={{ margin: 0, borderColor: "var(--border-color)" }}
+              />
+              <Button
+                type="link"
+                block
+                href="#informacoes"
+                onClick={() => setMobileMenuVisible(false)}
+                style={{
+                  textAlign: "left",
+                  color: "var(--text-main)",
+                  fontSize: "1.2rem",
+                  padding: 0,
+                }}
+              >
+                Informações
+              </Button>
+              <Divider
+                style={{ margin: 0, borderColor: "var(--border-color)" }}
+              />
+              <Button
+                type="primary"
+                block
+                size="large"
                 onClick={() => {
                   setMobileMenuVisible(false);
-                  scrollToRegistration('1');
+                  scrollToRegistration("1");
                 }}
-                style={{ marginTop: '20px', height: '48px', fontSize: '1.1rem', borderRadius: '8px' }}
+                style={{
+                  marginTop: "20px",
+                  height: "48px",
+                  fontSize: "1.1rem",
+                  borderRadius: "8px",
+                }}
               >
                 Inscrição Gratuita
               </Button>
@@ -250,27 +420,62 @@ const LandingPage: React.FC = () => {
 
         <Content>
           {/* Top Marquee Section */}
-          <div style={{ 
-            padding: '12px 0', 
-            background: 'var(--header-bg)', 
-            borderBottom: '1px solid rgba(128, 128, 128, 0.1)',
-            overflow: 'hidden',
-            display: 'flex',
-            alignItems: 'center'
-          }}>
-            <div style={{ padding: '0 5%', marginRight: '20px', zIndex: 2, background: 'var(--header-bg)', position: 'relative' }}>
-              <Text type="secondary" style={{ letterSpacing: '2px', textTransform: 'uppercase', fontSize: '0.75rem', color: 'var(--text-sec)', whiteSpace: 'nowrap', fontWeight: 600 }}>
+          <div
+            style={{
+              padding: "12px 0",
+              background: "var(--header-bg)",
+              borderBottom: "1px solid rgba(128, 128, 128, 0.1)",
+              overflow: "hidden",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                padding: "0 5%",
+                marginRight: "20px",
+                zIndex: 2,
+                background: "var(--header-bg)",
+                position: "relative",
+              }}
+            >
+              <Text
+                type="secondary"
+                style={{
+                  letterSpacing: "2px",
+                  textTransform: "uppercase",
+                  fontSize: "0.75rem",
+                  color: "var(--text-sec)",
+                  whiteSpace: "nowrap",
+                  fontWeight: 600,
+                }}
+              >
                 Marcas que Confiam
               </Text>
             </div>
-            <div className="marquee-container" style={{ margin: 0, flex: 1, maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
-              <div className="marquee-content" style={{ animationDuration: '30s' }}>
+            <div
+              className="marquee-container"
+              style={{
+                margin: 0,
+                flex: 1,
+                maskImage:
+                  "linear-gradient(to right, transparent, black 5%, black 95%, transparent)",
+              }}
+            >
+              <div
+                className="marquee-content"
+                style={{ animationDuration: "30s" }}
+              >
                 {[...Array(10)].map((_, i) => (
-                  <div key={i} className="sponsor-logo" style={{ margin: '0 30px' }}>
-                    <img 
-                      src="/client-logo-v2.png" 
-                      alt={`Sponsor ${i+1}`}
-                      style={{ height: '120px', objectFit: 'contain' }}
+                  <div
+                    key={i}
+                    className="sponsor-logo"
+                    style={{ margin: "0 30px" }}
+                  >
+                    <img
+                      src="/client-logo-v2.png"
+                      alt={`Sponsor ${i + 1}`}
+                      style={{ height: "120px", objectFit: "contain" }}
                     />
                   </div>
                 ))}
@@ -279,20 +484,31 @@ const LandingPage: React.FC = () => {
           </div>
 
           {/* Urgency Ticker Section */}
-          <div style={{ 
-            background: '#2563eb', 
-            color: '#ffffff',
-            overflow: 'hidden',
-            display: 'flex',
-            alignItems: 'center',
-            fontWeight: 500,
-            fontSize: '1.1rem',
-            letterSpacing: '1px'
-          }}>
-            <div className="marquee-container" style={{ margin: 0, padding: '8px 0', flex: 1 }}>
-              <div className="marquee-content" style={{ animationDuration: '25s' }}>
+          <div
+            style={{
+              background: "#2563eb",
+              color: "#ffffff",
+              overflow: "hidden",
+              display: "flex",
+              alignItems: "center",
+              fontWeight: 500,
+              fontSize: "1.1rem",
+              letterSpacing: "1px",
+            }}
+          >
+            <div
+              className="marquee-container"
+              style={{ margin: 0, padding: "8px 0", flex: 1 }}
+            >
+              <div
+                className="marquee-content"
+                style={{ animationDuration: "25s" }}
+              >
                 {[...Array(15)].map((_, i) => (
-                  <div key={i} style={{ margin: '0 20px', whiteSpace: 'nowrap' }}>
+                  <div
+                    key={i}
+                    style={{ margin: "0 20px", whiteSpace: "nowrap" }}
+                  >
                     Disponibilidade limitada no momento
                   </div>
                 ))}
@@ -301,83 +517,129 @@ const LandingPage: React.FC = () => {
           </div>
 
           {/* Hero Section */}
-          <section id="inicio" style={{ 
-            padding: screens.xs ? '30px 5% 80px' : '40px 5% 100px', 
-            background: 'var(--bg-base)',
-            position: 'relative',
-            overflow: 'hidden'
-          }}>
-            <Row justify="center" align="middle" style={{ position: 'relative', zIndex: 1 }}>
-              <Col xs={24} md={20} lg={16} style={{ textAlign: 'center' }}>
-                <Space orientation="vertical" size="large" style={{ width: '100%' }}>
-                  <div style={{ marginBottom: '30px' }}>
-                    <img src="https://i.imgur.com/UgYNeIO.png" alt="Digitalent26 Large Logo" style={{ maxWidth: '280px', width: '100%', height: 'auto' }} />
+          <section
+            id="inicio"
+            style={{
+              padding: screens.xs ? "30px 5% 80px" : "40px 5% 100px",
+              background: "var(--bg-base)",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <Row
+              justify="center"
+              align="middle"
+              style={{ position: "relative", zIndex: 1 }}
+            >
+              <Col xs={24} md={20} lg={16} style={{ textAlign: "center" }}>
+                <Space
+                  orientation="vertical"
+                  size="large"
+                  style={{ width: "100%" }}
+                >
+                  <div style={{ marginBottom: "30px" }}>
+                    <img
+                      src="https://i.imgur.com/UgYNeIO.png"
+                      alt="Digitalent26 Large Logo"
+                      style={{
+                        maxWidth: "280px",
+                        width: "100%",
+                        height: "auto",
+                      }}
+                    />
                   </div>
-                  <div style={{ 
-                    display: 'inline-flex', 
-                    alignItems: 'center', 
-                    gap: '10px', 
-                    padding: '8px 16px', 
-                    background: 'rgba(37, 99, 235, 0.05)', 
-                    borderRadius: '50px', 
-                    border: '1px solid rgba(37, 99, 235, 0.1)',
-                    marginBottom: '20px'
-                  }}>
-                    <GlobalOutlined style={{ color: '#2563eb' }} />
-                    <Text style={{ color: '#2563eb', fontWeight: 600, fontSize: '14px', letterSpacing: '1px' }}>
+                  <div
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      padding: "8px 16px",
+                      background: "rgba(37, 99, 235, 0.05)",
+                      borderRadius: "50px",
+                      border: "1px solid rgba(37, 99, 235, 0.1)",
+                      marginBottom: "20px",
+                    }}
+                  >
+                    <GlobalOutlined style={{ color: "#2563eb" }} />
+                    <Text
+                      style={{
+                        color: "#2563eb",
+                        fontWeight: 600,
+                        fontSize: "14px",
+                        letterSpacing: "1px",
+                      }}
+                    >
                       MARKETING COM VISÃO
                     </Text>
                   </div>
 
-                  <Title style={{ 
-                    fontSize: 'clamp(2.5rem, 8vw, 4.5rem)', 
-                    lineHeight: 1.1, 
-                    fontWeight: 800, 
-                    marginBottom: '24px',
-                    color: 'var(--text-main)',
-                    letterSpacing: '-0.02em'
-                  }}>
-                    Transforme o seu <span style={{ color: '#2563eb' }}>Negócio Local</span> na Era Digital
+                  <Title
+                    style={{
+                      fontSize: "clamp(2.5rem, 8vw, 4.5rem)",
+                      lineHeight: 1.1,
+                      fontWeight: 800,
+                      marginBottom: "24px",
+                      color: "var(--text-main)",
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    Transforme o seu{" "}
+                    <span style={{ color: "#2563eb" }}>Negócio Local</span> na
+                    Era Digital
                   </Title>
 
-                  <Paragraph style={{ 
-                    fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', 
-                    color: 'var(--text-sec)', 
-                    maxWidth: '1200px', 
-                    margin: '0 auto 50px',
-                    lineHeight: 1.6,
-                    textAlign: 'justify'
-                  }}>
-                    O Digital Talent ’26 nasce como ponto de encontro de mentes inquietas que procuram transformar o futuro do mercado. Sob o conceito Marketing com Visão, o evento vai além das métricas superficiais, mergulhando nas estratégias e tendências que estão a redefinir a ligação entre marcas e pessoas. O evento reúne especialistas e talentos para oferecer uma experiência única a quem não quer apenas acompanhar a evolução digital, mas sim vivenciá-la com resultados reais.
+                  <Paragraph
+                    style={{
+                      fontSize: "clamp(1.1rem, 2vw, 1.4rem)",
+                      color: "var(--text-sec)",
+                      maxWidth: "1200px",
+                      margin: "0 auto 50px",
+                      lineHeight: 1.6,
+                      textAlign: "justify",
+                    }}
+                  >
+                    O Digital Talent ’26 nasce como ponto de encontro de mentes
+                    inquietas que procuram transformar o futuro do mercado. Sob
+                    o conceito Marketing com Visão, o evento vai além das
+                    métricas superficiais, mergulhando nas estratégias e
+                    tendências que estão a redefinir a ligação entre marcas e
+                    pessoas. O evento reúne especialistas e talentos para
+                    oferecer uma experiência única a quem não quer apenas
+                    acompanhar a evolução digital, mas sim vivenciá-la com
+                    resultados reais.
                   </Paragraph>
 
-                  <Space size="middle" wrap style={{ justifyContent: 'center' }}>
-                    <Button 
-                      type="primary" 
-                      shape="round" 
-                      size="large" 
-                      onClick={() => scrollToRegistration('1')}
-                      style={{ 
-                        height: '60px', 
-                        padding: '0 40px', 
-                        fontSize: '1.1rem', 
+                  <Space
+                    size="middle"
+                    wrap
+                    style={{ justifyContent: "center" }}
+                  >
+                    <Button
+                      type="primary"
+                      shape="round"
+                      size="large"
+                      onClick={() => scrollToRegistration("1")}
+                      style={{
+                        height: "60px",
+                        padding: "0 40px",
+                        fontSize: "1.1rem",
                         fontWeight: 700,
-                        boxShadow: '0 10px 30px rgba(37, 99, 235, 0.2)'
+                        boxShadow: "0 10px 30px rgba(37, 99, 235, 0.2)",
                       }}
                     >
                       Inscrição Gratuita
                     </Button>
-                    <Button 
-                      size="large" 
+                    <Button
+                      size="large"
                       shape="round"
-                      icon={<CalendarOutlined />} 
+                      icon={<CalendarOutlined />}
                       href="#cronograma"
-                      style={{ 
-                        height: '60px', 
-                        padding: '0 32px', 
-                        fontSize: '1.1rem', 
-                        color: 'var(--text-main)',
-                        borderColor: 'var(--border-color)'
+                      style={{
+                        height: "60px",
+                        padding: "0 32px",
+                        fontSize: "1.1rem",
+                        color: "var(--text-main)",
+                        borderColor: "var(--border-color)",
                       }}
                     >
                       Ver Agenda
@@ -387,53 +649,142 @@ const LandingPage: React.FC = () => {
               </Col>
             </Row>
 
-            <Row gutter={[24, 24]} style={{ marginTop: '100px' }}>
+            <Row gutter={[24, 24]} style={{ marginTop: "100px" }}>
               <Col xs={24} md={8}>
-                <div style={{ textAlign: 'center', padding: '20px' }}>
-                  <RiseOutlined style={{ fontSize: '32px', color: '#2563eb', marginBottom: '15px' }} />
-                  <Title level={5} style={{ color: 'var(--text-main)' }}>Crescimento Real</Title>
-                  <Text style={{ color: 'var(--text-sec)' }}>Focado em resultados mensuráveis para o seu negócio.</Text>
+                <div style={{ textAlign: "center", padding: "20px" }}>
+                  <RiseOutlined
+                    style={{
+                      fontSize: "32px",
+                      color: "#2563eb",
+                      marginBottom: "15px",
+                    }}
+                  />
+                  <Title level={5} style={{ color: "var(--text-main)" }}>
+                    Crescimento Real
+                  </Title>
+                  <Text style={{ color: "var(--text-sec)" }}>
+                    Focado em resultados mensuráveis para o seu negócio.
+                  </Text>
                 </div>
               </Col>
               <Col xs={24} md={8}>
-                <div style={{ textAlign: 'center', padding: '20px' }}>
-                  <TeamOutlined style={{ fontSize: '32px', color: '#2563eb', marginBottom: '15px' }} />
-                  <Title level={5} style={{ color: 'var(--text-main)' }}>Comunidade Local</Title>
-                  <Text style={{ color: 'var(--text-sec)' }}>Conecte-se com outros empresários da sua região.</Text>
+                <div style={{ textAlign: "center", padding: "20px" }}>
+                  <TeamOutlined
+                    style={{
+                      fontSize: "32px",
+                      color: "#2563eb",
+                      marginBottom: "15px",
+                    }}
+                  />
+                  <Title level={5} style={{ color: "var(--text-main)" }}>
+                    Comunidade Local
+                  </Title>
+                  <Text style={{ color: "var(--text-sec)" }}>
+                    Conecte-se com outros empresários da sua região.
+                  </Text>
                 </div>
               </Col>
               <Col xs={24} md={8}>
-                <div style={{ textAlign: 'center', padding: '20px' }}>
-                  <RocketOutlined style={{ fontSize: '32px', color: '#2563eb', marginBottom: '15px' }} />
-                  <Title level={5} style={{ color: 'var(--text-main)' }}>Estratégia Ágil</Title>
-                  <Text style={{ color: 'var(--text-sec)' }}>Implementação rápida e eficiente sem complicações.</Text>
+                <div style={{ textAlign: "center", padding: "20px" }}>
+                  <RocketOutlined
+                    style={{
+                      fontSize: "32px",
+                      color: "#2563eb",
+                      marginBottom: "15px",
+                    }}
+                  />
+                  <Title level={5} style={{ color: "var(--text-main)" }}>
+                    Estratégia Ágil
+                  </Title>
+                  <Text style={{ color: "var(--text-sec)" }}>
+                    Implementação rápida e eficiente sem complicações.
+                  </Text>
                 </div>
               </Col>
             </Row>
           </section>
 
           {/* About Section */}
-          <section id="sobre" style={{ padding: '100px 5%', background: 'var(--bg-alt)' }}>
+          <section
+            id="sobre"
+            style={{ padding: "100px 5%", background: "var(--bg-alt)" }}
+          >
             <Row gutter={[48, 48]} align="middle">
               <Col xs={24} lg={12}>
-                <div style={{ paddingRight: '20px' }}>
-                  <Title level={2} style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--text-main)', marginBottom: '24px' }}>
-                    O Desafio do <span style={{ color: '#2563eb' }}>Negócio Tradicional</span>
+                <div style={{ paddingRight: "20px" }}>
+                  <Title
+                    level={2}
+                    style={{
+                      fontSize: "clamp(2rem, 4vw, 3rem)",
+                      color: "var(--text-main)",
+                      marginBottom: "24px",
+                    }}
+                  >
+                    O Desafio do{" "}
+                    <span style={{ color: "#2563eb" }}>
+                      Negócio Tradicional
+                    </span>
                   </Title>
-                  <Paragraph style={{ fontSize: '1.1rem', color: 'var(--text-sec)', marginBottom: '32px' }}>
-                    Sabemos que gerir um negócio local não é fácil. Entre a operação diária e o atendimento ao cliente, sobra pouco tempo para o marketing. Muitos sentem medo da tecnologia ou acham que o digital é apenas para grandes marcas.
+                  <Paragraph
+                    style={{
+                      fontSize: "1.1rem",
+                      color: "var(--text-sec)",
+                      marginBottom: "32px",
+                    }}
+                  >
+                    Sabemos que gerir um negócio local não é fácil. Entre a
+                    operação diária e o atendimento ao cliente, sobra pouco
+                    tempo para o marketing. Muitos sentem medo da tecnologia ou
+                    acham que o digital é apenas para grandes marcas.
                   </Paragraph>
-                  <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                  <Space
+                    direction="vertical"
+                    size="middle"
+                    style={{ width: "100%" }}
+                  >
                     {[
-                      { title: "Falta de Tempo", desc: "Aprenda a automatizar processos de atração de clientes." },
-                      { title: "Medo da Tecnologia", desc: "Ferramentas simples e intuitivas desenhadas para si." },
-                      { title: "Resultados Lentos", desc: "Estratégias de tráfego local com retorno imediato." }
+                      {
+                        title: "Falta de Tempo",
+                        desc: "Aprenda a automatizar processos de atração de clientes.",
+                      },
+                      {
+                        title: "Medo da Tecnologia",
+                        desc: "Ferramentas simples e intuitivas desenhadas para si.",
+                      },
+                      {
+                        title: "Resultados Lentos",
+                        desc: "Estratégias de tráfego local com retorno imediato.",
+                      },
                     ].map((item, index) => (
-                      <div key={index} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                        <CheckCircleOutlined style={{ color: '#2563eb', fontSize: '24px', marginTop: '4px' }} />
+                      <div
+                        key={index}
+                        style={{
+                          display: "flex",
+                          gap: "16px",
+                          alignItems: "flex-start",
+                        }}
+                      >
+                        <CheckCircleOutlined
+                          style={{
+                            color: "#2563eb",
+                            fontSize: "24px",
+                            marginTop: "4px",
+                          }}
+                        />
                         <div>
-                          <Text strong style={{ fontSize: '1.1rem', display: 'block', color: 'var(--text-main)' }}>{item.title}</Text>
-                          <Text style={{ color: 'var(--text-sec)' }}>{item.desc}</Text>
+                          <Text
+                            strong
+                            style={{
+                              fontSize: "1.1rem",
+                              display: "block",
+                              color: "var(--text-main)",
+                            }}
+                          >
+                            {item.title}
+                          </Text>
+                          <Text style={{ color: "var(--text-sec)" }}>
+                            {item.desc}
+                          </Text>
                         </div>
                       </div>
                     ))}
@@ -441,27 +792,61 @@ const LandingPage: React.FC = () => {
                 </div>
               </Col>
               <Col xs={24} lg={12}>
-                <Card 
-                  bordered={false} 
-                  style={{ 
-                    background:  'var(--card-bg)',
-                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-                    borderRadius: '24px',
-                    padding: '20px'
+                <Card
+                  bordered={false}
+                  style={{
+                    background: "var(--card-bg)",
+                    boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                    borderRadius: "24px",
+                    padding: "20px",
                   }}
                 >
-                  <SolutionOutlined style={{ fontSize: '48px', color: '#2563eb', marginBottom: '24px' }} />
-                  <Title level={3} style={{ color: 'var(--text-main)' }}>A Solução Digitalent26</Title>
-                  <Paragraph style={{ color: 'var(--text-sec)' }}>
-                    O Digitalent26 não é apenas mais um evento teórico. É um acelerador prático onde sairá com o plano exato para digitalizar a sua presença e aumentar a faturação utilizando o poder da internet.
+                  <SolutionOutlined
+                    style={{
+                      fontSize: "48px",
+                      color: "#2563eb",
+                      marginBottom: "24px",
+                    }}
+                  />
+                  <Title level={3} style={{ color: "var(--text-main)" }}>
+                    A Solução Digitalent26
+                  </Title>
+                  <Paragraph style={{ color: "var(--text-sec)" }}>
+                    O Digitalent26 não é apenas mais um evento teórico. É um
+                    acelerador prático onde sairá com o plano exato para
+                    digitalizar a sua presença e aumentar a faturação utilizando
+                    o poder da internet.
                   </Paragraph>
-                  <Divider style={{ borderColor: 'rgba(0, 0, 0, 0.05)' }} />
+                  <Divider style={{ borderColor: "rgba(0, 0, 0, 0.05)" }} />
                   <Row gutter={[16, 16]}>
                     <Col span={12}>
-                      <Statistic title={<span style={{color: 'var(--text-sec)'}}>Eficácia</span>} value={98} suffix="%" valueStyle={{ color: 'var(--text-main)', fontWeight: 'bold' }} />
+                      <Statistic
+                        title={
+                          <span style={{ color: "var(--text-sec)" }}>
+                            Eficácia
+                          </span>
+                        }
+                        value={98}
+                        suffix="%"
+                        valueStyle={{
+                          color: "var(--text-main)",
+                          fontWeight: "bold",
+                        }}
+                      />
                     </Col>
                     <Col span={12}>
-                      <Statistic title={<span style={{color: 'var(--text-sec)'}}>Retorno</span>} value="ROI+" valueStyle={{ color: 'var(--text-main)', fontWeight: 'bold' }} />
+                      <Statistic
+                        title={
+                          <span style={{ color: "var(--text-sec)" }}>
+                            Retorno
+                          </span>
+                        }
+                        value="ROI+"
+                        valueStyle={{
+                          color: "var(--text-main)",
+                          fontWeight: "bold",
+                        }}
+                      />
                     </Col>
                   </Row>
                 </Card>
@@ -470,105 +855,345 @@ const LandingPage: React.FC = () => {
           </section>
 
           {/* Speakers Section */}
-          <Suspense fallback={<div style={{ padding: '120px 5%', textAlign: 'center', color: 'var(--text-sec)' }}>A carregar oradores...</div>}>
+          <Suspense
+            fallback={
+              <div
+                style={{
+                  padding: "120px 5%",
+                  textAlign: "center",
+                  color: "var(--text-sec)",
+                }}
+              >
+                A carregar oradores...
+              </div>
+            }
+          >
             <SpeakersSection />
           </Suspense>
 
           {/* Schedule & Sponsors Section */}
-          <Suspense fallback={<div style={{ padding: '100px 5%', textAlign: 'center', color: 'var(--text-sec)' }}>A carregar cronograma...</div>}>
+          <Suspense
+            fallback={
+              <div
+                style={{
+                  padding: "100px 5%",
+                  textAlign: "center",
+                  color: "var(--text-sec)",
+                }}
+              >
+                A carregar cronograma...
+              </div>
+            }
+          >
             <ScheduleSection onRegisterClick={scrollToRegistration} />
           </Suspense>
 
           {/* Location Section */}
-          <Suspense fallback={<div style={{ padding: '120px 5%', textAlign: 'center', color: 'var(--text-sec)' }}>A carregar mapa...</div>}>
+          <Suspense
+            fallback={
+              <div
+                style={{
+                  padding: "120px 5%",
+                  textAlign: "center",
+                  color: "var(--text-sec)",
+                }}
+              >
+                A carregar mapa...
+              </div>
+            }
+          >
             <LocationSection />
           </Suspense>
 
           {/* Registration Section */}
-          <section id="inscricao" style={{ padding: '120px 5%', background: 'var(--bg-alt)' }}>
-            <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-              <Title level={2} style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', color: 'var(--text-main)' }}>Garanta a Sua Presença</Title>
-              <Paragraph style={{ fontSize: '1.2rem', color: 'var(--text-sec)' }}>Escolha a sua forma de participar na transformação digital de Rio Meão.</Paragraph>
+          <section
+            id="inscricao"
+            style={{ padding: "120px 5%", background: "var(--bg-alt)" }}
+          >
+            <div style={{ textAlign: "center", marginBottom: "60px" }}>
+              <Title
+                level={2}
+                style={{
+                  fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+                  color: "var(--text-main)",
+                }}
+              >
+                Garanta a Sua Presença
+              </Title>
+              <Paragraph
+                style={{ fontSize: "1.2rem", color: "var(--text-sec)" }}
+              >
+                Escolha a sua forma de participar na transformação digital de
+                Rio Meão.
+              </Paragraph>
             </div>
 
             <Row justify="center">
               <Col xs={24} md={20} lg={16} xl={14}>
-                <div style={{ 
-                  background:  'var(--card-bg)', 
-                  border: '1px solid #e2e8f0', 
-                  borderRadius: '32px', 
-                  padding: '40px',
-                  boxShadow: '0 20px 50px rgba(0, 0, 0, 0.05)'
-                }}>
-                  <Tabs 
+                <div
+                  style={{
+                    background: "var(--card-bg)",
+                    border: "1px solid #e2e8f0",
+                    borderRadius: "32px",
+                    padding: "40px",
+                    boxShadow: "0 20px 50px rgba(0, 0, 0, 0.05)",
+                  }}
+                >
+                  <Tabs
                     activeKey={activeTab}
                     onChange={(key) => setActiveTab(key)}
-                    centered 
+                    centered
                     size="large"
                     items={[
                       {
-                        key: '1',
-                        label: 'Inscrição de Participante',
+                        key: "1",
+                        label: "Inscrição de Participante",
                         children: (
-                          <div style={{ paddingTop: '10px' }}>
-                            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-                              <Badge count="RESERVA O TEU LUGAR" style={{ backgroundColor: '#2563eb', padding: '0 20px', height: '32px', lineHeight: '32px', fontSize: '0.9rem', fontWeight: 800, borderRadius: '16px', letterSpacing: '0.5px' }} />
-                              <Title level={4} style={{ marginTop: '20px', marginBottom: '8px', color: 'var(--text-main)', fontWeight: 800 }}>Ouvinte / Participante Local</Title>
-                              <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}>Acesso total às palestras, networking e recursos exclusivos do evento.</Text>
+                          <div style={{ paddingTop: "10px" }}>
+                            <div
+                              style={{
+                                textAlign: "center",
+                                marginBottom: "24px",
+                              }}
+                            >
+                              <Badge
+                                count="RESERVA O TEU LUGAR"
+                                style={{
+                                  backgroundColor: "#2563eb",
+                                  padding: "0 20px",
+                                  height: "32px",
+                                  lineHeight: "32px",
+                                  fontSize: "0.9rem",
+                                  fontWeight: 800,
+                                  borderRadius: "16px",
+                                  letterSpacing: "0.5px",
+                                }}
+                              />
+                              <Title
+                                level={4}
+                                style={{
+                                  marginTop: "20px",
+                                  marginBottom: "8px",
+                                  color: "var(--text-main)",
+                                  fontWeight: 800,
+                                }}
+                              >
+                                Ouvinte / Participante Local
+                              </Title>
+                              <Text
+                                style={{
+                                  color: "var(--text-sec)",
+                                  fontSize: "0.9rem",
+                                }}
+                              >
+                                Acesso total às palestras, networking e recursos
+                                exclusivos do evento.
+                              </Text>
                             </div>
 
                             {/* Ticket Container */}
-                            <div style={{ 
-                              position: 'relative', 
-                              border: '2px solid #2563eb', 
-                              borderRadius: '16px', 
-                              padding: '40px 24px 16px', 
-                              marginTop: '30px' 
-                            }}>
+                            <div
+                              style={{
+                                position: "relative",
+                                border: "2px solid #2563eb",
+                                borderRadius: "16px",
+                                padding: "40px 24px 16px",
+                                marginTop: "30px",
+                              }}
+                            >
                               {/* Top Border Mask */}
-                              <div style={{ position: 'absolute', top: '-2px', left: '50%', transform: 'translateX(-50%)', width: '64px', height: '4px', background: 'var(--card-bg)', zIndex: 1 }} />
-                              
-                              {/* Top Notch */}
-                              <div style={{ position: 'absolute', top: '-2px', left: '50%', transform: 'translateX(-50%)', width: '60px', height: '30px', background: 'transparent', borderBottomLeftRadius: '30px', borderBottomRightRadius: '30px', border: '2px solid #2563eb', borderTop: 'none', zIndex: 2 }} />
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  top: "-2px",
+                                  left: "50%",
+                                  transform: "translateX(-50%)",
+                                  width: "64px",
+                                  height: "4px",
+                                  background: "var(--card-bg)",
+                                  zIndex: 1,
+                                }}
+                              />
 
-                              <Form 
-                                layout="vertical" 
-                                onFinish={(values) => handleFormSubmit(values, 'Participante')}
+                              {/* Top Notch */}
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  top: "-2px",
+                                  left: "50%",
+                                  transform: "translateX(-50%)",
+                                  width: "60px",
+                                  height: "30px",
+                                  background: "transparent",
+                                  borderBottomLeftRadius: "30px",
+                                  borderBottomRightRadius: "30px",
+                                  border: "2px solid #2563eb",
+                                  borderTop: "none",
+                                  zIndex: 2,
+                                }}
+                              />
+
+                              <Form
+                                layout="vertical"
+                                onFinish={(values) =>
+                                  handleFormSubmit(values, "Participante")
+                                }
                               >
                                 <Row gutter={16}>
                                   <Col xs={24} md={12}>
-                                    <Form.Item label={<Text strong style={{ color: 'var(--text-main)', fontSize: '0.85rem' }}><span style={{color: '#ef4444'}}>*</span> Nome Completo</Text>} name="nome" rules={[{ required: true, message: 'Por favor, insira o seu nome.' }]}>
-                                      <Input prefix={<UserOutlined style={{ color: '#94a3b8' }} />} placeholder="Ex: João Silva" size="large" style={{ borderRadius: '8px' }} />
+                                    <Form.Item
+                                      label={
+                                        <Text
+                                          strong
+                                          style={{
+                                            color: "var(--text-main)",
+                                            fontSize: "0.85rem",
+                                          }}
+                                        >
+                                          <span style={{ color: "#ef4444" }}>
+                                            *
+                                          </span>{" "}
+                                          Nome Completo
+                                        </Text>
+                                      }
+                                      name="nome"
+                                      rules={[
+                                        {
+                                          required: true,
+                                          message:
+                                            "Por favor, insira o seu nome.",
+                                        },
+                                      ]}
+                                    >
+                                      <Input
+                                        prefix={
+                                          <UserOutlined
+                                            style={{ color: "#94a3b8" }}
+                                          />
+                                        }
+                                        placeholder="Ex: João Silva"
+                                        size="large"
+                                        style={{ borderRadius: "8px" }}
+                                      />
                                     </Form.Item>
                                   </Col>
                                   <Col xs={24} md={12}>
-                                    <Form.Item label={<Text strong style={{ color: 'var(--text-main)', fontSize: '0.85rem' }}><span style={{color: '#ef4444'}}>*</span> Telemóvel</Text>} name="telemovel" rules={[{ required: true, message: 'Por favor, insira o seu contacto.' }]}>
-                                      <Input prefix={<PhoneIcon style={{ color: '#94a3b8' }} />} placeholder="912 345 678" size="large" style={{ borderRadius: '8px' }} />
+                                    <Form.Item
+                                      label={
+                                        <Text
+                                          strong
+                                          style={{
+                                            color: "var(--text-main)",
+                                            fontSize: "0.85rem",
+                                          }}
+                                        >
+                                          <span style={{ color: "#ef4444" }}>
+                                            *
+                                          </span>{" "}
+                                          Telemóvel
+                                        </Text>
+                                      }
+                                      name="telemovel"
+                                      rules={[
+                                        {
+                                          required: true,
+                                          message:
+                                            "Por favor, insira o seu contacto.",
+                                        },
+                                      ]}
+                                    >
+                                      <Input
+                                        prefix={
+                                          <PhoneIcon
+                                            style={{ color: "#94a3b8" }}
+                                          />
+                                        }
+                                        placeholder="912 345 678"
+                                        size="large"
+                                        style={{ borderRadius: "8px" }}
+                                      />
                                     </Form.Item>
                                   </Col>
                                 </Row>
 
-                                <Form.Item label={<Text strong style={{ color: 'var(--text-main)', fontSize: '0.85rem' }}><span style={{color: '#ef4444'}}>*</span> E-mail Profissional</Text>} name="email" rules={[{ required: true, type: 'email', message: 'Insira um e-mail válido.' }]}>
-                                  <Input prefix={<MailIcon style={{ color: '#94a3b8' }} />} placeholder="joao@empresa.pt" size="large" style={{ borderRadius: '8px' }} />
+                                <Form.Item
+                                  label={
+                                    <Text
+                                      strong
+                                      style={{
+                                        color: "var(--text-main)",
+                                        fontSize: "0.85rem",
+                                      }}
+                                    >
+                                      <span style={{ color: "#ef4444" }}>
+                                        *
+                                      </span>{" "}
+                                      E-mail Profissional
+                                    </Text>
+                                  }
+                                  name="email"
+                                  rules={[
+                                    {
+                                      required: true,
+                                      type: "email",
+                                      message: "Insira um e-mail válido.",
+                                    },
+                                  ]}
+                                >
+                                  <Input
+                                    prefix={
+                                      <MailIcon style={{ color: "#94a3b8" }} />
+                                    }
+                                    placeholder="joao@empresa.pt"
+                                    size="large"
+                                    style={{ borderRadius: "8px" }}
+                                  />
                                 </Form.Item>
 
-                                <Form.Item label={<Text strong style={{ color: 'var(--text-main)', fontSize: '0.85rem' }}>Nome da Empresa / Ramo (Opcional)</Text>} name="empresa">
-                                  <Input prefix={<ShopOutlined style={{ color: '#94a3b8' }} />} placeholder="Ex: Café Central / Restauração" size="large" style={{ borderRadius: '8px' }} />
+                                <Form.Item
+                                  label={
+                                    <Text
+                                      strong
+                                      style={{
+                                        color: "var(--text-main)",
+                                        fontSize: "0.85rem",
+                                      }}
+                                    >
+                                      Nome da Empresa / Ramo (Opcional)
+                                    </Text>
+                                  }
+                                  name="empresa"
+                                >
+                                  <Input
+                                    prefix={
+                                      <ShopOutlined
+                                        style={{ color: "#94a3b8" }}
+                                      />
+                                    }
+                                    placeholder="Ex: Café Central / Restauração"
+                                    size="large"
+                                    style={{ borderRadius: "8px" }}
+                                  />
                                 </Form.Item>
 
-                                <Form.Item style={{ marginTop: '32px', marginBottom: '24px' }}>
-                                  <Button 
-                                    type="primary" 
-                                    size="large" 
-                                    shape="round" 
+                                <Form.Item
+                                  style={{
+                                    marginTop: "32px",
+                                    marginBottom: "24px",
+                                  }}
+                                >
+                                  <Button
+                                    type="primary"
+                                    size="large"
+                                    shape="round"
                                     htmlType="submit"
                                     block
                                     loading={isSubmitting}
-                                    style={{ 
-                                      height: '56px', 
-                                      fontSize: '1.1rem', 
+                                    style={{
+                                      height: "56px",
+                                      fontSize: "1.1rem",
                                       fontWeight: 700,
-                                      background: '#2563eb'
+                                      background: "#2563eb",
                                     }}
                                   >
                                     Quero me inscrever agora
@@ -577,103 +1202,358 @@ const LandingPage: React.FC = () => {
                               </Form>
 
                               {/* Benefits & Barcode Row */}
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
-                                <div style={{ fontSize: '0.85rem', color: 'var(--text-main)', fontWeight: 500, lineHeight: 1.6 }}>
-                                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><span style={{color: '#2563eb', fontSize: '10px'}}>❯</span> Acesso total ao evento no dia</div>
-                                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><span style={{color: '#2563eb', fontSize: '10px'}}>❯</span> Acesso ao coffee-break</div>
-                                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><span style={{color: '#2563eb', fontSize: '10px'}}>❯</span> Brindes do Evento</div>
-                                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><span style={{color: '#2563eb', fontSize: '10px'}}>❯</span> Network com grandes agencias</div>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  flexWrap: "wrap",
+                                  gap: "20px",
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    fontSize: "0.85rem",
+                                    color: "var(--text-main)",
+                                    fontWeight: 500,
+                                    lineHeight: 1.6,
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      gap: "8px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <span
+                                      style={{
+                                        color: "#2563eb",
+                                        fontSize: "10px",
+                                      }}
+                                    >
+                                      ❯
+                                    </span>{" "}
+                                    Acesso total ao evento no dia
+                                  </div>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      gap: "8px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <span
+                                      style={{
+                                        color: "#2563eb",
+                                        fontSize: "10px",
+                                      }}
+                                    >
+                                      ❯
+                                    </span>{" "}
+                                    Acesso ao coffee-break
+                                  </div>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      gap: "8px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <span
+                                      style={{
+                                        color: "#2563eb",
+                                        fontSize: "10px",
+                                      }}
+                                    >
+                                      ❯
+                                    </span>{" "}
+                                    Brindes do Evento
+                                  </div>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      gap: "8px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <span
+                                      style={{
+                                        color: "#2563eb",
+                                        fontSize: "10px",
+                                      }}
+                                    >
+                                      ❯
+                                    </span>{" "}
+                                    Network com grandes agencias
+                                  </div>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "8px",
+                                  }}
+                                >
                                   {/* CSS Barcode Simulation to avoid external images */}
-                                  <div style={{ display: 'flex', height: '50px', gap: '2px', alignItems: 'flex-end' }}>
-                                    {[2,4,1,3,2,1,5,1,2,3,1,4,2,1,2,3,1,2,4].map((w, i) => (
-                                      <div key={i} style={{ width: `${w*2}px`, height: '100%', background: 'var(--text-main)' }} />
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      height: "50px",
+                                      gap: "2px",
+                                      alignItems: "flex-end",
+                                    }}
+                                  >
+                                    {[
+                                      2, 4, 1, 3, 2, 1, 5, 1, 2, 3, 1, 4, 2, 1,
+                                      2, 3, 1, 2, 4,
+                                    ].map((w, i) => (
+                                      <div
+                                        key={i}
+                                        style={{
+                                          width: `${w * 2}px`,
+                                          height: "100%",
+                                          background: "var(--text-main)",
+                                        }}
+                                      />
                                     ))}
                                   </div>
-                                  <div style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)', fontSize: '0.65rem', color: '#94a3b8', letterSpacing: '1px' }}>
+                                  <div
+                                    style={{
+                                      writingMode: "vertical-rl",
+                                      transform: "rotate(180deg)",
+                                      fontSize: "0.65rem",
+                                      color: "#94a3b8",
+                                      letterSpacing: "1px",
+                                    }}
+                                  >
                                     Digitalent26
                                   </div>
                                 </div>
                               </div>
 
                               {/* Dashed Divider */}
-                              <div style={{ borderTop: '2px dashed #2563eb', margin: '20px -24px 12px', position: 'relative' }} />
-                              
-                              <Text style={{ display: 'block', textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-main)', fontWeight: 500 }}>
-                                Ao inscrever-se, concorda com a nossa Politica de Privacidade
+                              <div
+                                style={{
+                                  borderTop: "2px dashed #2563eb",
+                                  margin: "20px -24px 12px",
+                                  position: "relative",
+                                }}
+                              />
+
+                              <Text
+                                style={{
+                                  display: "block",
+                                  textAlign: "center",
+                                  fontSize: "0.8rem",
+                                  color: "var(--text-main)",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Ao inscrever-se, concorda com a nossa Politica
+                                de Privacidade
                               </Text>
                             </div>
                           </div>
                         ),
                       },
                       {
-                        key: '2',
-                        label: 'Parceiro / Investidor',
+                        key: "2",
+                        label: "Parceiro / Investidor",
                         children: (
-                          <div style={{ paddingTop: '30px' }}>
-                            <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-                              <Title level={4} style={{ color: 'var(--text-main)' }}>Candidatura a Patrocínio</Title>
-                              <Text style={{ color: 'var(--text-sec)' }}>Posicione a sua marca perante centenas de decisões locais e lidere o mercado.</Text>
+                          <div style={{ paddingTop: "30px" }}>
+                            <div
+                              style={{
+                                textAlign: "center",
+                                marginBottom: "32px",
+                              }}
+                            >
+                              <Title
+                                level={4}
+                                style={{ color: "var(--text-main)" }}
+                              >
+                                Candidatura a Patrocínio
+                              </Title>
+                              <Text style={{ color: "var(--text-sec)" }}>
+                                Posicione a sua marca perante centenas de
+                                decisões locais e lidere o mercado.
+                              </Text>
                             </div>
 
-                            <Form 
+                            <Form
                               layout="vertical"
-                              onFinish={(values) => handleFormSubmit(values, 'Parceiro')}
+                              onFinish={(values) =>
+                                handleFormSubmit(values, "Parceiro")
+                              }
                             >
                               <Row gutter={16}>
                                 <Col xs={24} md={12}>
-                                  <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Nome da Empresa</Text>} name="empresa" rules={[{ required: true }]}>
-                                    <Input prefix={<ShopOutlined style={{ color: '#94a3b8' }} />} placeholder="Empresa S.A." size="large" />
+                                  <Form.Item
+                                    label={
+                                      <Text
+                                        strong
+                                        style={{ color: "var(--text-main)" }}
+                                      >
+                                        Nome da Empresa
+                                      </Text>
+                                    }
+                                    name="empresa"
+                                    rules={[{ required: true }]}
+                                  >
+                                    <Input
+                                      prefix={
+                                        <ShopOutlined
+                                          style={{ color: "#94a3b8" }}
+                                        />
+                                      }
+                                      placeholder="Empresa S.A."
+                                      size="large"
+                                    />
                                   </Form.Item>
                                 </Col>
                                 <Col xs={24} md={12}>
-                                  <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Nome do Responsável</Text>} name="responsavel" rules={[{ required: true }]}>
-                                    <Input prefix={<UserOutlined style={{ color: '#94a3b8' }} />} placeholder="Nome Completo" size="large" />
+                                  <Form.Item
+                                    label={
+                                      <Text
+                                        strong
+                                        style={{ color: "var(--text-main)" }}
+                                      >
+                                        Nome do Responsável
+                                      </Text>
+                                    }
+                                    name="responsavel"
+                                    rules={[{ required: true }]}
+                                  >
+                                    <Input
+                                      prefix={
+                                        <UserOutlined
+                                          style={{ color: "#94a3b8" }}
+                                        />
+                                      }
+                                      placeholder="Nome Completo"
+                                      size="large"
+                                    />
                                   </Form.Item>
                                 </Col>
                               </Row>
 
                               <Row gutter={16}>
                                 <Col xs={24} md={12}>
-                                  <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>E-mail de Contacto</Text>} name="email" rules={[{ required: true, type: 'email' }]}>
-                                    <Input prefix={<MailIcon style={{ color: '#94a3b8' }} />} placeholder="email@empresa.pt" size="large" />
+                                  <Form.Item
+                                    label={
+                                      <Text
+                                        strong
+                                        style={{ color: "var(--text-main)" }}
+                                      >
+                                        E-mail de Contacto
+                                      </Text>
+                                    }
+                                    name="email"
+                                    rules={[{ required: true, type: "email" }]}
+                                  >
+                                    <Input
+                                      prefix={
+                                        <MailIcon
+                                          style={{ color: "#94a3b8" }}
+                                        />
+                                      }
+                                      placeholder="email@empresa.pt"
+                                      size="large"
+                                    />
                                   </Form.Item>
                                 </Col>
                                 <Col xs={24} md={12}>
-                                  <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Telemóvel</Text>} name="telemovel" rules={[{ required: true }]}>
-                                    <Input prefix={<PhoneIcon style={{ color: '#94a3b8' }} />} placeholder="9xx xxx xxx" size="large" />
+                                  <Form.Item
+                                    label={
+                                      <Text
+                                        strong
+                                        style={{ color: "var(--text-main)" }}
+                                      >
+                                        Telemóvel
+                                      </Text>
+                                    }
+                                    name="telemovel"
+                                    rules={[{ required: true }]}
+                                  >
+                                    <Input
+                                      prefix={
+                                        <PhoneIcon
+                                          style={{ color: "#94a3b8" }}
+                                        />
+                                      }
+                                      placeholder="9xx xxx xxx"
+                                      size="large"
+                                    />
                                   </Form.Item>
                                 </Col>
                               </Row>
 
-                              <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Nível de Interesse</Text>} name="nivel" rules={[{ required: true }]}>
-                                <Select size="large" placeholder="Selecione o nível de patrocínio">
-                                  <Select.Option value="bronze">Passe Bronze</Select.Option>
-                                  <Select.Option value="prata">Passe Prata</Select.Option>
-                                  <Select.Option value="ouro">Passe Ouro</Select.Option>
-                                  <Select.Option value="investidor">Quero ser Investidor Principal</Select.Option>
+                              <Form.Item
+                                label={
+                                  <Text
+                                    strong
+                                    style={{ color: "var(--text-main)" }}
+                                  >
+                                    Nível de Interesse
+                                  </Text>
+                                }
+                                name="nivel"
+                                rules={[{ required: true }]}
+                              >
+                                <Select
+                                  size="large"
+                                  placeholder="Selecione o nível de patrocínio"
+                                >
+                                  <Select.Option value="bronze">
+                                    Passe Bronze
+                                  </Select.Option>
+                                  <Select.Option value="prata">
+                                    Passe Prata
+                                  </Select.Option>
+                                  <Select.Option value="ouro">
+                                    Passe Ouro
+                                  </Select.Option>
+                                  <Select.Option value="investidor">
+                                    Quero ser Investidor Principal
+                                  </Select.Option>
                                 </Select>
                               </Form.Item>
 
-                              <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Objetivos no Evento</Text>} name="objetivos">
-                                <Input.TextArea rows={4} placeholder="Conte-nos brevemente o que espera alcançar com esta parceria..." style={{ borderRadius: '12px', background: 'var(--bg-alt)' }} />
+                              <Form.Item
+                                label={
+                                  <Text
+                                    strong
+                                    style={{ color: "var(--text-main)" }}
+                                  >
+                                    Objetivos no Evento
+                                  </Text>
+                                }
+                                name="objetivos"
+                              >
+                                <Input.TextArea
+                                  rows={4}
+                                  placeholder="Conte-nos brevemente o que espera alcançar com esta parceria..."
+                                  style={{
+                                    borderRadius: "12px",
+                                    background: "var(--bg-alt)",
+                                  }}
+                                />
                               </Form.Item>
 
-                              <Form.Item style={{ marginTop: '40px' }}>
-                                <Button 
-                                  type="default" 
-                                  htmlType="submit" 
-                                  block 
-                                  size="large" 
+                              <Form.Item style={{ marginTop: "40px" }}>
+                                <Button
+                                  type="default"
+                                  htmlType="submit"
+                                  block
+                                  size="large"
                                   loading={isSubmitting}
-                                  style={{ 
-                                    height: '60px', 
-                                    fontSize: '1.1rem', 
-                                    fontWeight: 700, 
-                                    borderRadius: '30px',
-                                    border: '2px solid #2563eb',
-                                    color: '#2563eb'
+                                  style={{
+                                    height: "60px",
+                                    fontSize: "1.1rem",
+                                    fontWeight: 700,
+                                    borderRadius: "30px",
+                                    border: "2px solid #2563eb",
+                                    color: "#2563eb",
                                   }}
                                 >
                                   Enviar Candidatura a Patrocínio
@@ -691,58 +1571,87 @@ const LandingPage: React.FC = () => {
           </section>
         </Content>
 
-        <Footer style={{ 
-          textAlign: 'center', 
-          background: 'var(--bg-base)', 
-          borderTop: '1px solid #e2e8f0',
-          padding: '40px 0'
-        }}>
-          <Space size="large" style={{ marginBottom: '20px' }}>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-sec)', fontSize: '24px', transition: 'color 0.3s' }} className="social-icon">
+        <Footer
+          style={{
+            textAlign: "center",
+            background: "var(--bg-base)",
+            borderTop: "1px solid #e2e8f0",
+            padding: "40px 0",
+          }}
+        >
+          <Space size="large" style={{ marginBottom: "20px" }}>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "var(--text-sec)",
+                fontSize: "24px",
+                transition: "color 0.3s",
+              }}
+              className="social-icon"
+            >
               <InstagramOutlined />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-sec)', fontSize: '24px', transition: 'color 0.3s' }} className="social-icon">
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "var(--text-sec)",
+                fontSize: "24px",
+                transition: "color 0.3s",
+              }}
+              className="social-icon"
+            >
               <LinkedinOutlined />
             </a>
           </Space>
           <br />
-          <Text style={{ color: 'var(--text-sec)' }}>
-            © 2026 Digitalent26 - Marketing com Visão. Desenvolvido pela{' '}
-            <a 
-              href="https://fslsolution.com" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              style={{ color: '#2563eb', fontWeight: 600 }}
+          <Text style={{ color: "var(--text-sec)" }}>
+            © 2026 Digitalent26 - Marketing com Visão. Desenvolvido pela{" "}
+            <a
+              href="https://fslsolution.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "#2563eb", fontWeight: 600 }}
             >
               @FSLSolution
-            </a>
-            {' '} - Todos os direitos reservados.
+            </a>{" "}
+            - Todos os direitos reservados.
           </Text>
         </Footer>
 
         {/* Sticky Mobile CTA */}
         {screens.xs && showStickyCTA && (
-          <div style={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            padding: '16px 5%',
-            background: 'var(--bg-base)',
-            borderTop: '1px solid rgba(0,0,0,0.1)',
-            boxShadow: '0 -4px 10px rgba(0,0,0,0.05)',
-            zIndex: 999,
-            animation: 'slideUp 0.3s ease-out'
-          }}>
-            <Button 
-              type="primary" 
-              block 
-              size="large" 
+          <div
+            style={{
+              position: "fixed",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              padding: "16px 5%",
+              background: "var(--bg-base)",
+              borderTop: "1px solid rgba(0,0,0,0.1)",
+              boxShadow: "0 -4px 10px rgba(0,0,0,0.05)",
+              zIndex: 999,
+              animation: "slideUp 0.3s ease-out",
+            }}
+          >
+            <Button
+              type="primary"
+              block
+              size="large"
               onClick={() => {
-                scrollToRegistration('1');
+                scrollToRegistration("1");
                 setShowStickyCTA(false);
               }}
-              style={{ height: '48px', fontSize: '1.1rem', borderRadius: '8px', boxShadow: '0 4px 15px rgba(37, 99, 235, 0.4)' }}
+              style={{
+                height: "48px",
+                fontSize: "1.1rem",
+                borderRadius: "8px",
+                boxShadow: "0 4px 15px rgba(37, 99, 235, 0.4)",
+              }}
             >
               Inscrição Grátis
             </Button>
@@ -754,5 +1663,3 @@ const LandingPage: React.FC = () => {
 };
 
 export default LandingPage;
-
-
