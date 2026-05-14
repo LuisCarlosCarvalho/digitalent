@@ -286,6 +286,28 @@ const LandingPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Urgency Ticker Section */}
+          <div style={{ 
+            background: '#2563eb', 
+            color: '#ffffff',
+            overflow: 'hidden',
+            display: 'flex',
+            alignItems: 'center',
+            fontWeight: 500,
+            fontSize: '1.1rem',
+            letterSpacing: '1px'
+          }}>
+            <div className="marquee-container" style={{ margin: 0, padding: '8px 0', flex: 1 }}>
+              <div className="marquee-content" style={{ animationDuration: '25s' }}>
+                {[...Array(15)].map((_, i) => (
+                  <div key={i} style={{ margin: '0 20px', whiteSpace: 'nowrap' }}>
+                    Disponibilidade limitada no momento
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* Hero Section */}
           <section id="inicio" style={{ 
             padding: screens.xs ? '30px 5% 80px' : '40px 5% 100px', 
