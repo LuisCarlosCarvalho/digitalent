@@ -288,7 +288,7 @@ const LandingPage: React.FC = () => {
 
           {/* Hero Section */}
           <section id="inicio" style={{ 
-            padding: screens.xs ? '60px 5% 80px' : '120px 5% 100px', 
+            padding: screens.xs ? '30px 5% 80px' : '40px 5% 100px', 
             background: 'var(--bg-base)',
             position: 'relative',
             overflow: 'hidden'
@@ -329,8 +329,8 @@ const LandingPage: React.FC = () => {
                   <Paragraph style={{ 
                     fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', 
                     color: 'var(--text-sec)', 
-                    maxWidth: '800px', 
-                    margin: '0 auto 40px',
+                    maxWidth: '1200px', 
+                    margin: '0 auto 50px',
                     lineHeight: 1.6,
                     textAlign: 'justify'
                   }}>
