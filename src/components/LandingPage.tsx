@@ -278,7 +278,7 @@ const LandingPage: React.FC = () => {
                     <img 
                       src="https://i.imgur.com/ezqKt1a.png" 
                       alt={`Sponsor ${i+1}`}
-                      style={{ height: '24px' }}
+                      style={{ height: '40px', objectFit: 'contain' }}
                     />
                   </div>
                 ))}
