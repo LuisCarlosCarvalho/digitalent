@@ -36,56 +36,44 @@ const { useBreakpoint } = Grid;
 const LandingPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('1');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // Inicialização do tema
   const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
-    return (localStorage.getItem('themeMode') as ThemeMode) || 'auto';
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('themeMode') as ThemeMode) || 'auto';
+    }
+    return 'auto';
   });
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const saved = localStorage.getItem('themeMode');
-    if (saved === 'dark') return true;
-    if (saved === 'light') return false;
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
+
+  // Estado para capturar a preferência do sistema
+  const [systemDarkMode, setSystemDarkMode] = useState(() => 
+    typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)').matches : false
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = (e: MediaQueryListEvent) => setSystemDarkMode(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  // Valor derivado para o modo escuro atual
+  const isDarkMode = themeMode === 'auto' ? systemDarkMode : themeMode === 'dark';
+
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   
   const screens = useBreakpoint();
 
-  // Lidar com a lógica do Dark Mode dinâmico quando a preferência de sistema muda
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = () => {
-      if (themeMode === 'auto') {
-        setIsDarkMode(mediaQuery.matches);
-      }
-    };
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [themeMode]);
-
-  useEffect(() => {
-    if (themeMode !== 'auto') {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setIsDarkMode(themeMode === 'dark');
-    } else {
-       
-      setIsDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
-    }
-  }, [themeMode]);
-
   // Scroll listener for Sticky CTA
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 600) {
-        setShowStickyCTA(true);
-      } else {
-        setShowStickyCTA(false);
-      }
+      setShowStickyCTA(window.scrollY > 600);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Atualizar a tag HTML para as variáveis CSS globais funcionarem
+  // Atualizar a tag HTML para as variáveis CSS globais funcionarem e persistir escolha
   useEffect(() => {
     if (isDarkMode) {
       document.body.setAttribute('data-theme', 'dark');
@@ -95,13 +83,11 @@ const LandingPage: React.FC = () => {
     localStorage.setItem('themeMode', themeMode);
   }, [isDarkMode, themeMode]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleThemeChange = (info: any) => {
+  const handleThemeChange = (info: { key: string }) => {
     setThemeMode(info.key as ThemeMode);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleFormSubmit = async (values: any, type: 'Participante' | 'Parceiro') => {
+  const handleFormSubmit = async (values: Record<string, string>, type: 'Participante' | 'Parceiro') => {
     setIsSubmitting(true);
     try {
       const apiUrl = import.meta.env.VITE_API_URL || '';
@@ -130,8 +116,7 @@ const LandingPage: React.FC = () => {
       } else {
         throw new Error('Server error');
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       notification.error({
         message: 'Erro no Processamento',
         description: 'Não foi possível processar a sua inscrição. Por favor, tente novamente.',
