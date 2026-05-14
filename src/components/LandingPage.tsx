@@ -36,36 +36,40 @@ const { useBreakpoint } = Grid;
 const LandingPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('1');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [themeMode, setThemeMode] = useState<ThemeMode>('auto');
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
+    return (localStorage.getItem('themeMode') as ThemeMode) || 'auto';
+  });
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem('themeMode');
+    if (saved === 'dark') return true;
+    if (saved === 'light') return false;
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   
   const screens = useBreakpoint();
 
-  // Carregar tema salvo
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('themeMode') as ThemeMode;
-    if (savedTheme) {
-      setThemeMode(savedTheme);
-    }
-  }, []);
-
-  // Lidar com a lógica do Dark Mode dinâmico
+  // Lidar com a lógica do Dark Mode dinâmico quando a preferência de sistema muda
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = () => {
-      if (themeMode === 'auto') setIsDarkMode(mediaQuery.matches);
+      if (themeMode === 'auto') {
+        setIsDarkMode(mediaQuery.matches);
+      }
     };
-
-    if (themeMode === 'auto') {
-      setIsDarkMode(mediaQuery.matches);
-    } else {
-      setIsDarkMode(themeMode === 'dark');
-    }
-
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [themeMode]);
+
+  useEffect(() => {
+    if (themeMode !== 'auto') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsDarkMode(themeMode === 'dark');
+    } else {
+       
+      setIsDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
+    }
   }, [themeMode]);
 
   // Scroll listener for Sticky CTA
@@ -91,10 +95,12 @@ const LandingPage: React.FC = () => {
     localStorage.setItem('themeMode', themeMode);
   }, [isDarkMode, themeMode]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleThemeChange = (info: any) => {
     setThemeMode(info.key as ThemeMode);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleFormSubmit = async (values: any, type: 'Participante' | 'Parceiro') => {
     setIsSubmitting(true);
     try {
@@ -124,7 +130,8 @@ const LandingPage: React.FC = () => {
       } else {
         throw new Error('Server error');
       }
-    } catch (error) {
+    } catch (err) {
+      console.error(err);
       notification.error({
         message: 'Erro no Processamento',
         description: 'Não foi possível processar a sua inscrição. Por favor, tente novamente.',

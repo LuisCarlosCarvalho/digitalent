@@ -10,6 +10,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  res.status(500).json({ error: 'Internal Server Error' });
+});
+
 // Número do Administrador configurado por si
 const ADMIN_WHATSAPP_NUMBER = "351964300708"; 
 
@@ -22,7 +27,8 @@ app.post('/api/register-whatsapp', async (req, res) => {
   try {
     // 1. Instanciar e Criar o PDF em memória (Buffer)
     const doc = new PDFDocument({ margin: 50 });
-    const buffers: any[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const buffers: any[] = [];
     
     doc.on('data', buffers.push.bind(buffers));
     doc.on('end', async () => {
@@ -77,7 +83,7 @@ app.post('/api/register-whatsapp', async (req, res) => {
 
     doc.end();
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Erro interno no envio invisível:", error);
     res.status(500).json({ success: false, error: "Erro ao processar e disparar fluxo automático." });
   }
