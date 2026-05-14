@@ -518,60 +518,100 @@ const LandingPage: React.FC = () => {
                         key: '1',
                         label: 'Inscrição de Participante',
                         children: (
-                          <div style={{ paddingTop: '30px' }}>
-                            <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-                              <Badge count="100% Gratuito" style={{ backgroundColor: '#2563eb', padding: '0 15px', height: '30px', lineHeight: '30px', fontSize: '1rem', borderRadius: '15px' }} />
-                              <Title level={4} style={{ marginTop: '20px', color: 'var(--text-main)' }}>Ouvinte / Participante Local</Title>
-                              <Text style={{ color: 'var(--text-sec)' }}>Acesso total às palestras, networking e recursos exclusivos do evento.</Text>
+                          <div style={{ paddingTop: '10px' }}>
+                            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                              <Badge count="RESERVA O TEU LUGAR" style={{ backgroundColor: '#2563eb', padding: '0 20px', height: '32px', lineHeight: '32px', fontSize: '0.9rem', fontWeight: 800, borderRadius: '16px', letterSpacing: '0.5px' }} />
+                              <Title level={4} style={{ marginTop: '20px', marginBottom: '8px', color: 'var(--text-main)', fontWeight: 800 }}>Ouvinte / Participante Local</Title>
+                              <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}>Acesso total às palestras, networking e recursos exclusivos do evento.</Text>
                             </div>
 
-                            <Form 
-                              layout="vertical" 
-                              onFinish={(values) => handleFormSubmit(values, 'Participante')}
-                            >
-                              <Row gutter={16}>
-                                <Col xs={24} md={12}>
-                                  <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Nome Completo</Text>} name="nome" rules={[{ required: true, message: 'Por favor, insira o seu nome.' }]}>
-                                    <Input prefix={<UserOutlined style={{ color: '#94a3b8' }} />} placeholder="Ex: João Silva" size="large" />
-                                  </Form.Item>
-                                </Col>
-                                <Col xs={24} md={12}>
-                                  <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Telemóvel</Text>} name="telemovel" rules={[{ required: true, message: 'Por favor, insira o seu contacto.' }]}>
-                                    <Input prefix={<PhoneIcon style={{ color: '#94a3b8' }} />} placeholder="912 345 678" size="large" />
-                                  </Form.Item>
-                                </Col>
-                              </Row>
+                            {/* Ticket Container */}
+                            <div style={{ 
+                              position: 'relative', 
+                              border: '2px solid #2563eb', 
+                              borderRadius: '16px', 
+                              padding: '40px 24px 16px', 
+                              marginTop: '30px' 
+                            }}>
+                              {/* Top Border Mask */}
+                              <div style={{ position: 'absolute', top: '-2px', left: '50%', transform: 'translateX(-50%)', width: '64px', height: '4px', background: 'var(--card-bg)', zIndex: 1 }} />
+                              
+                              {/* Top Notch */}
+                              <div style={{ position: 'absolute', top: '-2px', left: '50%', transform: 'translateX(-50%)', width: '60px', height: '30px', background: 'transparent', borderBottomLeftRadius: '30px', borderBottomRightRadius: '30px', border: '2px solid #2563eb', borderTop: 'none', zIndex: 2 }} />
 
-                              <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>E-mail Profissional</Text>} name="email" rules={[{ required: true, type: 'email', message: 'Insira um e-mail válido.' }]}>
-                                <Input prefix={<MailIcon style={{ color: '#94a3b8' }} />} placeholder="joao@empresa.pt" size="large" />
-                              </Form.Item>
+                              <Form 
+                                layout="vertical" 
+                                onFinish={(values) => handleFormSubmit(values, 'Participante')}
+                              >
+                                <Row gutter={16}>
+                                  <Col xs={24} md={12}>
+                                    <Form.Item label={<Text strong style={{ color: 'var(--text-main)', fontSize: '0.85rem' }}><span style={{color: '#ef4444'}}>*</span> Nome Completo</Text>} name="nome" rules={[{ required: true, message: 'Por favor, insira o seu nome.' }]}>
+                                      <Input prefix={<UserOutlined style={{ color: '#94a3b8' }} />} placeholder="Ex: João Silva" size="large" style={{ borderRadius: '8px' }} />
+                                    </Form.Item>
+                                  </Col>
+                                  <Col xs={24} md={12}>
+                                    <Form.Item label={<Text strong style={{ color: 'var(--text-main)', fontSize: '0.85rem' }}><span style={{color: '#ef4444'}}>*</span> Telemóvel</Text>} name="telemovel" rules={[{ required: true, message: 'Por favor, insira o seu contacto.' }]}>
+                                      <Input prefix={<PhoneIcon style={{ color: '#94a3b8' }} />} placeholder="912 345 678" size="large" style={{ borderRadius: '8px' }} />
+                                    </Form.Item>
+                                  </Col>
+                                </Row>
 
-                              <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Nome da Empresa / Ramo (Opcional)</Text>} name="empresa">
-                                <Input prefix={<ShopOutlined style={{ color: '#94a3b8' }} />} placeholder="Ex: Café Central / Restauração" size="large" />
-                              </Form.Item>
+                                <Form.Item label={<Text strong style={{ color: 'var(--text-main)', fontSize: '0.85rem' }}><span style={{color: '#ef4444'}}>*</span> E-mail Profissional</Text>} name="email" rules={[{ required: true, type: 'email', message: 'Insira um e-mail válido.' }]}>
+                                  <Input prefix={<MailIcon style={{ color: '#94a3b8' }} />} placeholder="joao@empresa.pt" size="large" style={{ borderRadius: '8px' }} />
+                                </Form.Item>
 
-                              <Form.Item style={{ marginTop: '40px' }}>
-                                <Button 
-                                  type="primary" 
-                                  size="large" 
-                                  shape="round" 
-                                  htmlType="submit"
-                                  block
-                                  loading={isSubmitting}
-                                  style={{ 
-                                    height: '60px', 
-                                    fontSize: '1.1rem', 
-                                    fontWeight: 700,
-                                    boxShadow: '0 4px 14px 0 rgba(37, 99, 235, 0.39)'
-                                  }}
-                                >
-                                  Quero me inscrever agora
-                                </Button>
-                                <Text type="secondary" style={{ display: 'block', textAlign: 'center', marginTop: '16px', fontSize: '0.85rem' }}>
-                                  Ao inscrever-se, concorda com a nossa Política de Privacidade.
-                                </Text>
-                              </Form.Item>
-                            </Form>
+                                <Form.Item label={<Text strong style={{ color: 'var(--text-main)', fontSize: '0.85rem' }}>Nome da Empresa / Ramo (Opcional)</Text>} name="empresa">
+                                  <Input prefix={<ShopOutlined style={{ color: '#94a3b8' }} />} placeholder="Ex: Café Central / Restauração" size="large" style={{ borderRadius: '8px' }} />
+                                </Form.Item>
+
+                                <Form.Item style={{ marginTop: '32px', marginBottom: '24px' }}>
+                                  <Button 
+                                    type="primary" 
+                                    size="large" 
+                                    shape="round" 
+                                    htmlType="submit"
+                                    block
+                                    loading={isSubmitting}
+                                    style={{ 
+                                      height: '56px', 
+                                      fontSize: '1.1rem', 
+                                      fontWeight: 700,
+                                      background: '#2563eb'
+                                    }}
+                                  >
+                                    Quero me inscrever agora
+                                  </Button>
+                                </Form.Item>
+                              </Form>
+
+                              {/* Benefits & Barcode Row */}
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
+                                <div style={{ fontSize: '0.85rem', color: 'var(--text-main)', fontWeight: 500, lineHeight: 1.6 }}>
+                                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><span style={{color: '#2563eb', fontSize: '10px'}}>❯</span> Acesso total ao evento no dia</div>
+                                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><span style={{color: '#2563eb', fontSize: '10px'}}>❯</span> Acesso ao coffee-break</div>
+                                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><span style={{color: '#2563eb', fontSize: '10px'}}>❯</span> Brindes do Evento</div>
+                                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><span style={{color: '#2563eb', fontSize: '10px'}}>❯</span> Network com grandes agencias</div>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                  {/* CSS Barcode Simulation to avoid external images */}
+                                  <div style={{ display: 'flex', height: '50px', gap: '2px', alignItems: 'flex-end' }}>
+                                    {[2,4,1,3,2,1,5,1,2,3,1,4,2,1,2,3,1,2,4].map((w, i) => (
+                                      <div key={i} style={{ width: `${w*2}px`, height: '100%', background: 'var(--text-main)' }} />
+                                    ))}
+                                  </div>
+                                  <div style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)', fontSize: '0.65rem', color: '#94a3b8', letterSpacing: '1px' }}>
+                                    Digitalent26
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Dashed Divider */}
+                              <div style={{ borderTop: '2px dashed #2563eb', margin: '20px -24px 12px', position: 'relative' }} />
+                              
+                              <Text style={{ display: 'block', textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-main)', fontWeight: 500 }}>
+                                Ao inscrever-se, concorda com a nossa Politica de Privacidade
+                              </Text>
+                            </div>
                           </div>
                         ),
                       },
