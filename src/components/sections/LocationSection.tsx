@@ -26,25 +26,31 @@ const LocationSection: React.FC = () => {
         flexDirection: screens.md ? 'row' : 'column',
         padding: screens.xs ? '30px' : '50px'
       }}>
-        {/* Background Map Simulation */}
+        {/* Real Google Map Background */}
         <div style={{
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          opacity: 0.15,
-          backgroundImage: `
-            linear-gradient(to right, #475569 1px, transparent 1px),
-            linear-gradient(to bottom, #475569 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px',
-          zIndex: 1
-        }} />
+          zIndex: 1,
+          filter: 'grayscale(100%) contrast(1.2) opacity(0.5)'
+        }}>
+          <iframe 
+            src="https://maps.google.com/maps?q=Av.+Santiago+68-88,+Rio+Me%C3%A3o+-+Audit%C3%B3rio+do+IEFP&t=&z=14&ie=UTF8&iwloc=&output=embed"
+            width="100%" 
+            height="100%" 
+            style={{ border: 0, pointerEvents: 'none' }} 
+            allowFullScreen={false} 
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
 
-        {/* Gradient Overlay */}
+        {/* Gradient Overlay to maintain the dark premium look */}
         <div style={{
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.4) 0%, rgba(11, 17, 32, 0.9) 60%)',
-          zIndex: 2
+          background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.7) 0%, rgba(11, 17, 32, 0.95) 60%)',
+          zIndex: 2,
+          pointerEvents: 'none'
         }} />
 
         {/* Left Content (Logo & Address) */}
