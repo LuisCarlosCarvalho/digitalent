@@ -22,7 +22,7 @@ app.post('/api/register-whatsapp', async (req, res) => {
   try {
     // 1. Instanciar e Criar o PDF em memória (Buffer)
     const doc = new PDFDocument({ margin: 50 });
-    let buffers: any[] = [];
+    const buffers: any[] = [];
     
     doc.on('data', buffers.push.bind(buffers));
     doc.on('end', async () => {
