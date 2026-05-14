@@ -59,7 +59,7 @@ const SpeakersSection: React.FC = () => {
               borderRadius: '24px', 
               boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
             }}
-            bodyStyle={{ padding: screens.xs ? '20px' : '40px' }}
+            styles={{ body: { padding: screens.xs ? '20px' : '40px' } }}
           >
             <Row gutter={[48, 48]} align="middle" style={{ flexDirection: screens.lg ? (index % 2 !== 0 ? 'row-reverse' : 'row') : 'column' }}>
               <Col xs={24} md={24} lg={10}>

@@ -321,10 +321,12 @@ const LandingPage: React.FC = () => {
             placement="right"
             onClose={() => setMobileMenuVisible(false)}
             open={mobileMenuVisible}
-            bodyStyle={{ padding: "24px", background: "var(--bg-base)" }}
-            headerStyle={{
-              background: "var(--header-bg)",
-              borderBottom: "1px solid rgba(0,0,0,0.05)",
+            styles={{
+              body: { padding: "24px", background: "var(--bg-base)" },
+              header: {
+                background: "var(--header-bg)",
+                borderBottom: "1px solid rgba(0,0,0,0.05)",
+              },
             }}
             closeIcon={<span style={{ color: "var(--text-main)" }}>X</span>}
           >
