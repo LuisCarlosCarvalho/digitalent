@@ -333,7 +333,7 @@ const LandingPage: React.FC = () => {
                     margin: '0 auto 40px',
                     lineHeight: 1.6
                   }}>
-                    Capacitamos pequenas empresas portuguesas com as estratégias de marketing digital mais avançadas para dominar o mercado local e atrair clientes qualificados todos os dias.
+                    O Digital Talent ’26 nasce como o ponto de encontro de mentes inquietas que procuram transformar o futuro do mercado. Sob o conceito Marketing com Visão, o evento vai além das métricas superficiais, mergulhando nas estratégias e tendências que estão a redefinir a ligação entre marcas e pessoas. O evento reúne especialistas e talentos para oferecer uma experiência única a quem não quer apenas acompanhar a evolução digital, mas sim vivenciá-la com resultados reais.
                   </Paragraph>
 
                   <Space size="middle" wrap style={{ justifyContent: 'center' }}>
