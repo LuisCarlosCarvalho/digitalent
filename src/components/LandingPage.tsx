@@ -276,7 +276,7 @@ const LandingPage: React.FC = () => {
                 {[...Array(10)].map((_, i) => (
                   <div key={i} className="sponsor-logo" style={{ margin: '0 30px' }}>
                     <img 
-                      src="https://i.imgur.com/ezqKt1a.png" 
+                      src="/client-logo.png" 
                       alt={`Sponsor ${i+1}`}
                       style={{ height: '40px', objectFit: 'contain' }}
                     />
