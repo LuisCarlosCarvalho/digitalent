@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Layout, Button, Typography, Row, Col, Space, ConfigProvider, Card, Timeline, Divider, Statistic, Tabs, Form, Input, Select, Badge, notification, Dropdown, theme } from 'antd';
-import { RocketOutlined, CalendarOutlined, ArrowRightOutlined, GlobalOutlined, TeamOutlined, RiseOutlined, CheckCircleOutlined, ClockCircleOutlined, SolutionOutlined, BulbOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, GoogleOutlined, CompassOutlined, UserOutlined, ShopOutlined, MailOutlined as MailIcon, PhoneOutlined as PhoneIcon, InstagramOutlined, LinkedinOutlined, DesktopOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
+import { Layout, Button, Typography, Row, Col, Space, ConfigProvider, Card, Divider, Statistic, Tabs, Form, Input, Select, Badge, notification, Dropdown, theme, Drawer, Grid } from 'antd';
+import { RocketOutlined, CalendarOutlined, GlobalOutlined, TeamOutlined, RiseOutlined, CheckCircleOutlined, SolutionOutlined, UserOutlined, ShopOutlined, MailOutlined as MailIcon, PhoneOutlined as PhoneIcon, InstagramOutlined, LinkedinOutlined, DesktopOutlined, MoonOutlined, SunOutlined, MenuOutlined } from '@ant-design/icons';
+
+const SpeakersSection = lazy(() => import('./sections/SpeakersSection'));
+const LocationSection = lazy(() => import('./sections/LocationSection'));
+const ScheduleSection = lazy(() => import('./sections/ScheduleSection'));
 
 const { Header, Content, Footer } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -27,11 +31,17 @@ const getBaseThemeConfig = (isDark: boolean) => ({
 
 type ThemeMode = 'light' | 'dark' | 'auto';
 
+const { useBreakpoint } = Grid;
+
 const LandingPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('1');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [themeMode, setThemeMode] = useState<ThemeMode>('auto');
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
+  const [showStickyCTA, setShowStickyCTA] = useState(false);
+  
+  const screens = useBreakpoint();
 
   // Carregar tema salvo
   useEffect(() => {
@@ -57,6 +67,19 @@ const LandingPage: React.FC = () => {
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [themeMode]);
+
+  // Scroll listener for Sticky CTA
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 600) {
+        setShowStickyCTA(true);
+      } else {
+        setShowStickyCTA(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Atualizar a tag HTML para as variáveis CSS globais funcionarem
   useEffect(() => {
@@ -147,14 +170,16 @@ const LandingPage: React.FC = () => {
             </Title>
           </div>
           
-          <div className="desktop-menu" style={{ display: 'flex', gap: '20px' }}>
-            <Button type="link" href="#sobre" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Sobre</Button>
-            <Button type="link" href="#oradores" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Oradores</Button>
-            <Button type="link" href="#cronograma" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Cronograma</Button>
-            <Button type="link" href="#informacoes" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Informações</Button>
-          </div>
+          {screens.md && (
+            <div className="desktop-menu" style={{ display: 'flex', gap: '20px' }}>
+              <Button type="link" href="#sobre" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Sobre</Button>
+              <Button type="link" href="#oradores" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Oradores</Button>
+              <Button type="link" href="#cronograma" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Cronograma</Button>
+              <Button type="link" href="#informacoes" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Informações</Button>
+            </div>
+          )}
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: screens.xs ? '8px' : '16px' }}>
             <Dropdown 
               menu={{
                 items: [
@@ -172,19 +197,63 @@ const LandingPage: React.FC = () => {
               </Button>
             </Dropdown>
 
-            <Button 
-              type="primary" 
-              shape="round" 
-              size="large" 
-              onClick={() => scrollToRegistration('1')}
-              style={{ 
-                fontWeight: 600,
-                padding: '0 30px'
-              }}
-            >
-              Inscrição Gratuita
-            </Button>
+            {screens.md && (
+              <Button 
+                type="primary" 
+                shape="round" 
+                size="large" 
+                onClick={() => scrollToRegistration('1')}
+                style={{ 
+                  fontWeight: 600,
+                  padding: '0 30px'
+                }}
+              >
+                Inscrição Gratuita
+              </Button>
+            )}
+
+            {!screens.md && (
+              <Button 
+                type="text" 
+                icon={<MenuOutlined />} 
+                style={{ fontSize: '1.5rem', color: '#2563eb' }}
+                onClick={() => setMobileMenuVisible(true)}
+              />
+            )}
           </div>
+
+          <Drawer
+            title={<span style={{ color: '#2563eb', fontWeight: 800 }}>Menu</span>}
+            placement="right"
+            onClose={() => setMobileMenuVisible(false)}
+            open={mobileMenuVisible}
+            bodyStyle={{ padding: '24px', background: 'var(--bg-base)' }}
+            headerStyle={{ background: 'var(--header-bg)', borderBottom: '1px solid rgba(0,0,0,0.05)' }}
+            closeIcon={<span style={{ color: 'var(--text-main)' }}>X</span>}
+          >
+            <Space direction="vertical" size="large" style={{ width: '100%' }}>
+              <Button type="link" block href="#sobre" onClick={() => setMobileMenuVisible(false)} style={{ textAlign: 'left', color: 'var(--text-main)', fontSize: '1.2rem', padding: 0 }}>Sobre</Button>
+              <Divider style={{ margin: 0, borderColor: 'var(--border-color)' }} />
+              <Button type="link" block href="#oradores" onClick={() => setMobileMenuVisible(false)} style={{ textAlign: 'left', color: 'var(--text-main)', fontSize: '1.2rem', padding: 0 }}>Oradores</Button>
+              <Divider style={{ margin: 0, borderColor: 'var(--border-color)' }} />
+              <Button type="link" block href="#cronograma" onClick={() => setMobileMenuVisible(false)} style={{ textAlign: 'left', color: 'var(--text-main)', fontSize: '1.2rem', padding: 0 }}>Cronograma</Button>
+              <Divider style={{ margin: 0, borderColor: 'var(--border-color)' }} />
+              <Button type="link" block href="#informacoes" onClick={() => setMobileMenuVisible(false)} style={{ textAlign: 'left', color: 'var(--text-main)', fontSize: '1.2rem', padding: 0 }}>Informações</Button>
+              <Divider style={{ margin: 0, borderColor: 'var(--border-color)' }} />
+              <Button 
+                type="primary" 
+                block 
+                size="large" 
+                onClick={() => {
+                  setMobileMenuVisible(false);
+                  scrollToRegistration('1');
+                }}
+                style={{ marginTop: '20px', height: '48px', fontSize: '1.1rem', borderRadius: '8px' }}
+              >
+                Inscrição Gratuita
+              </Button>
+            </Space>
+          </Drawer>
         </Header>
 
         <Content>
@@ -219,7 +288,7 @@ const LandingPage: React.FC = () => {
 
           {/* Hero Section */}
           <section id="inicio" style={{ 
-            padding: '120px 5% 100px', 
+            padding: screens.xs ? '60px 5% 80px' : '120px 5% 100px', 
             background: 'var(--bg-base)',
             position: 'relative',
             overflow: 'hidden'
@@ -386,325 +455,19 @@ const LandingPage: React.FC = () => {
           </section>
 
           {/* Speakers Section */}
-          <section id="oradores" style={{ padding: '120px 5%', background: 'var(--bg-base)' }}>
-            <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-              <Title level={2} style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', color: 'var(--text-main)', marginBottom: '16px' }}>Oradores Confirmados</Title>
-              <Text style={{ fontSize: '1.2rem', color: 'var(--text-sec)' }}>Especialistas prontos para partilhar o caminho do sucesso.</Text>
-            </div>
+          <Suspense fallback={<div style={{ padding: '120px 5%', textAlign: 'center', color: 'var(--text-sec)' }}>A carregar oradores...</div>}>
+            <SpeakersSection />
+          </Suspense>
 
-            <Space orientation="vertical" size={100} style={{ width: '100%' }}>
-              {[
-                { 
-                  name: "Carlos Silva", 
-                  role: "Growth Specialist & CEO", 
-                  company: "Digitalent26",
-                  expertise: "Estratégia de Crescimento Exponencial",
-                  bio: [
-                    "Carlos Silva é uma figura de referência no panorama do marketing digital em Portugal, acumulando mais de 15 anos de experiência na transformação de negócios tradicionais em potências digitais. Como CEO da Digitalent26, liderou projetos que resultaram em crescimentos de faturação superiores a 300% para PMEs locais.",
-                    "A sua abordagem foca-se na desmistificação da tecnologia, tornando ferramentas complexas em processos simples e rentáveis. Neste evento, Carlos irá partilhar o 'roadmap' exato que utilizou para escalar dezenas de negócios, focando-se em resultados práticos e sustentáveis a longo prazo."
-                  ],
-                  image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop" 
-                },
-                { 
-                  name: "Ana Rocha", 
-                  role: "Local Traffic Expert", 
-                  company: "Ads Master",
-                  expertise: "Tráfego Pago para Comércio Local",
-                  bio: [
-                    "Ana Rocha é especialista em gestão de tráfego pago, com foco exclusivo em atrair clientes para lojas físicas e serviços locais. Com passagens por agências internacionais, Ana domina as plataformas Google e Meta Ads como poucos, focando-se sempre no Retorno sobre o Investimento (ROI).",
-                    "A sua metodologia permite que pequenos empresários compitam com grandes marcas, utilizando orçamentos otimizados e segmentação geográfica precisa. Durante a sua sessão, Ana irá revelar as campanhas 'chave-na-mão' que qualquer negócio local pode implementar para encher a sua agenda já amanhã."
-                  ],
-                  image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop" 
-                },
-                { 
-                  name: "Pedro Mendes", 
-                  role: "Content Strategy Director", 
-                  company: "SFL Solution",
-                  expertise: "Copywriting e Frameworks de Venda",
-                  bio: [
-                    "Pedro Mendes é o cérebro por trás de algumas das campanhas de comunicação mais eficazes em Portugal. Diretor de Estratégia de Conteúdo na SFL Solution, Pedro especializou-se na arte de converter palavras em vendas diretas através de 'Copywriting' de alta performance.",
-                    "Acredita que a história de um negócio é a sua maior vantagem competitiva. No Digitalent26, Pedro irá ensinar como construir uma narrativa poderosa que cria desejo imediato nos clientes e como estruturar mensagens que fecham vendas de forma automática, eliminando a resistência do preço."
-                  ],
-                  image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800&auto=format&fit=crop" 
-                }
-              ].map((speaker, index) => (
-                <Card 
-                  key={index} 
-                  bordered={false} 
-                  style={{ 
-                    background:  'var(--card-bg)', 
-                    borderRadius: '24px', 
-                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
-                  }}
-                  bodyStyle={{ padding: '40px' }}
-                >
-                  <Row gutter={[48, 48]} align="middle" style={{ flexDirection: index % 2 !== 0 ? 'row-reverse' : 'row' }}>
-                    <Col xs={24} lg={10}>
-                      <div style={{ 
-                        position: 'relative', 
-                        borderRadius: '16px', 
-                        overflow: 'hidden',
-                        aspectRatio: '3/4',
-                        boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)'
-                      }}>
-                        <img 
-                          src={speaker.image} 
-                          alt={speaker.name} 
-                          style={{ 
-                            width: '100%', 
-                            height: '100%', 
-                            objectFit: 'cover'
-                          }} 
-                        />
-                        <div style={{
-                          position: 'absolute',
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          padding: '30px',
-                          background: 'linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%)',
-                          zIndex: 3
-                        }}>
-                          <Title level={3} style={{ color: '#fff', margin: 0, fontWeight: 800 }}>{speaker.name}</Title>
-                          <Text style={{ color: 'var(--border-color)', fontSize: '1.1rem', opacity: 0.9 }}>{speaker.role}</Text>
-                          <br />
-                          <Text strong style={{ color: 'var(--brand-blue)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{speaker.company}</Text>
-                        </div>
-                      </div>
-                    </Col>
-                    <Col xs={24} lg={14}>
-                      <div style={{ padding: '0 10px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-                          <div style={{ width: '40px', height: '2px', background: '#2563eb' }} />
-                          <Text strong style={{ color: '#2563eb', fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '2px' }}>
-                            Especialista em...
-                          </Text>
-                        </div>
-                        
-                        <Title level={2} style={{ color: 'var(--text-main)', marginBottom: '32px', fontSize: '2.2rem' }}>
-                          {speaker.expertise}
-                        </Title>
-
-                        {speaker.bio.map((paragraph, pIndex) => (
-                          <Paragraph key={pIndex} style={{ fontSize: '1.15rem', color: 'var(--text-sec)', lineHeight: '1.8', marginBottom: '24px', textAlign: 'justify' }}>
-                            {paragraph}
-                          </Paragraph>
-                        ))}
-
-                        <Button type="link" icon={<ArrowRightOutlined />} style={{ color: '#2563eb', padding: 0, fontSize: '1.1rem', fontWeight: 600 }}>
-                          Saber mais sobre {speaker.name.split(' ')[0]}
-                        </Button>
-                      </div>
-                    </Col>
-                  </Row>
-                </Card>
-              ))}
-            </Space>
-          </section>
-
-          {/* Schedule Section */}
-          <section id="cronograma" style={{ padding: '100px 5%', background: 'var(--bg-alt)' }}>
-            <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-              <Title level={2} style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--text-main)' }}>Cronograma do Evento</Title>
-              <Text type="secondary" style={{ fontSize: '1.1rem', color: 'var(--text-sec)' }}>Um dia intensivo focado em resultados práticos.</Text>
-            </div>
-            
-            <Row justify="center">
-              <Col xs={24} md={18} lg={12}>
-                <Timeline
-                  mode="alternate"
-                  items={[
-                    {
-                      label: <Text style={{ color: '#2563eb', fontWeight: 700 }}>09:00</Text>,
-                      children: (
-                        <div style={{ textAlign: 'left', marginBottom: '40px' }}>
-                          <Title level={4} style={{ color: 'var(--text-main)' }}>Abertura & Desmistificação</Title>
-                          <Text type="secondary" style={{ color: 'var(--text-sec)' }}>O marketing digital para pequenos negócios sem complicações.</Text>
-                        </div>
-                      ),
-                      dot: <BulbOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
-                    },
-                    {
-                      label: <Text style={{ color: '#2563eb', fontWeight: 700 }}>10:30</Text>,
-                      children: (
-                        <div style={{ textAlign: 'right', marginBottom: '40px' }}>
-                          <Title level={4} style={{ color: 'var(--text-main)' }}>Tráfego Pago Local</Title>
-                          <Text type="secondary" style={{ color: 'var(--text-sec)' }}>Como usar Google e Meta Ads para atrair clientes à sua porta.</Text>
-                        </div>
-                      ),
-                      dot: <RocketOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
-                    },
-                    {
-                      label: <Text style={{ color: '#2563eb', fontWeight: 700 }}>14:00</Text>,
-                      children: (
-                        <div style={{ textAlign: 'left', marginBottom: '40px' }}>
-                          <Title level={4} style={{ color: 'var(--text-main)' }}>Copywriting e Vendas</Title>
-                          <Text type="secondary" style={{ color: 'var(--text-sec)' }}>Frameworks de comunicação persuasiva para fechar mais negócios.</Text>
-                        </div>
-                      ),
-                      dot: <SolutionOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
-                    },
-                    {
-                      children: (
-                        <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                          <Button type="primary" size="large" onClick={() => scrollToRegistration('1')}>Quero Inscrever-me</Button>
-                        </div>
-                      ),
-                      dot: <ClockCircleOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
-                    }
-                  ]}
-                />
-              </Col>
-            </Row>
-          </section>
-
-          {/* Sponsors Section */}
-          <section style={{ padding: '40px 0 80px', background: 'var(--bg-alt)', overflow: 'hidden' }}>
-            <Row justify="center">
-              <Col xs={22} md={16} lg={12}>
-                <Card 
-                  bordered={false}
-                  style={{ 
-                    background:  'var(--card-bg)', 
-                    border: '1px dashed #cbd5e1',
-                    borderRadius: '20px',
-                    textAlign: 'center',
-                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)'
-                  }}
-                >
-                  <Title level={4} style={{ color: 'var(--text-main)' }}>Seja um Patrocinador</Title>
-                  <Paragraph style={{ color: 'var(--text-sec)' }}>
-                    Posicione a sua marca diante de centenas de pequenas empresas locais e lidere a transformação digital na região.
-                  </Paragraph>
-                  <Button 
-                    type="primary" 
-                    shape="round" 
-                    icon={<RocketOutlined />}
-                    onClick={() => scrollToRegistration('2')}
-                  >
-                    Receber Dossier de Patrocínio
-                  </Button>
-                </Card>
-              </Col>
-            </Row>
-          </section>
+          {/* Schedule & Sponsors Section */}
+          <Suspense fallback={<div style={{ padding: '100px 5%', textAlign: 'center', color: 'var(--text-sec)' }}>A carregar cronograma...</div>}>
+            <ScheduleSection onRegisterClick={scrollToRegistration} />
+          </Suspense>
 
           {/* Location Section */}
-          <section id="informacoes" style={{ padding: '120px 5%', background: 'var(--bg-base)' }}>
-            <div style={{ marginBottom: '60px' }}>
-              <Title level={2} style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', color: 'var(--text-main)' }}>Onde será o Digitalent 26</Title>
-              <Paragraph style={{ fontSize: '1.2rem', color: 'var(--text-sec)' }}>Prepare-se para um dia de imersão total no IEFP de Rio Meão.</Paragraph>
-            </div>
-
-            <Row gutter={[64, 64]} align="middle">
-              <Col xs={24} md={12}>
-                <Space orientation="vertical" size={40} style={{ width: '100%' }}>
-                  <div>
-                    <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', marginBottom: '32px' }}>
-                      <EnvironmentOutlined style={{ fontSize: '28px', color: '#2563eb', marginTop: '5px' }} />
-                      <div>
-                        <Text strong style={{ fontSize: '1.2rem', display: 'block', color: 'var(--text-main)' }}>Endereço</Text>
-                        <Text style={{ fontSize: '1.1rem', color: 'var(--text-sec)' }}>Av. Santiago 68-88, Rio Meão - Auditório do IEFP</Text>
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', marginBottom: '32px' }}>
-                      <PhoneOutlined style={{ fontSize: '28px', color: '#2563eb', marginTop: '5px' }} />
-                      <div>
-                        <Text strong style={{ fontSize: '1.2rem', display: 'block', color: 'var(--text-main)' }}>Telefone</Text>
-                        <Text style={{ fontSize: '1.1rem', color: 'var(--text-sec)' }}>999 999 999</Text>
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', marginBottom: '32px' }}>
-                      <MailOutlined style={{ fontSize: '28px', color: '#2563eb', marginTop: '5px' }} />
-                      <div>
-                        <Text strong style={{ fontSize: '1.2rem', display: 'block', color: 'var(--text-main)' }}>Email</Text>
-                        <Text style={{ fontSize: '1.1rem', color: 'var(--text-sec)' }}>contato@digitalent.pt</Text>
-                      </div>
-                    </div>
-                  </div>
-
-                  <Card style={{ background: 'var(--bg-alt)', borderColor: 'var(--border-color)', borderRadius: '16px' }}>
-                    <Title level={5} style={{ color: '#2563eb', marginBottom: '16px' }}>Horário do Evento</Title>
-                    <Space orientation="vertical" style={{ width: '100%' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Text style={{ color: 'var(--text-sec)' }}>Início</Text>
-                        <Text strong style={{ color: 'var(--text-main)' }}>10:00</Text>
-                      </div>
-                      <Divider style={{ margin: '8px 0', borderColor: 'var(--border-color)' }} />
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Text style={{ color: 'var(--text-sec)' }}>Almoço</Text>
-                        <Text strong style={{ color: 'var(--text-main)' }}>12:00 - 13:00</Text>
-                      </div>
-                      <Divider style={{ margin: '8px 0', borderColor: 'var(--border-color)' }} />
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Text style={{ color: 'var(--text-sec)' }}>Encerramento</Text>
-                        <Text strong style={{ color: 'var(--text-main)' }}>17:00</Text>
-                      </div>
-                    </Space>
-                  </Card>
-                </Space>
-              </Col>
-
-              <Col xs={24} md={12}>
-                <div style={{ 
-                  position: 'relative', 
-                  borderRadius: '30px', 
-                  overflow: 'hidden', 
-                  height: '500px',
-                  background: 'var(--bg-alt)',
-                  border: '1px solid #e2e8f0',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  padding: '40px'
-                }}>
-                  <div style={{ 
-                    position: 'absolute', 
-                    top: 0, left: 0, right: 0, bottom: 0, 
-                    opacity: 0.05, 
-                    backgroundImage: 'radial-gradient(#2563eb 1px, transparent 1px)', 
-                    backgroundSize: '20px 20px' 
-                  }} />
-                  
-                  <div style={{ position: 'relative', zIndex: 2 }}>
-                    <EnvironmentOutlined style={{ fontSize: '64px', color: '#2563eb', marginBottom: '24px' }} />
-                    <Title level={3} style={{ color: 'var(--text-main)' }}>Localização Exata</Title>
-                    <Paragraph style={{ color: 'var(--text-sec)', marginBottom: '40px' }}>
-                      Auditório do IEFP - Rio Meão.<br />Estacionamento gratuito disponível no local.
-                    </Paragraph>
-                    
-                    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-                      <Button 
-                        block 
-                        size="large" 
-                        type="primary"
-                        icon={<GoogleOutlined />} 
-                        href="https://www.google.com/maps/search/?api=1&query=Av.+Santiago+68-88,+Rio+Meão+-+Auditório+do+IEFP" 
-                        target="_blank"
-                        style={{ height: '56px', borderRadius: '12px', fontSize: '1.1rem', fontWeight: 600 }}
-                      >
-                        Abrir no Google Maps
-                      </Button>
-                      <Button 
-                        block 
-                        size="large" 
-                        icon={<CompassOutlined />} 
-                        href="https://waze.com/ul?q=Av.%20Santiago%2068-88,%20Rio%20Meão" 
-                        target="_blank"
-                        style={{ height: '56px', borderRadius: '12px', fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-main)', borderColor: 'var(--border-color)' }}
-                      >
-                        Abrir no Waze
-                      </Button>
-                    </Space>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </section>
+          <Suspense fallback={<div style={{ padding: '120px 5%', textAlign: 'center', color: 'var(--text-sec)' }}>A carregar mapa...</div>}>
+            <LocationSection />
+          </Suspense>
 
           {/* Registration Section */}
           <section id="inscricao" style={{ padding: '120px 5%', background: 'var(--bg-alt)' }}>
@@ -901,6 +664,35 @@ const LandingPage: React.FC = () => {
             {' '} - Todos os direitos reservados.
           </Text>
         </Footer>
+
+        {/* Sticky Mobile CTA */}
+        {screens.xs && showStickyCTA && (
+          <div style={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: '16px 5%',
+            background: 'var(--bg-base)',
+            borderTop: '1px solid rgba(0,0,0,0.1)',
+            boxShadow: '0 -4px 10px rgba(0,0,0,0.05)',
+            zIndex: 999,
+            animation: 'slideUp 0.3s ease-out'
+          }}>
+            <Button 
+              type="primary" 
+              block 
+              size="large" 
+              onClick={() => {
+                scrollToRegistration('1');
+                setShowStickyCTA(false);
+              }}
+              style={{ height: '48px', fontSize: '1.1rem', borderRadius: '8px', boxShadow: '0 4px 15px rgba(37, 99, 235, 0.4)' }}
+            >
+              Inscrição Grátis
+            </Button>
+          </div>
+        )}
       </Layout>
     </ConfigProvider>
   );
