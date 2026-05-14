@@ -20,6 +20,7 @@ import {
   theme,
   Drawer,
   Grid,
+  Spin,
 } from "antd";
 import {
   RocketOutlined,
@@ -41,9 +42,9 @@ import {
   MenuOutlined,
 } from "@ant-design/icons";
 
-const SpeakersSection = lazy(() => import("./sections/SpeakersSection"));
-const LocationSection = lazy(() => import("./sections/LocationSection"));
-const ScheduleSection = lazy(() => import("./sections/ScheduleSection"));
+const SpeakersSection = lazy(() => import("./components/sections/SpeakersSection"));
+const LocationSection = lazy(() => import("./components/sections/LocationSection"));
+const ScheduleSection = lazy(() => import("./components/sections/ScheduleSection"));
 
 const { Header, Content, Footer } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -856,17 +857,10 @@ const LandingPage: React.FC = () => {
             </Row>
           </section>
 
-          {/* Speakers Section */}
           <Suspense
             fallback={
-              <div
-                style={{
-                  padding: "120px 5%",
-                  textAlign: "center",
-                  color: "var(--text-sec)",
-                }}
-              >
-                A carregar oradores...
+              <div style={{ padding: "120px 0", textAlign: "center" }}>
+                <Spin size="large" />
               </div>
             }
           >
@@ -876,14 +870,8 @@ const LandingPage: React.FC = () => {
           {/* Schedule & Sponsors Section */}
           <Suspense
             fallback={
-              <div
-                style={{
-                  padding: "100px 5%",
-                  textAlign: "center",
-                  color: "var(--text-sec)",
-                }}
-              >
-                A carregar cronograma...
+              <div style={{ padding: "100px 0", textAlign: "center" }}>
+                <Spin size="large" />
               </div>
             }
           >
@@ -893,14 +881,8 @@ const LandingPage: React.FC = () => {
           {/* Location Section */}
           <Suspense
             fallback={
-              <div
-                style={{
-                  padding: "120px 5%",
-                  textAlign: "center",
-                  color: "var(--text-sec)",
-                }}
-              >
-                A carregar mapa...
+              <div style={{ padding: "120px 0", textAlign: "center" }}>
+                <Spin size="large" />
               </div>
             }
           >

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { Typography, Row, Col, Card, Button, Grid, Space } from 'antd';
 import { GoogleOutlined, CompassOutlined, EnvironmentFilled } from '@ant-design/icons';
 
