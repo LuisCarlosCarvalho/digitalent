@@ -42,9 +42,9 @@ import {
   MenuOutlined,
 } from "@ant-design/icons";
 
-const SpeakersSection = lazy(() => import("./components/sections/SpeakersSection"));
-const LocationSection = lazy(() => import("./components/sections/LocationSection"));
-const ScheduleSection = lazy(() => import("./components/sections/ScheduleSection"));
+const SpeakersSection = lazy(() => import("./sections/SpeakersSection"));
+const LocationSection = lazy(() => import("./sections/LocationSection"));
+const ScheduleSection = lazy(() => import("./sections/ScheduleSection"));
 
 const { Header, Content, Footer } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -136,11 +136,15 @@ const LandingPage: React.FC = () => {
   ) => {
     setIsSubmitting(true);
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || "";
+      const env = (import.meta as any).env;
+      const apiUrl = env.VITE_API_URL || "";
+      const waToken = env.VITE_WHATSAPP_TOKEN || "";
+
       const response = await fetch(`${apiUrl}/api/register-whatsapp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...(waToken ? { Authorization: `Bearer ${waToken}` } : {}),
         },
         body: JSON.stringify({
           formType: type,
