@@ -31,10 +31,10 @@ const LocationSection: React.FC = () => {
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
           zIndex: 1,
-          filter: 'grayscale(100%) contrast(1.2) opacity(0.5)'
+          filter: 'grayscale(100%) contrast(1.1) brightness(0.7)'
         }}>
           <iframe 
-            src="https://maps.google.com/maps?q=Av.+Santiago+68-88,+Rio+Me%C3%A3o+-+Audit%C3%B3rio+do+IEFP&t=&z=14&ie=UTF8&iwloc=&output=embed"
+            src="https://maps.google.com/maps?q=Av.+Santiago+68-88,+Rio+Me%C3%A3o+-+Audit%C3%B3rio+do+IEFP&t=m&z=14&ie=UTF8&iwloc=&output=embed"
             width="100%" 
             height="100%" 
             style={{ border: 0, pointerEvents: 'none' }} 
@@ -48,7 +48,7 @@ const LocationSection: React.FC = () => {
         <div style={{
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.7) 0%, rgba(11, 17, 32, 0.95) 60%)',
+          background: 'radial-gradient(circle at center, rgba(37,99,235,0.2) 0%, rgba(11,17,32,0.6) 100%)',
           zIndex: 2,
           pointerEvents: 'none'
         }} />
