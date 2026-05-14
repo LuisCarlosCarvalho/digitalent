@@ -1,0 +1,16 @@
+{
+  "projectId": "prj_mOV0ttQ6eZ9GudB1XCrw3g87rVie",
+  "orgId": "team_j2qc70cW82lxn8aocB629wa3",
+  "projectName": "digitalent",
+  "settings": {
+    "createdAt": 1778099402073,
+    "framework": "vite",
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "24.x"
+  }
+}

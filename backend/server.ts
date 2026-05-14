@@ -10,11 +10,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  res.status(500).json({ error: 'Internal Server Error' });
-});
-
 // Número do Administrador configurado por si
 const ADMIN_WHATSAPP_NUMBER = "351964300708"; 
 
@@ -27,10 +22,9 @@ app.post('/api/register-whatsapp', async (req, res) => {
   try {
     // 1. Instanciar e Criar o PDF em memória (Buffer)
     const doc = new PDFDocument({ margin: 50 });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const buffers: any[] = [];
+    const buffers: Buffer[] = [];
     
-    doc.on('data', buffers.push.bind(buffers));
+    doc.on('data', (chunk: Buffer) => buffers.push(chunk));
     doc.on('end', async () => {
       const pdfBuffer = Buffer.concat(buffers);
 
