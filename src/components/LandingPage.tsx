@@ -276,9 +276,9 @@ const LandingPage: React.FC = () => {
                 {[...Array(10)].map((_, i) => (
                   <div key={i} className="sponsor-logo" style={{ margin: '0 30px' }}>
                     <img 
-                      src={`https://api.dicebear.com/7.x/initials/svg?seed=Brand${i+1}&backgroundColor=e2e8f0&textColor=1e293b&fontFamily=Arial&fontSize=40`} 
+                      src="https://i.imgur.com/ezqKt1a.png" 
                       alt={`Sponsor ${i+1}`}
-                      style={{ height: '24px', opacity: 0.6, filter: 'grayscale(100%)' }}
+                      style={{ height: '24px' }}
                     />
                   </div>
                 ))}
