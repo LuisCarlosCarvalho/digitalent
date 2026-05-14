@@ -1,10 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
 
 :root {
-  --bg-color: #0b0f19;
-  --primary-color: #2563eb;
-  --text-color: #cbd5e1;
-  --platinum: #f8fafc;
+  --bg-base: #f8fafc;
+  --bg-alt: #f1f5f9;
+  --card-bg: #ffffff;
+  --text-main: #0f172a;
+  --text-sec: #334155;
+  --border-color: #e2e8f0;
+  --header-bg: rgba(248, 250, 252, 0.9);
+  --brand-blue: #2563eb;
+}
+
+[data-theme='dark'] {
+  --bg-base: #0b0f19;
+  --bg-alt: #111827;
+  --card-bg: #1f2937;
+  --text-main: #f8fafc;
+  --text-sec: #cbd5e1;
+  --border-color: #374151;
+  --header-bg: rgba(11, 15, 25, 0.9);
+  --brand-blue: #60a5fa;
 }
 
 * {
@@ -16,8 +31,8 @@
 
 body {
   font-family: 'Outfit', sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: var(--bg-base);
+  color: var(--text-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,16 +47,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0b0f19;
+  background: #f8fafc;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
+  background: #94a3b8;
 }
 
 /* Ant Design Overrides */
@@ -62,14 +77,6 @@ body {
 .ant-btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5) !important;
-}
-
-.ant-typography {
-  color: var(--text-color) !important;
-}
-
-h1.ant-typography {
-  color: var(--platinum) !important;
 }
 
 .speaker-card:hover {
@@ -125,26 +132,16 @@ h1.ant-typography {
   box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
 }
 
-/* Ant Design Form Overrides for Dark Theme */
-.ant-form-item-label > label {
-  color: #cbd5e1 !important;
-}
-
-.ant-input, .ant-input-password, .ant-select-selector, .ant-input-affix-wrapper {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  color: #fff !important;
-}
-
-.ant-input:focus, .ant-input-focused, .ant-select-focused .ant-select-selector {
-  border-color: #2563eb !important;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1) !important;
-}
-
-.ant-tabs-tab {
-  color: #94a3b8 !important;
-}
-
-.ant-tabs-tab-active .ant-tabs-tab-btn {
+.social-icon:hover {
   color: #2563eb !important;
+  transform: translateY(-3px);
+  filter: drop-shadow(0 5px 10px rgba(37, 99, 235, 0.4));
+}
+
+/* Ant Design Light Theme Input Placeholders */
+.ant-input::placeholder,
+.ant-input-password::placeholder,
+.ant-select-selection-placeholder {
+  color: #94a3b8 !important;
+  font-weight: 400;
 }

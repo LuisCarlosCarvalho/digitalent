@@ -1,18 +1,82 @@
-import React from 'react';
-import { Layout, Button, Typography, Row, Col, Space, ConfigProvider, theme, Card, Timeline, Divider, Statistic, Tabs, Form, Input, Select, Badge, notification } from 'antd';
-import { RocketOutlined, CalendarOutlined, ArrowRightOutlined, GlobalOutlined, TeamOutlined, RiseOutlined, CheckCircleOutlined, ClockCircleOutlined, SolutionOutlined, BulbOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, GoogleOutlined, CompassOutlined, UserOutlined, ShopOutlined, MailOutlined as MailIcon, PhoneOutlined as PhoneIcon } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Layout, Button, Typography, Row, Col, Space, ConfigProvider, Card, Timeline, Divider, Statistic, Tabs, Form, Input, Select, Badge, notification, Dropdown, theme } from 'antd';
+import { RocketOutlined, CalendarOutlined, ArrowRightOutlined, GlobalOutlined, TeamOutlined, RiseOutlined, CheckCircleOutlined, ClockCircleOutlined, SolutionOutlined, BulbOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, GoogleOutlined, CompassOutlined, UserOutlined, ShopOutlined, MailOutlined as MailIcon, PhoneOutlined as PhoneIcon, InstagramOutlined, LinkedinOutlined, DesktopOutlined, MoonOutlined, SunOutlined, DownOutlined } from '@ant-design/icons';
 
 const { Header, Content, Footer } = Layout;
 const { Title, Text, Paragraph } = Typography;
 
+const getBaseThemeConfig = (isDark: boolean) => ({
+  algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
+  token: {
+    colorPrimary: '#2563eb', // Azul Royal da Marca
+    colorBgBase: isDark ? '#0b0f19' : '#f8fafc',
+    colorTextBase: isDark ? '#f8fafc' : '#0f172a',
+    borderRadius: 8,
+    fontFamily: "'Outfit', sans-serif",
+  },
+  components: {
+    Button: {
+      colorPrimary: '#2563eb',
+      algorithm: true,
+    },
+    Input: {
+      colorBgContainer: isDark ? '#111827' : '#f8fafc',
+    }
+  }
+});
+
+type ThemeMode = 'light' | 'dark' | 'auto';
+
 const LandingPage: React.FC = () => {
-  const [activeTab, setActiveTab] = React.useState('1');
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [activeTab, setActiveTab] = useState('1');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [themeMode, setThemeMode] = useState<ThemeMode>('auto');
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Carregar tema salvo
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('themeMode') as ThemeMode;
+    if (savedTheme) {
+      setThemeMode(savedTheme);
+    }
+  }, []);
+
+  // Lidar com a lógica do Dark Mode dinâmico
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => {
+      if (themeMode === 'auto') setIsDarkMode(mediaQuery.matches);
+    };
+
+    if (themeMode === 'auto') {
+      setIsDarkMode(mediaQuery.matches);
+    } else {
+      setIsDarkMode(themeMode === 'dark');
+    }
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [themeMode]);
+
+  // Atualizar a tag HTML para as variáveis CSS globais funcionarem
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.setAttribute('data-theme', 'dark');
+    } else {
+      document.body.removeAttribute('data-theme');
+    }
+    localStorage.setItem('themeMode', themeMode);
+  }, [isDarkMode, themeMode]);
+
+  const handleThemeChange = (info: any) => {
+    setThemeMode(info.key as ThemeMode);
+  };
 
   const handleFormSubmit = async (values: any, type: 'Participante' | 'Parceiro') => {
     setIsSubmitting(true);
     try {
-      const response = await fetch('/api/register-whatsapp', {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/register-whatsapp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -23,7 +87,8 @@ const LandingPage: React.FC = () => {
           email: values.email,
           phone: values.telemovel,
           company: values.empresa || '',
-          sponsorshipLevel: values.nivel || ''
+          sponsorshipLevel: values.nivel || '',
+          adminNumber: '351964300708'
         }),
       });
 
@@ -54,19 +119,10 @@ const LandingPage: React.FC = () => {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
   return (
-    <ConfigProvider
-      theme={{
-        algorithm: theme.darkAlgorithm,
-        token: {
-          colorPrimary: '#2563eb',
-          colorBgBase: '#0b0f19',
-          colorTextBase: '#cbd5e1',
-          fontFamily: 'Outfit, sans-serif',
-        },
-      }}
-    >
-      <Layout style={{ minHeight: '100vh', background: '#0b0f19' }}>
+    <ConfigProvider theme={getBaseThemeConfig(isDarkMode)}>
+      <Layout style={{ minHeight: '100vh', background: 'var(--bg-base)' }}>
         {/* Navigation Bar */}
         <Header 
           style={{ 
@@ -77,79 +133,111 @@ const LandingPage: React.FC = () => {
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'space-between',
-            background: 'rgba(11, 15, 25, 0.8)',
+            background: 'var(--header-bg)',
             backdropFilter: 'blur(10px)',
-            borderBottom: '1px solid rgba(203, 213, 225, 0.1)',
+            borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
             padding: '0 5%',
             height: '80px'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src="https://i.imgur.com/UgYNeIO.png" alt="Digitalent26 Logo" style={{ height: '50px', width: 'auto', marginRight: '10px' }} />
-            <Title level={4} style={{ margin: 0, background: 'linear-gradient(45deg, #2563eb, #60a5fa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: 800 }}>
+            <Title level={4} style={{ margin: 0, color: '#2563eb', fontWeight: 800 }}>
               Digitalent26
             </Title>
           </div>
           
           <div className="desktop-menu" style={{ display: 'flex', gap: '20px' }}>
-            <Button type="link" href="#sobre" style={{ color: '#cbd5e1' }}>Sobre</Button>
-            <Button type="link" href="#oradores" style={{ color: '#cbd5e1' }}>Oradores</Button>
-            <Button type="link" href="#cronograma" style={{ color: '#cbd5e1' }}>Cronograma</Button>
-            <Button type="link" href="#informacoes" style={{ color: '#cbd5e1' }}>Informações</Button>
+            <Button type="link" href="#sobre" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Sobre</Button>
+            <Button type="link" href="#oradores" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Oradores</Button>
+            <Button type="link" href="#cronograma" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Cronograma</Button>
+            <Button type="link" href="#informacoes" style={{ color: 'var(--text-main)', fontWeight: 600 }}>Informações</Button>
           </div>
 
-          <Button 
-            type="primary" 
-            shape="round" 
-            size="large" 
-            onClick={() => scrollToRegistration('1')}
-            style={{ 
-              background: 'linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%)',
-              border: 'none',
-              fontWeight: 600,
-              padding: '0 30px'
-            }}
-          >
-            Reservar Lugar
-          </Button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <Dropdown 
+              menu={{
+                items: [
+                  { key: 'light', icon: <SunOutlined />, label: 'Light Mode' },
+                  { key: 'dark', icon: <MoonOutlined />, label: 'Dark Mode' },
+                  { key: 'auto', icon: <DesktopOutlined />, label: 'System (Auto)' }
+                ],
+                onClick: handleThemeChange,
+                selectedKeys: [themeMode]
+              }}
+              placement="bottomRight"
+            >
+              <Button type="text" shape="circle" style={{ color: 'var(--text-main)', fontSize: '1.2rem' }}>
+                {themeMode === 'light' ? <SunOutlined /> : themeMode === 'dark' ? <MoonOutlined /> : <DesktopOutlined />}
+              </Button>
+            </Dropdown>
+
+            <Button 
+              type="primary" 
+              shape="round" 
+              size="large" 
+              onClick={() => scrollToRegistration('1')}
+              style={{ 
+                fontWeight: 600,
+                padding: '0 30px'
+              }}
+            >
+              Inscrição Gratuita
+            </Button>
+          </div>
         </Header>
 
         <Content>
+          {/* Top Marquee Section */}
+          <div style={{ 
+            padding: '12px 0', 
+            background: 'var(--header-bg)', 
+            borderBottom: '1px solid rgba(128, 128, 128, 0.1)',
+            overflow: 'hidden',
+            display: 'flex',
+            alignItems: 'center'
+          }}>
+            <div style={{ padding: '0 5%', marginRight: '20px', zIndex: 2, background: 'var(--header-bg)', position: 'relative' }}>
+              <Text type="secondary" style={{ letterSpacing: '2px', textTransform: 'uppercase', fontSize: '0.75rem', color: 'var(--text-sec)', whiteSpace: 'nowrap', fontWeight: 600 }}>
+                Marcas que Confiam
+              </Text>
+            </div>
+            <div className="marquee-container" style={{ margin: 0, flex: 1, maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
+              <div className="marquee-content" style={{ animationDuration: '30s' }}>
+                {[...Array(10)].map((_, i) => (
+                  <div key={i} className="sponsor-logo" style={{ margin: '0 30px' }}>
+                    <img 
+                      src={`https://api.dicebear.com/7.x/initials/svg?seed=Brand${i+1}&backgroundColor=e2e8f0&textColor=1e293b&fontFamily=Arial&fontSize=40`} 
+                      alt={`Sponsor ${i+1}`}
+                      style={{ height: '24px', opacity: 0.6, filter: 'grayscale(100%)' }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* Hero Section */}
           <section id="inicio" style={{ 
             padding: '120px 5% 100px', 
-            background: 'radial-gradient(circle at 50% -20%, rgba(37, 99, 235, 0.15) 0%, rgba(11, 15, 25, 1) 70%)',
-            overflow: 'hidden',
-            position: 'relative'
+            background: 'var(--bg-base)',
+            position: 'relative',
+            overflow: 'hidden'
           }}>
-            {/* Background Glow Effect */}
-            <div style={{
-              position: 'absolute',
-              top: '10%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '600px',
-              height: '600px',
-              background: 'rgba(37, 99, 235, 0.1)',
-              filter: 'blur(150px)',
-              borderRadius: '50%',
-              zIndex: 0
-            }} />
-
             <Row justify="center" align="middle" style={{ position: 'relative', zIndex: 1 }}>
               <Col xs={24} md={20} lg={16} style={{ textAlign: 'center' }}>
                 <Space orientation="vertical" size="large" style={{ width: '100%' }}>
                   <div style={{ marginBottom: '30px' }}>
-                    <img src="https://i.imgur.com/UgYNeIO.png" alt="Digitalent26 Large Logo" style={{ maxWidth: '280px', width: '100%', height: 'auto', filter: 'drop-shadow(0 0 20px rgba(37, 99, 235, 0.3))' }} />
+                    <img src="https://i.imgur.com/UgYNeIO.png" alt="Digitalent26 Large Logo" style={{ maxWidth: '280px', width: '100%', height: 'auto' }} />
                   </div>
                   <div style={{ 
                     display: 'inline-flex', 
                     alignItems: 'center', 
                     gap: '10px', 
                     padding: '8px 16px', 
-                    background: 'rgba(37, 99, 235, 0.1)', 
+                    background: 'rgba(37, 99, 235, 0.05)', 
                     borderRadius: '50px', 
-                    border: '1px solid rgba(37, 99, 235, 0.2)',
+                    border: '1px solid rgba(37, 99, 235, 0.1)',
                     marginBottom: '20px'
                   }}>
                     <GlobalOutlined style={{ color: '#2563eb' }} />
@@ -163,6 +251,7 @@ const LandingPage: React.FC = () => {
                     lineHeight: 1.1, 
                     fontWeight: 800, 
                     marginBottom: '24px',
+                    color: 'var(--text-main)',
                     letterSpacing: '-0.02em'
                   }}>
                     Transforme o seu <span style={{ color: '#2563eb' }}>Negócio Local</span> na Era Digital
@@ -170,7 +259,7 @@ const LandingPage: React.FC = () => {
 
                   <Paragraph style={{ 
                     fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', 
-                    color: '#94a3b8', 
+                    color: 'var(--text-sec)', 
                     maxWidth: '800px', 
                     margin: '0 auto 40px',
                     lineHeight: 1.6
@@ -189,27 +278,22 @@ const LandingPage: React.FC = () => {
                         padding: '0 40px', 
                         fontSize: '1.1rem', 
                         fontWeight: 700,
-                        background: 'linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%)', 
-                        border: 'none',
-                        boxShadow: '0 10px 30px rgba(37, 99, 235, 0.4)'
+                        boxShadow: '0 10px 30px rgba(37, 99, 235, 0.2)'
                       }}
                     >
-                      Reservar o Meu Lugar
+                      Inscrição Gratuita
                     </Button>
                     <Button 
-                      type="default" 
                       size="large" 
-                      ghost 
+                      shape="round"
                       icon={<CalendarOutlined />} 
                       href="#cronograma"
                       style={{ 
-                        height: '48px', 
+                        height: '60px', 
                         padding: '0 32px', 
-                        fontSize: '18px', 
-                        borderColor: 'rgba(203, 213, 225, 0.3)',
-                        color: '#f8fafc',
-                        display: 'flex',
-                        alignItems: 'center'
+                        fontSize: '1.1rem', 
+                        color: 'var(--text-main)',
+                        borderColor: 'var(--border-color)'
                       }}
                     >
                       Ver Agenda
@@ -219,41 +303,40 @@ const LandingPage: React.FC = () => {
               </Col>
             </Row>
 
-            {/* Floating Features (Subtle) */}
-            <Row gutter={[24, 24]} style={{ marginTop: '100px', opacity: 0.8 }}>
+            <Row gutter={[24, 24]} style={{ marginTop: '100px' }}>
               <Col xs={24} md={8}>
                 <div style={{ textAlign: 'center', padding: '20px' }}>
                   <RiseOutlined style={{ fontSize: '32px', color: '#2563eb', marginBottom: '15px' }} />
-                  <Title level={5}>Crescimento Real</Title>
-                  <Text>Focado em resultados mensuráveis para o seu negócio.</Text>
+                  <Title level={5} style={{ color: 'var(--text-main)' }}>Crescimento Real</Title>
+                  <Text style={{ color: 'var(--text-sec)' }}>Focado em resultados mensuráveis para o seu negócio.</Text>
                 </div>
               </Col>
               <Col xs={24} md={8}>
                 <div style={{ textAlign: 'center', padding: '20px' }}>
                   <TeamOutlined style={{ fontSize: '32px', color: '#2563eb', marginBottom: '15px' }} />
-                  <Title level={5}>Comunidade Local</Title>
-                  <Text>Conecte-se com outros empresários da sua região.</Text>
+                  <Title level={5} style={{ color: 'var(--text-main)' }}>Comunidade Local</Title>
+                  <Text style={{ color: 'var(--text-sec)' }}>Conecte-se com outros empresários da sua região.</Text>
                 </div>
               </Col>
               <Col xs={24} md={8}>
                 <div style={{ textAlign: 'center', padding: '20px' }}>
                   <RocketOutlined style={{ fontSize: '32px', color: '#2563eb', marginBottom: '15px' }} />
-                  <Title level={5}>Estratégia Ágil</Title>
-                  <Text>Implementação rápida e eficiente sem complicações.</Text>
+                  <Title level={5} style={{ color: 'var(--text-main)' }}>Estratégia Ágil</Title>
+                  <Text style={{ color: 'var(--text-sec)' }}>Implementação rápida e eficiente sem complicações.</Text>
                 </div>
               </Col>
             </Row>
           </section>
 
           {/* About Section */}
-          <section id="sobre" style={{ padding: '100px 5%', background: '#0b0f19' }}>
+          <section id="sobre" style={{ padding: '100px 5%', background: 'var(--bg-alt)' }}>
             <Row gutter={[48, 48]} align="middle">
               <Col xs={24} lg={12}>
                 <div style={{ paddingRight: '20px' }}>
-                  <Title level={2} style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', marginBottom: '24px' }}>
+                  <Title level={2} style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--text-main)', marginBottom: '24px' }}>
                     O Desafio do <span style={{ color: '#2563eb' }}>Negócio Tradicional</span>
                   </Title>
-                  <Paragraph style={{ fontSize: '1.1rem', color: '#94a3b8', marginBottom: '32px' }}>
+                  <Paragraph style={{ fontSize: '1.1rem', color: 'var(--text-sec)', marginBottom: '32px' }}>
                     Sabemos que gerir um negócio local não é fácil. Entre a operação diária e o atendimento ao cliente, sobra pouco tempo para o marketing. Muitos sentem medo da tecnologia ou acham que o digital é apenas para grandes marcas.
                   </Paragraph>
                   <Space direction="vertical" size="middle" style={{ width: '100%' }}>
@@ -265,8 +348,8 @@ const LandingPage: React.FC = () => {
                       <div key={index} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
                         <CheckCircleOutlined style={{ color: '#2563eb', fontSize: '24px', marginTop: '4px' }} />
                         <div>
-                          <Text strong style={{ fontSize: '1.1rem', display: 'block' }}>{item.title}</Text>
-                          <Text style={{ color: '#64748b' }}>{item.desc}</Text>
+                          <Text strong style={{ fontSize: '1.1rem', display: 'block', color: 'var(--text-main)' }}>{item.title}</Text>
+                          <Text style={{ color: 'var(--text-sec)' }}>{item.desc}</Text>
                         </div>
                       </div>
                     ))}
@@ -277,24 +360,24 @@ const LandingPage: React.FC = () => {
                 <Card 
                   bordered={false} 
                   style={{ 
-                    background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(11, 15, 25, 1) 100%)',
-                    border: '1px solid rgba(37, 99, 235, 0.2)',
+                    background:  'var(--card-bg)',
+                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                     borderRadius: '24px',
                     padding: '20px'
                   }}
                 >
                   <SolutionOutlined style={{ fontSize: '48px', color: '#2563eb', marginBottom: '24px' }} />
-                  <Title level={3}>A Solução Digitalent26</Title>
-                  <Paragraph style={{ color: '#94a3b8' }}>
+                  <Title level={3} style={{ color: 'var(--text-main)' }}>A Solução Digitalent26</Title>
+                  <Paragraph style={{ color: 'var(--text-sec)' }}>
                     O Digitalent26 não é apenas mais um evento teórico. É um acelerador prático onde sairá com o plano exato para digitalizar a sua presença e aumentar a faturação utilizando o poder da internet.
                   </Paragraph>
-                  <Divider style={{ borderColor: 'rgba(203, 213, 225, 0.1)' }} />
+                  <Divider style={{ borderColor: 'rgba(0, 0, 0, 0.05)' }} />
                   <Row gutter={[16, 16]}>
                     <Col span={12}>
-                      <Statistic title="Eficácia" value={98} suffix="%" />
+                      <Statistic title={<span style={{color: 'var(--text-sec)'}}>Eficácia</span>} value={98} suffix="%" valueStyle={{ color: 'var(--text-main)', fontWeight: 'bold' }} />
                     </Col>
                     <Col span={12}>
-                      <Statistic title="Retorno" value="ROI+" />
+                      <Statistic title={<span style={{color: 'var(--text-sec)'}}>Retorno</span>} value="ROI+" valueStyle={{ color: 'var(--text-main)', fontWeight: 'bold' }} />
                     </Col>
                   </Row>
                 </Card>
@@ -302,11 +385,11 @@ const LandingPage: React.FC = () => {
             </Row>
           </section>
 
-          {/* Speakers Section - Redesigned based on image_2.png */}
-          <section id="oradores" style={{ padding: '120px 5%', background: '#0b0f19' }}>
+          {/* Speakers Section */}
+          <section id="oradores" style={{ padding: '120px 5%', background: 'var(--bg-base)' }}>
             <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-              <Title level={2} style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', color: '#f8fafc', marginBottom: '16px' }}>Oradores Confirmados</Title>
-              <Text style={{ fontSize: '1.2rem', color: '#94a3b8' }}>Especialistas prontos para partilhar o caminho do sucesso.</Text>
+              <Title level={2} style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', color: 'var(--text-main)', marginBottom: '16px' }}>Oradores Confirmados</Title>
+              <Text style={{ fontSize: '1.2rem', color: 'var(--text-sec)' }}>Especialistas prontos para partilhar o caminho do sucesso.</Text>
             </div>
 
             <Space orientation="vertical" size={100} style={{ width: '100%' }}>
@@ -345,95 +428,85 @@ const LandingPage: React.FC = () => {
                   image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800&auto=format&fit=crop" 
                 }
               ].map((speaker, index) => (
-                <Row key={index} gutter={[64, 48]} align="middle" style={{ flexDirection: index % 2 !== 0 ? 'row-reverse' : 'row' }}>
-                  {/* Left Side: Photo with Glow and Overlay */}
-                  <Col xs={24} lg={10}>
-                    <div style={{ 
-                      position: 'relative', 
-                      borderRadius: '30px', 
-                      overflow: 'hidden',
-                      boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)',
-                      aspectRatio: '3/4',
-                      background: '#111827'
-                    }}>
-                      {/* Glow Effect behind speaker */}
-                      <div style={{
-                        position: 'absolute',
-                        bottom: '20%',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        width: '100%',
-                        height: '60%',
-                        background: 'radial-gradient(ellipse at center, rgba(37, 99, 235, 0.4) 0%, rgba(37, 99, 235, 0) 70%)',
-                        zIndex: 1,
-                        filter: 'blur(40px)'
-                      }} />
-                      
-                      <img 
-                        src={speaker.image} 
-                        alt={speaker.name} 
-                        style={{ 
-                          width: '100%', 
-                          height: '100%', 
-                          objectFit: 'cover',
-                          position: 'relative',
-                          zIndex: 2
-                        }} 
-                      />
-
-                      {/* Overlay Text */}
-                      <div style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        padding: '40px 30px',
-                        background: 'linear-gradient(to top, rgba(11, 15, 25, 1) 0%, rgba(11, 15, 25, 0.8) 40%, transparent 100%)',
-                        zIndex: 3
+                <Card 
+                  key={index} 
+                  bordered={false} 
+                  style={{ 
+                    background:  'var(--card-bg)', 
+                    borderRadius: '24px', 
+                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                  }}
+                  bodyStyle={{ padding: '40px' }}
+                >
+                  <Row gutter={[48, 48]} align="middle" style={{ flexDirection: index % 2 !== 0 ? 'row-reverse' : 'row' }}>
+                    <Col xs={24} lg={10}>
+                      <div style={{ 
+                        position: 'relative', 
+                        borderRadius: '16px', 
+                        overflow: 'hidden',
+                        aspectRatio: '3/4',
+                        boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)'
                       }}>
-                        <Title level={3} style={{ color: '#fff', margin: 0, fontWeight: 800 }}>{speaker.name}</Title>
-                        <Text style={{ color: '#fff', fontSize: '1.1rem', opacity: 0.9 }}>{speaker.role}</Text>
-                        <br />
-                        <Text strong style={{ color: '#2563eb', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{speaker.company}</Text>
+                        <img 
+                          src={speaker.image} 
+                          alt={speaker.name} 
+                          style={{ 
+                            width: '100%', 
+                            height: '100%', 
+                            objectFit: 'cover'
+                          }} 
+                        />
+                        <div style={{
+                          position: 'absolute',
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          padding: '30px',
+                          background: 'linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%)',
+                          zIndex: 3
+                        }}>
+                          <Title level={3} style={{ color: '#fff', margin: 0, fontWeight: 800 }}>{speaker.name}</Title>
+                          <Text style={{ color: 'var(--border-color)', fontSize: '1.1rem', opacity: 0.9 }}>{speaker.role}</Text>
+                          <br />
+                          <Text strong style={{ color: 'var(--brand-blue)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{speaker.company}</Text>
+                        </div>
                       </div>
-                    </div>
-                  </Col>
+                    </Col>
+                    <Col xs={24} lg={14}>
+                      <div style={{ padding: '0 10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+                          <div style={{ width: '40px', height: '2px', background: '#2563eb' }} />
+                          <Text strong style={{ color: '#2563eb', fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '2px' }}>
+                            Especialista em...
+                          </Text>
+                        </div>
+                        
+                        <Title level={2} style={{ color: 'var(--text-main)', marginBottom: '32px', fontSize: '2.2rem' }}>
+                          {speaker.expertise}
+                        </Title>
 
-                  {/* Right Side: Biography */}
-                  <Col xs={24} lg={14}>
-                    <div style={{ padding: '0 10px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-                        <div style={{ width: '40px', height: '2px', background: '#2563eb' }} />
-                        <Text strong style={{ color: '#2563eb', fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '2px' }}>
-                          Especialista em...
-                        </Text>
+                        {speaker.bio.map((paragraph, pIndex) => (
+                          <Paragraph key={pIndex} style={{ fontSize: '1.15rem', color: 'var(--text-sec)', lineHeight: '1.8', marginBottom: '24px', textAlign: 'justify' }}>
+                            {paragraph}
+                          </Paragraph>
+                        ))}
+
+                        <Button type="link" icon={<ArrowRightOutlined />} style={{ color: '#2563eb', padding: 0, fontSize: '1.1rem', fontWeight: 600 }}>
+                          Saber mais sobre {speaker.name.split(' ')[0]}
+                        </Button>
                       </div>
-                      
-                      <Title level={2} style={{ color: '#f8fafc', marginBottom: '32px', fontSize: '2.2rem' }}>
-                        {speaker.expertise}
-                      </Title>
-
-                      {speaker.bio.map((paragraph, pIndex) => (
-                        <Paragraph key={pIndex} style={{ fontSize: '1.15rem', color: '#94a3b8', lineHeight: '1.8', marginBottom: '24px', textAlign: 'justify' }}>
-                          {paragraph}
-                        </Paragraph>
-                      ))}
-
-                      <Button type="link" icon={<ArrowRightOutlined />} style={{ color: '#2563eb', padding: 0, fontSize: '1.1rem', fontWeight: 600 }}>
-                        Saber mais sobre {speaker.name.split(' ')[0]}
-                      </Button>
-                    </div>
-                  </Col>
-                </Row>
+                    </Col>
+                  </Row>
+                </Card>
               ))}
             </Space>
           </section>
 
           {/* Schedule Section */}
-          <section id="cronograma" style={{ padding: '100px 5%', background: 'rgba(37, 99, 235, 0.02)' }}>
+          <section id="cronograma" style={{ padding: '100px 5%', background: 'var(--bg-alt)' }}>
             <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-              <Title level={2} style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>Cronograma do Evento</Title>
-              <Text type="secondary" style={{ fontSize: '1.1rem' }}>Um dia intensivo focado em resultados práticos.</Text>
+              <Title level={2} style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--text-main)' }}>Cronograma do Evento</Title>
+              <Text type="secondary" style={{ fontSize: '1.1rem', color: 'var(--text-sec)' }}>Um dia intensivo focado em resultados práticos.</Text>
             </div>
             
             <Row justify="center">
@@ -445,8 +518,8 @@ const LandingPage: React.FC = () => {
                       label: <Text style={{ color: '#2563eb', fontWeight: 700 }}>09:00</Text>,
                       children: (
                         <div style={{ textAlign: 'left', marginBottom: '40px' }}>
-                          <Title level={4}>Abertura & Desmistificação</Title>
-                          <Text type="secondary">O marketing digital para pequenos negócios sem complicações.</Text>
+                          <Title level={4} style={{ color: 'var(--text-main)' }}>Abertura & Desmistificação</Title>
+                          <Text type="secondary" style={{ color: 'var(--text-sec)' }}>O marketing digital para pequenos negócios sem complicações.</Text>
                         </div>
                       ),
                       dot: <BulbOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
@@ -455,8 +528,8 @@ const LandingPage: React.FC = () => {
                       label: <Text style={{ color: '#2563eb', fontWeight: 700 }}>10:30</Text>,
                       children: (
                         <div style={{ textAlign: 'right', marginBottom: '40px' }}>
-                          <Title level={4}>Tráfego Pago Local</Title>
-                          <Text type="secondary">Como usar Google e Meta Ads para atrair clientes à sua porta.</Text>
+                          <Title level={4} style={{ color: 'var(--text-main)' }}>Tráfego Pago Local</Title>
+                          <Text type="secondary" style={{ color: 'var(--text-sec)' }}>Como usar Google e Meta Ads para atrair clientes à sua porta.</Text>
                         </div>
                       ),
                       dot: <RocketOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
@@ -465,8 +538,8 @@ const LandingPage: React.FC = () => {
                       label: <Text style={{ color: '#2563eb', fontWeight: 700 }}>14:00</Text>,
                       children: (
                         <div style={{ textAlign: 'left', marginBottom: '40px' }}>
-                          <Title level={4}>Copywriting e Vendas</Title>
-                          <Text type="secondary">Frameworks de comunicação persuasiva para fechar mais negócios.</Text>
+                          <Title level={4} style={{ color: 'var(--text-main)' }}>Copywriting e Vendas</Title>
+                          <Text type="secondary" style={{ color: 'var(--text-sec)' }}>Frameworks de comunicação persuasiva para fechar mais negócios.</Text>
                         </div>
                       ),
                       dot: <SolutionOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
@@ -486,39 +559,21 @@ const LandingPage: React.FC = () => {
           </section>
 
           {/* Sponsors Section */}
-          <section style={{ padding: '80px 0', background: '#0b0f19', overflow: 'hidden' }}>
-            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-              <Text type="secondary" style={{ letterSpacing: '2px', textTransform: 'uppercase', fontSize: '0.8rem' }}>Marcas que Confiam</Text>
-            </div>
-            
-            {/* Infinite Marquee Wrapper */}
-            <div className="marquee-container" style={{ marginBottom: '60px' }}>
-              <div className="marquee-content">
-                {[...Array(10)].map((_, i) => (
-                  <div key={i} className="sponsor-logo">
-                    <img 
-                      src={`https://api.dicebear.com/7.x/initials/svg?seed=Brand${i+1}&backgroundColor=1f2937&fontFamily=Arial&fontSize=40`} 
-                      alt={`Sponsor ${i+1}`}
-                      style={{ height: '40px', filter: 'grayscale(100%) brightness(1.5)', opacity: 0.6 }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
+          <section style={{ padding: '40px 0 80px', background: 'var(--bg-alt)', overflow: 'hidden' }}>
             <Row justify="center">
               <Col xs={22} md={16} lg={12}>
                 <Card 
                   bordered={false}
                   style={{ 
-                    background: 'rgba(37, 99, 235, 0.05)', 
-                    border: '1px dashed rgba(37, 99, 235, 0.3)',
+                    background:  'var(--card-bg)', 
+                    border: '1px dashed #cbd5e1',
                     borderRadius: '20px',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)'
                   }}
                 >
-                  <Title level={4}>Seja um Patrocinador</Title>
-                  <Paragraph style={{ color: '#94a3b8' }}>
+                  <Title level={4} style={{ color: 'var(--text-main)' }}>Seja um Patrocinador</Title>
+                  <Paragraph style={{ color: 'var(--text-sec)' }}>
                     Posicione a sua marca diante de centenas de pequenas empresas locais e lidere a transformação digital na região.
                   </Paragraph>
                   <Button 
@@ -535,73 +590,71 @@ const LandingPage: React.FC = () => {
           </section>
 
           {/* Location Section */}
-          <section id="informacoes" style={{ padding: '120px 5%', background: '#0b0f19' }}>
+          <section id="informacoes" style={{ padding: '120px 5%', background: 'var(--bg-base)' }}>
             <div style={{ marginBottom: '60px' }}>
-              <Title level={2} style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)' }}>Onde será o Digitalent 26</Title>
-              <Paragraph style={{ fontSize: '1.2rem', color: '#94a3b8' }}>Prepare-se para um dia de imersão total no IEFP de Rio Meão.</Paragraph>
+              <Title level={2} style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', color: 'var(--text-main)' }}>Onde será o Digitalent 26</Title>
+              <Paragraph style={{ fontSize: '1.2rem', color: 'var(--text-sec)' }}>Prepare-se para um dia de imersão total no IEFP de Rio Meão.</Paragraph>
             </div>
 
             <Row gutter={[64, 64]} align="middle">
-              {/* Left Column: Contact & Details */}
               <Col xs={24} md={12}>
                 <Space orientation="vertical" size={40} style={{ width: '100%' }}>
                   <div>
                     <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', marginBottom: '32px' }}>
                       <EnvironmentOutlined style={{ fontSize: '28px', color: '#2563eb', marginTop: '5px' }} />
                       <div>
-                        <Text strong style={{ fontSize: '1.2rem', display: 'block', color: '#fff' }}>Endereço</Text>
-                        <Text style={{ fontSize: '1.1rem', color: '#94a3b8' }}>Av. Santiago 68-88, Rio Meão - Auditório do IEFP</Text>
+                        <Text strong style={{ fontSize: '1.2rem', display: 'block', color: 'var(--text-main)' }}>Endereço</Text>
+                        <Text style={{ fontSize: '1.1rem', color: 'var(--text-sec)' }}>Av. Santiago 68-88, Rio Meão - Auditório do IEFP</Text>
                       </div>
                     </div>
 
                     <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', marginBottom: '32px' }}>
                       <PhoneOutlined style={{ fontSize: '28px', color: '#2563eb', marginTop: '5px' }} />
                       <div>
-                        <Text strong style={{ fontSize: '1.2rem', display: 'block', color: '#fff' }}>Telefone</Text>
-                        <Text style={{ fontSize: '1.1rem', color: '#94a3b8' }}>999 999 999</Text>
+                        <Text strong style={{ fontSize: '1.2rem', display: 'block', color: 'var(--text-main)' }}>Telefone</Text>
+                        <Text style={{ fontSize: '1.1rem', color: 'var(--text-sec)' }}>999 999 999</Text>
                       </div>
                     </div>
 
                     <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', marginBottom: '32px' }}>
                       <MailOutlined style={{ fontSize: '28px', color: '#2563eb', marginTop: '5px' }} />
                       <div>
-                        <Text strong style={{ fontSize: '1.2rem', display: 'block', color: '#fff' }}>Email</Text>
-                        <Text style={{ fontSize: '1.1rem', color: '#94a3b8' }}>contato@digitalent.pt</Text>
+                        <Text strong style={{ fontSize: '1.2rem', display: 'block', color: 'var(--text-main)' }}>Email</Text>
+                        <Text style={{ fontSize: '1.1rem', color: 'var(--text-sec)' }}>contato@digitalent.pt</Text>
                       </div>
                     </div>
                   </div>
 
-                  <Card style={{ background: 'rgba(255, 255, 255, 0.02)', borderColor: 'rgba(203, 213, 225, 0.1)', borderRadius: '16px' }}>
+                  <Card style={{ background: 'var(--bg-alt)', borderColor: 'var(--border-color)', borderRadius: '16px' }}>
                     <Title level={5} style={{ color: '#2563eb', marginBottom: '16px' }}>Horário do Evento</Title>
                     <Space orientation="vertical" style={{ width: '100%' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Text>Início</Text>
-                        <Text strong color="#fff">10:00</Text>
+                        <Text style={{ color: 'var(--text-sec)' }}>Início</Text>
+                        <Text strong style={{ color: 'var(--text-main)' }}>10:00</Text>
                       </div>
-                      <Divider style={{ margin: '8px 0', borderColor: 'rgba(203, 213, 225, 0.05)' }} />
+                      <Divider style={{ margin: '8px 0', borderColor: 'var(--border-color)' }} />
                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Text>Almoço</Text>
-                        <Text strong color="#fff">12:00 - 13:00</Text>
+                        <Text style={{ color: 'var(--text-sec)' }}>Almoço</Text>
+                        <Text strong style={{ color: 'var(--text-main)' }}>12:00 - 13:00</Text>
                       </div>
-                      <Divider style={{ margin: '8px 0', borderColor: 'rgba(203, 213, 225, 0.05)' }} />
+                      <Divider style={{ margin: '8px 0', borderColor: 'var(--border-color)' }} />
                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Text>Encerramento</Text>
-                        <Text strong color="#fff">17:00</Text>
+                        <Text style={{ color: 'var(--text-sec)' }}>Encerramento</Text>
+                        <Text strong style={{ color: 'var(--text-main)' }}>17:00</Text>
                       </div>
                     </Space>
                   </Card>
                 </Space>
               </Col>
 
-              {/* Right Column: Interactive Map Placeholder */}
               <Col xs={24} md={12}>
                 <div style={{ 
                   position: 'relative', 
                   borderRadius: '30px', 
                   overflow: 'hidden', 
                   height: '500px',
-                  background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  background: 'var(--bg-alt)',
+                  border: '1px solid #e2e8f0',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
@@ -609,19 +662,18 @@ const LandingPage: React.FC = () => {
                   textAlign: 'center',
                   padding: '40px'
                 }}>
-                  {/* Decorative Map Pattern (Simplified) */}
                   <div style={{ 
                     position: 'absolute', 
                     top: 0, left: 0, right: 0, bottom: 0, 
-                    opacity: 0.1, 
+                    opacity: 0.05, 
                     backgroundImage: 'radial-gradient(#2563eb 1px, transparent 1px)', 
                     backgroundSize: '20px 20px' 
                   }} />
                   
                   <div style={{ position: 'relative', zIndex: 2 }}>
-                    <EnvironmentOutlined style={{ fontSize: '64px', color: '#2563eb', marginBottom: '24px', filter: 'drop-shadow(0 0 10px rgba(37, 99, 235, 0.5))' }} />
-                    <Title level={3} style={{ color: '#fff' }}>Localização Exata</Title>
-                    <Paragraph style={{ color: '#94a3b8', marginBottom: '40px' }}>
+                    <EnvironmentOutlined style={{ fontSize: '64px', color: '#2563eb', marginBottom: '24px' }} />
+                    <Title level={3} style={{ color: 'var(--text-main)' }}>Localização Exata</Title>
+                    <Paragraph style={{ color: 'var(--text-sec)', marginBottom: '40px' }}>
                       Auditório do IEFP - Rio Meão.<br />Estacionamento gratuito disponível no local.
                     </Paragraph>
                     
@@ -629,6 +681,7 @@ const LandingPage: React.FC = () => {
                       <Button 
                         block 
                         size="large" 
+                        type="primary"
                         icon={<GoogleOutlined />} 
                         href="https://www.google.com/maps/search/?api=1&query=Av.+Santiago+68-88,+Rio+Meão+-+Auditório+do+IEFP" 
                         target="_blank"
@@ -642,7 +695,7 @@ const LandingPage: React.FC = () => {
                         icon={<CompassOutlined />} 
                         href="https://waze.com/ul?q=Av.%20Santiago%2068-88,%20Rio%20Meão" 
                         target="_blank"
-                        style={{ height: '56px', borderRadius: '12px', fontSize: '1.1rem', fontWeight: 600, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff' }}
+                        style={{ height: '56px', borderRadius: '12px', fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-main)', borderColor: 'var(--border-color)' }}
                       >
                         Abrir no Waze
                       </Button>
@@ -654,27 +707,26 @@ const LandingPage: React.FC = () => {
           </section>
 
           {/* Registration Section */}
-          <section id="inscricao" style={{ padding: '120px 5%', background: '#0b0f19' }}>
+          <section id="inscricao" style={{ padding: '120px 5%', background: 'var(--bg-alt)' }}>
             <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-              <Title level={2} style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', color: '#f8fafc' }}>Garanta a Sua Presença</Title>
-              <Paragraph style={{ fontSize: '1.2rem', color: '#94a3b8' }}>Escolha a sua forma de participar na transformação digital de Rio Meão.</Paragraph>
+              <Title level={2} style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', color: 'var(--text-main)' }}>Garanta a Sua Presença</Title>
+              <Paragraph style={{ fontSize: '1.2rem', color: 'var(--text-sec)' }}>Escolha a sua forma de participar na transformação digital de Rio Meão.</Paragraph>
             </div>
 
             <Row justify="center">
               <Col xs={24} md={20} lg={16} xl={14}>
                 <div style={{ 
-                  background: 'rgba(255, 255, 255, 0.02)', 
-                  border: '1px solid rgba(255, 255, 255, 0.05)', 
+                  background:  'var(--card-bg)', 
+                  border: '1px solid #e2e8f0', 
                   borderRadius: '32px', 
                   padding: '40px',
-                  boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)'
+                  boxShadow: '0 20px 50px rgba(0, 0, 0, 0.05)'
                 }}>
                   <Tabs 
                     activeKey={activeTab}
                     onChange={(key) => setActiveTab(key)}
                     centered 
                     size="large"
-                    renderTabBar={() => <></>}
                     items={[
                       {
                         key: '1',
@@ -683,8 +735,8 @@ const LandingPage: React.FC = () => {
                           <div style={{ paddingTop: '30px' }}>
                             <div style={{ textAlign: 'center', marginBottom: '32px' }}>
                               <Badge count="100% Gratuito" style={{ backgroundColor: '#2563eb', padding: '0 15px', height: '30px', lineHeight: '30px', fontSize: '1rem', borderRadius: '15px' }} />
-                              <Title level={4} style={{ marginTop: '20px' }}>Ouvinte / Participante Local</Title>
-                              <Text style={{ color: '#94a3b8' }}>Acesso total às palestras, networking e recursos exclusivos do evento.</Text>
+                              <Title level={4} style={{ marginTop: '20px', color: 'var(--text-main)' }}>Ouvinte / Participante Local</Title>
+                              <Text style={{ color: 'var(--text-sec)' }}>Acesso total às palestras, networking e recursos exclusivos do evento.</Text>
                             </div>
 
                             <Form 
@@ -693,46 +745,42 @@ const LandingPage: React.FC = () => {
                             >
                               <Row gutter={16}>
                                 <Col xs={24} md={12}>
-                                  <Form.Item label="Nome Completo" name="nome" rules={[{ required: true, message: 'Por favor, insira o seu nome.' }]}>
-                                    <Input prefix={<UserOutlined />} placeholder="Ex: João Silva" size="large" />
+                                  <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Nome Completo</Text>} name="nome" rules={[{ required: true, message: 'Por favor, insira o seu nome.' }]}>
+                                    <Input prefix={<UserOutlined style={{ color: '#94a3b8' }} />} placeholder="Ex: João Silva" size="large" />
                                   </Form.Item>
                                 </Col>
                                 <Col xs={24} md={12}>
-                                  <Form.Item label="Telemóvel" name="telemovel" rules={[{ required: true, message: 'Por favor, insira o seu contacto.' }]}>
-                                    <Input prefix={<PhoneIcon />} placeholder="912 345 678" size="large" />
+                                  <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Telemóvel</Text>} name="telemovel" rules={[{ required: true, message: 'Por favor, insira o seu contacto.' }]}>
+                                    <Input prefix={<PhoneIcon style={{ color: '#94a3b8' }} />} placeholder="912 345 678" size="large" />
                                   </Form.Item>
                                 </Col>
                               </Row>
 
-                              <Form.Item label="E-mail Profissional" name="email" rules={[{ required: true, type: 'email', message: 'Insira um e-mail válido.' }]}>
-                                <Input prefix={<MailIcon />} placeholder="joao@empresa.pt" size="large" />
+                              <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>E-mail Profissional</Text>} name="email" rules={[{ required: true, type: 'email', message: 'Insira um e-mail válido.' }]}>
+                                <Input prefix={<MailIcon style={{ color: '#94a3b8' }} />} placeholder="joao@empresa.pt" size="large" />
                               </Form.Item>
 
-                              <Form.Item label="Nome da Empresa / Ramo (Opcional)" name="empresa">
-                                <Input prefix={<ShopOutlined />} placeholder="Ex: Café Central / Restauração" size="large" />
+                              <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Nome da Empresa / Ramo (Opcional)</Text>} name="empresa">
+                                <Input prefix={<ShopOutlined style={{ color: '#94a3b8' }} />} placeholder="Ex: Café Central / Restauração" size="large" />
                               </Form.Item>
 
                               <Form.Item style={{ marginTop: '40px' }}>
-                                <Space size="large">
-                                  <Button 
-                                    type="primary" 
-                                    size="large" 
-                                    shape="round" 
-                                    htmlType="submit"
-                                    loading={isSubmitting}
-                                    style={{ 
-                                      height: '60px', 
-                                      padding: '0 40px', 
-                                      fontSize: '1.1rem', 
-                                      fontWeight: 700,
-                                      background: 'linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%)',
-                                      border: 'none',
-                                      boxShadow: '0 10px 30px rgba(37, 99, 235, 0.4)'
-                                    }}
-                                  >
-                                    Quero me inscrever agora
-                                  </Button>
-                                </Space>
+                                <Button 
+                                  type="primary" 
+                                  size="large" 
+                                  shape="round" 
+                                  htmlType="submit"
+                                  block
+                                  loading={isSubmitting}
+                                  style={{ 
+                                    height: '60px', 
+                                    fontSize: '1.1rem', 
+                                    fontWeight: 700,
+                                    boxShadow: '0 4px 14px 0 rgba(37, 99, 235, 0.39)'
+                                  }}
+                                >
+                                  Quero me inscrever agora
+                                </Button>
                                 <Text type="secondary" style={{ display: 'block', textAlign: 'center', marginTop: '16px', fontSize: '0.85rem' }}>
                                   Ao inscrever-se, concorda com a nossa Política de Privacidade.
                                 </Text>
@@ -747,8 +795,8 @@ const LandingPage: React.FC = () => {
                         children: (
                           <div style={{ paddingTop: '30px' }}>
                             <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-                              <Title level={4}>Candidatura a Patrocínio</Title>
-                              <Text style={{ color: '#94a3b8' }}>Posicione a sua marca perante centenas de decisões locais e lidere o mercado.</Text>
+                              <Title level={4} style={{ color: 'var(--text-main)' }}>Candidatura a Patrocínio</Title>
+                              <Text style={{ color: 'var(--text-sec)' }}>Posicione a sua marca perante centenas de decisões locais e lidere o mercado.</Text>
                             </div>
 
                             <Form 
@@ -757,31 +805,31 @@ const LandingPage: React.FC = () => {
                             >
                               <Row gutter={16}>
                                 <Col xs={24} md={12}>
-                                  <Form.Item label="Nome da Empresa" name="empresa" rules={[{ required: true }]}>
-                                    <Input prefix={<ShopOutlined />} placeholder="Empresa S.A." size="large" />
+                                  <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Nome da Empresa</Text>} name="empresa" rules={[{ required: true }]}>
+                                    <Input prefix={<ShopOutlined style={{ color: '#94a3b8' }} />} placeholder="Empresa S.A." size="large" />
                                   </Form.Item>
                                 </Col>
                                 <Col xs={24} md={12}>
-                                  <Form.Item label="Nome do Responsável" name="responsavel" rules={[{ required: true }]}>
-                                    <Input prefix={<UserOutlined />} placeholder="Nome Completo" size="large" />
+                                  <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Nome do Responsável</Text>} name="responsavel" rules={[{ required: true }]}>
+                                    <Input prefix={<UserOutlined style={{ color: '#94a3b8' }} />} placeholder="Nome Completo" size="large" />
                                   </Form.Item>
                                 </Col>
                               </Row>
 
                               <Row gutter={16}>
                                 <Col xs={24} md={12}>
-                                  <Form.Item label="E-mail de Contacto" name="email" rules={[{ required: true, type: 'email' }]}>
-                                    <Input prefix={<MailIcon />} placeholder="email@empresa.pt" size="large" />
+                                  <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>E-mail de Contacto</Text>} name="email" rules={[{ required: true, type: 'email' }]}>
+                                    <Input prefix={<MailIcon style={{ color: '#94a3b8' }} />} placeholder="email@empresa.pt" size="large" />
                                   </Form.Item>
                                 </Col>
                                 <Col xs={24} md={12}>
-                                  <Form.Item label="Telemóvel" name="telemovel" rules={[{ required: true }]}>
-                                    <Input prefix={<PhoneIcon />} placeholder="9xx xxx xxx" size="large" />
+                                  <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Telemóvel</Text>} name="telemovel" rules={[{ required: true }]}>
+                                    <Input prefix={<PhoneIcon style={{ color: '#94a3b8' }} />} placeholder="9xx xxx xxx" size="large" />
                                   </Form.Item>
                                 </Col>
                               </Row>
 
-                              <Form.Item label="Nível de Interesse" name="nivel" rules={[{ required: true }]}>
+                              <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Nível de Interesse</Text>} name="nivel" rules={[{ required: true }]}>
                                 <Select size="large" placeholder="Selecione o nível de patrocínio">
                                   <Select.Option value="bronze">Passe Bronze</Select.Option>
                                   <Select.Option value="prata">Passe Prata</Select.Option>
@@ -790,27 +838,24 @@ const LandingPage: React.FC = () => {
                                 </Select>
                               </Form.Item>
 
-                              <Form.Item label="Objetivos no Evento" name="objetivos">
-                                <Input.TextArea rows={4} placeholder="Conte-nos brevemente o que espera alcançar com esta parceria..." style={{ borderRadius: '12px' }} />
+                              <Form.Item label={<Text strong style={{ color: 'var(--text-main)' }}>Objetivos no Evento</Text>} name="objetivos">
+                                <Input.TextArea rows={4} placeholder="Conte-nos brevemente o que espera alcançar com esta parceria..." style={{ borderRadius: '12px', background: 'var(--bg-alt)' }} />
                               </Form.Item>
 
                               <Form.Item style={{ marginTop: '40px' }}>
-                                  <Button 
+                                <Button 
                                   type="default" 
                                   htmlType="submit" 
                                   block 
                                   size="large" 
-                                  className="investor-btn"
                                   loading={isSubmitting}
                                   style={{ 
-                                    height: '64px', 
-                                    fontSize: '1.2rem', 
+                                    height: '60px', 
+                                    fontSize: '1.1rem', 
                                     fontWeight: 700, 
-                                    borderRadius: '16px',
-                                    border: '2px solid #cbd5e1',
-                                    background: 'transparent',
-                                    color: '#cbd5e1',
-                                    transition: 'all 0.3s ease'
+                                    borderRadius: '30px',
+                                    border: '2px solid #2563eb',
+                                    color: '#2563eb'
                                   }}
                                 >
                                   Enviar Candidatura a Patrocínio
@@ -830,12 +875,30 @@ const LandingPage: React.FC = () => {
 
         <Footer style={{ 
           textAlign: 'center', 
-          background: '#0b0f19', 
-          borderTop: '1px solid rgba(203, 213, 225, 0.1)',
+          background: 'var(--bg-base)', 
+          borderTop: '1px solid #e2e8f0',
           padding: '40px 0'
         }}>
-          <Text style={{ color: '#64748b' }}>
-            © {new Date().getFullYear()} Digitalent26 - Marketing com Visão. Todos os direitos reservados.
+          <Space size="large" style={{ marginBottom: '20px' }}>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-sec)', fontSize: '24px', transition: 'color 0.3s' }} className="social-icon">
+              <InstagramOutlined />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-sec)', fontSize: '24px', transition: 'color 0.3s' }} className="social-icon">
+              <LinkedinOutlined />
+            </a>
+          </Space>
+          <br />
+          <Text style={{ color: 'var(--text-sec)' }}>
+            © 2026 Digitalent26 - Marketing com Visão. Desenvolvido pela{' '}
+            <a 
+              href="https://fslsolution.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              style={{ color: '#2563eb', fontWeight: 600 }}
+            >
+              @FSLSolution
+            </a>
+            {' '} - Todos os direitos reservados.
           </Text>
         </Footer>
       </Layout>

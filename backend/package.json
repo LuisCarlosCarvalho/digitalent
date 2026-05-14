@@ -1,0 +1,26 @@
+{
+  "name": "digitalent26-backend",
+  "version": "1.0.0",
+  "description": "WhatsApp Automation Backend for Digitalent26",
+  "main": "server.ts",
+  "scripts": {
+    "start": "ts-node server.ts",
+    "dev": "ts-node-dev server.ts"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "pdfkit": "^0.13.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.15",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.8.10",
+    "@types/pdfkit": "^0.12.12",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
+  }
+}
