@@ -331,9 +331,10 @@ const LandingPage: React.FC = () => {
                     color: 'var(--text-sec)', 
                     maxWidth: '800px', 
                     margin: '0 auto 40px',
-                    lineHeight: 1.6
+                    lineHeight: 1.6,
+                    textAlign: 'justify'
                   }}>
-                    O Digital Talent ’26 nasce como o ponto de encontro de mentes inquietas que procuram transformar o futuro do mercado. Sob o conceito Marketing com Visão, o evento vai além das métricas superficiais, mergulhando nas estratégias e tendências que estão a redefinir a ligação entre marcas e pessoas. O evento reúne especialistas e talentos para oferecer uma experiência única a quem não quer apenas acompanhar a evolução digital, mas sim vivenciá-la com resultados reais.
+                    O Digital Talent ’26 nasce como ponto de encontro de mentes inquietas que procuram transformar o futuro do mercado. Sob o conceito Marketing com Visão, o evento vai além das métricas superficiais, mergulhando nas estratégias e tendências que estão a redefinir a ligação entre marcas e pessoas. O evento reúne especialistas e talentos para oferecer uma experiência única a quem não quer apenas acompanhar a evolução digital, mas sim vivenciá-la com resultados reais.
                   </Paragraph>
 
                   <Space size="middle" wrap style={{ justifyContent: 'center' }}>
