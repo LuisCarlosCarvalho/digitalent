@@ -441,7 +441,7 @@ const LandingPage: React.FC = () => {
           {/* Top Marquee Section */}
           <div
             style={{
-              padding: "24px 0",
+              padding: "24px 0 12px",
               background: "var(--header-bg)",
               borderBottom: "1px solid rgba(128, 128, 128, 0.1)",
               display: "flex",
@@ -466,48 +466,53 @@ const LandingPage: React.FC = () => {
               </Text>
             </div>
             <div
+              className="marquee-container"
               style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexWrap: "wrap",
-                gap: screens.xs ? "20px" : "40px",
+                margin: 0,
+                padding: "10px 0",
                 width: "100%",
-                maxWidth: "1200px",
-                padding: "0 20px",
+                maskImage:
+                  "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+                WebkitMaskImage:
+                  "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
               }}
             >
-              {[...Array(6)].map((_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: screens.xs ? "1 1 100px" : "0 0 auto",
-                    transition: "transform 0.3s ease, filter 0.3s ease",
-                  }}
-                  className="supporter-logo-container"
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "scale(1.05)";
-                    e.currentTarget.style.filter = "brightness(1.1)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "scale(1)";
-                    e.currentTarget.style.filter = "none";
-                  }}
-                >
-                  <img
-                    src="/client-logo-v2.png"
-                    alt={`Apoiador ${i + 1}`}
+              <div
+                className="marquee-content"
+                style={{
+                  animationDuration: "25s",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {/* Repetindo os logos para garantir scroll infinito contínuo e sem cortes */}
+                {[...Array(12)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="sponsor-logo"
                     style={{
-                      height: screens.xs ? "70px" : "100px",
-                      width: "auto",
-                      objectFit: "contain",
+                      margin: "0 20px",
+                      transition: "transform 0.3s ease",
                     }}
-                  />
-                </div>
-              ))}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "scale(1.05)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "scale(1)";
+                    }}
+                  >
+                    <img
+                      src="/client-logo-v2.png"
+                      alt={`Apoiador ${(i % 6) + 1}`}
+                      style={{
+                        height: screens.xs ? "70px" : "100px",
+                        width: "auto",
+                        objectFit: "contain",
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
