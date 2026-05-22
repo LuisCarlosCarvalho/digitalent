@@ -1086,20 +1086,10 @@ const LandingPage: React.FC = () => {
                                             fontSize: "0.85rem",
                                           }}
                                         >
-                                          <span style={{ color: "#ef4444" }}>
-                                            *
-                                          </span>{" "}
-                                          Telemóvel
+                                          Telemóvel (Opcional)
                                         </Text>
                                       }
                                       name="telemovel"
-                                      rules={[
-                                        {
-                                          required: true,
-                                          message:
-                                            "Por favor, insira o seu contacto.",
-                                        },
-                                      ]}
                                     >
                                       <Input
                                         prefix={
@@ -1470,11 +1460,10 @@ const LandingPage: React.FC = () => {
                                         strong
                                         style={{ color: "var(--text-main)" }}
                                       >
-                                        Telemóvel
+                                        Telemóvel (Opcional)
                                       </Text>
                                     }
                                     name="telemovel"
-                                    rules={[{ required: true }]}
                                   >
                                     <Input
                                       prefix={
