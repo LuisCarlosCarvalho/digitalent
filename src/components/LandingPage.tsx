@@ -37,6 +37,7 @@ import {
   PhoneOutlined as PhoneIcon,
   InstagramOutlined,
   LinkedinOutlined,
+  FacebookOutlined,
   DesktopOutlined,
   MoonOutlined,
   SunOutlined,
@@ -1574,7 +1575,7 @@ const LandingPage: React.FC = () => {
         >
           <Space size="large" style={{ marginBottom: "20px" }}>
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/digitalent26"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -1587,7 +1588,7 @@ const LandingPage: React.FC = () => {
               <InstagramOutlined />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/digitalent26"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -1598,6 +1599,19 @@ const LandingPage: React.FC = () => {
               className="social-icon"
             >
               <LinkedinOutlined />
+            </a>
+            <a
+              href="https://www.facebook.com/profile.php?id=61590137976137"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "var(--text-sec)",
+                fontSize: "24px",
+                transition: "color 0.3s",
+              }}
+              className="social-icon"
+            >
+              <FacebookOutlined />
             </a>
           </Space>
           <br />
