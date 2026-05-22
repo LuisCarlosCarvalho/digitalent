@@ -441,23 +441,17 @@ const LandingPage: React.FC = () => {
           {/* Top Marquee Section */}
           <div
             style={{
-              padding: "12px 0",
+              padding: "24px 0",
               background: "var(--header-bg)",
               borderBottom: "1px solid rgba(128, 128, 128, 0.1)",
-              overflow: "hidden",
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
+              justifyContent: "center",
+              gap: "16px",
             }}
           >
-            <div
-              style={{
-                padding: "0 5%",
-                marginRight: "20px",
-                zIndex: 2,
-                background: "var(--header-bg)",
-                position: "relative",
-              }}
-            >
+            <div style={{ textAlign: "center" }}>
               <Text
                 type="secondary"
                 style={{
@@ -465,40 +459,55 @@ const LandingPage: React.FC = () => {
                   textTransform: "uppercase",
                   fontSize: "0.75rem",
                   color: "var(--text-sec)",
-                  whiteSpace: "nowrap",
                   fontWeight: 600,
                 }}
               >
-                Marcas que Confiam
+                APOIADORES DO EVENTO:
               </Text>
             </div>
             <div
-              className="marquee-container"
               style={{
-                margin: 0,
-                flex: 1,
-                maskImage:
-                  "linear-gradient(to right, transparent, black 5%, black 95%, transparent)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: screens.xs ? "20px" : "40px",
+                width: "100%",
+                maxWidth: "1200px",
+                padding: "0 20px",
               }}
             >
-              <div
-                className="marquee-content"
-                style={{ animationDuration: "30s" }}
-              >
-                {[...Array(10)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="sponsor-logo"
-                    style={{ margin: "0 30px" }}
-                  >
-                    <img
-                      src="/client-logo-v2.png"
-                      alt={`Sponsor ${i + 1}`}
-                      style={{ height: "120px", objectFit: "contain" }}
-                    />
-                  </div>
-                ))}
-              </div>
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flex: screens.xs ? "1 1 100px" : "0 0 auto",
+                    transition: "transform 0.3s ease, filter 0.3s ease",
+                  }}
+                  className="supporter-logo-container"
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "scale(1.05)";
+                    e.currentTarget.style.filter = "brightness(1.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "scale(1)";
+                    e.currentTarget.style.filter = "none";
+                  }}
+                >
+                  <img
+                    src="/client-logo-v2.png"
+                    alt={`Apoiador ${i + 1}`}
+                    style={{
+                      height: screens.xs ? "70px" : "100px",
+                      width: "auto",
+                      objectFit: "contain",
+                    }}
+                  />
+                </div>
+              ))}
             </div>
           </div>
 
