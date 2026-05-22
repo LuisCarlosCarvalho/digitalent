@@ -208,7 +208,7 @@ const LandingPage: React.FC = () => {
         >
           <div style={{ display: "flex", alignItems: "center" }}>
             <img
-              src="https://i.imgur.com/UgYNeIO.png"
+              src="https://i.imgur.com/igLIB8c.png"
               alt="Digitalent26 Logo"
               style={{ height: "50px", width: "auto", marginRight: "10px" }}
             />
@@ -546,7 +546,7 @@ const LandingPage: React.FC = () => {
                 >
                   <div style={{ marginBottom: "30px" }}>
                     <img
-                      src="https://i.imgur.com/UgYNeIO.png"
+                      src="https://i.imgur.com/igLIB8c.png"
                       alt="Digitalent26 Large Logo"
                       style={{
                         maxWidth: "280px",
