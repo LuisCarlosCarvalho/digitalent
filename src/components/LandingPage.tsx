@@ -27,7 +27,6 @@ import {
 import {
   RocketOutlined,
   CalendarOutlined,
-  GlobalOutlined,
   TeamOutlined,
   RiseOutlined,
   CheckCircleOutlined,
@@ -570,40 +569,16 @@ const LandingPage: React.FC = () => {
                   size="large"
                   style={{ width: "100%" }}
                 >
-                  <div style={{ marginBottom: "30px" }}>
+                  <div style={{ marginBottom: "20px" }}>
                     <img
                       src="https://i.imgur.com/igLIB8c.png"
                       alt="Digitalent26 Large Logo"
                       style={{
-                        maxWidth: "280px",
+                        maxWidth: "380px",
                         width: "100%",
                         height: "auto",
                       }}
                     />
-                  </div>
-                  <div
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "10px",
-                      padding: "8px 16px",
-                      background: "rgba(37, 99, 235, 0.05)",
-                      borderRadius: "50px",
-                      border: "1px solid rgba(37, 99, 235, 0.1)",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <GlobalOutlined style={{ color: "#2563eb" }} />
-                    <Text
-                      style={{
-                        color: "#2563eb",
-                        fontWeight: 600,
-                        fontSize: "14px",
-                        letterSpacing: "1px",
-                      }}
-                    >
-                      MARKETING COM VISÃO
-                    </Text>
                   </div>
 
                   <Title
