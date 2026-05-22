@@ -145,3 +145,43 @@ body {
   color: #94a3b8 !important;
   font-weight: 400;
 }
+
+/* Efeito Dourado Premium para os Botões do Menu */
+.menu-link-btn {
+  color: var(--text-main) !important;
+  font-weight: 600 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+}
+
+.menu-link-btn:hover {
+  color: #d4af37 !important; /* Dourado Premium */
+  transform: translateY(-2px) scale(1.05);
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+/* Sublinhado Dourado animado ao passar o mouse apenas no desktop */
+.desktop-menu .menu-link-btn::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background: linear-gradient(90deg, #d4af37, #f3e5ab, #d4af37);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.desktop-menu .menu-link-btn:hover::after {
+  width: 70%;
+}
+
+/* Efeito ao clicar no botão */
+.menu-link-btn:active {
+  color: #b8902e !important; /* Dourado um pouco mais escuro ao clicar */
+  transform: translateY(0) scale(0.95);
+  transition: all 0.1s ease !important;
+}
+

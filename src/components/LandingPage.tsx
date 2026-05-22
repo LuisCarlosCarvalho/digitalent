@@ -240,6 +240,7 @@ const LandingPage: React.FC = () => {
               <Button
                 type="link"
                 href="#sobre"
+                className="menu-link-btn"
                 style={{ color: "var(--text-main)", fontWeight: 600 }}
               >
                 Sobre
@@ -247,6 +248,7 @@ const LandingPage: React.FC = () => {
               <Button
                 type="link"
                 href="#oradores"
+                className="menu-link-btn"
                 style={{ color: "var(--text-main)", fontWeight: 600 }}
               >
                 Oradores
@@ -254,6 +256,7 @@ const LandingPage: React.FC = () => {
               <Button
                 type="link"
                 href="#cronograma"
+                className="menu-link-btn"
                 style={{ color: "var(--text-main)", fontWeight: 600 }}
               >
                 Cronograma
@@ -261,6 +264,7 @@ const LandingPage: React.FC = () => {
               <Button
                 type="link"
                 href="#informacoes"
+                className="menu-link-btn"
                 style={{ color: "var(--text-main)", fontWeight: 600 }}
               >
                 Informações
@@ -352,6 +356,7 @@ const LandingPage: React.FC = () => {
                 type="link"
                 block
                 href="#sobre"
+                className="menu-link-btn"
                 onClick={() => setMobileMenuVisible(false)}
                 style={{
                   textAlign: "left",
@@ -369,6 +374,7 @@ const LandingPage: React.FC = () => {
                 type="link"
                 block
                 href="#oradores"
+                className="menu-link-btn"
                 onClick={() => setMobileMenuVisible(false)}
                 style={{
                   textAlign: "left",
@@ -386,6 +392,7 @@ const LandingPage: React.FC = () => {
                 type="link"
                 block
                 href="#cronograma"
+                className="menu-link-btn"
                 onClick={() => setMobileMenuVisible(false)}
                 style={{
                   textAlign: "left",
@@ -403,6 +410,7 @@ const LandingPage: React.FC = () => {
                 type="link"
                 block
                 href="#informacoes"
+                className="menu-link-btn"
                 onClick={() => setMobileMenuVisible(false)}
                 style={{
                   textAlign: "left",
