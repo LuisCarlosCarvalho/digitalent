@@ -21,6 +21,8 @@ import {
   Drawer,
   Grid,
   Spin,
+  Modal,
+  Checkbox,
 } from "antd";
 import {
   RocketOutlined,
@@ -106,6 +108,21 @@ const LandingPage: React.FC = () => {
   const [showStickyCTA, setShowStickyCTA] = useState(false);
 
   const screens = useBreakpoint();
+
+  const [hasConsented, setHasConsented] = useState(false);
+  const [gdprModalVisible, setGdprModalVisible] = useState(false);
+  const [gdprChecked, setGdprChecked] = useState(false);
+
+  const handleFormInteraction = (e: React.SyntheticEvent) => {
+    if (!hasConsented) {
+      e.preventDefault();
+      e.stopPropagation();
+      setGdprModalVisible(true);
+      if (e.target instanceof HTMLElement) {
+        e.target.blur();
+      }
+    }
+  };
 
   // Scroll listener for Sticky CTA
   useEffect(() => {
@@ -212,12 +229,7 @@ const LandingPage: React.FC = () => {
               alt="Digitalent26 Logo"
               style={{ height: "50px", width: "auto", marginRight: "10px" }}
             />
-            <Title
-              level={4}
-              style={{ margin: 0, color: "#2563eb", fontWeight: 800 }}
-            >
-              Digitalent26
-            </Title>
+
           </div>
 
           {screens.md && (
@@ -1021,12 +1033,13 @@ const LandingPage: React.FC = () => {
                                 }}
                               />
 
-                              <Form
-                                layout="vertical"
-                                onFinish={(values) =>
-                                  handleFormSubmit(values, "Participante")
-                                }
-                              >
+                              <div onClickCapture={handleFormInteraction} onFocusCapture={handleFormInteraction}>
+                                <Form
+                                  layout="vertical"
+                                  onFinish={(values) =>
+                                    handleFormSubmit(values, "Participante")
+                                  }
+                                >
                                 <Row gutter={16}>
                                   <Col xs={24} md={12}>
                                     <Form.Item
@@ -1188,6 +1201,7 @@ const LandingPage: React.FC = () => {
                                   </Button>
                                 </Form.Item>
                               </Form>
+                              </div>
 
                               {/* Benefits & Barcode Row */}
                               <div
@@ -1368,12 +1382,13 @@ const LandingPage: React.FC = () => {
                               </Text>
                             </div>
 
-                            <Form
-                              layout="vertical"
-                              onFinish={(values) =>
-                                handleFormSubmit(values, "Parceiro")
-                              }
-                            >
+                            <div onClickCapture={handleFormInteraction} onFocusCapture={handleFormInteraction}>
+                              <Form
+                                layout="vertical"
+                                onFinish={(values) =>
+                                  handleFormSubmit(values, "Parceiro")
+                                }
+                              >
                               <Row gutter={16}>
                                 <Col xs={24} md={12}>
                                   <Form.Item
@@ -1548,6 +1563,7 @@ const LandingPage: React.FC = () => {
                                 </Button>
                               </Form.Item>
                             </Form>
+                            </div>
                           </div>
                         ),
                       },
@@ -1645,6 +1661,52 @@ const LandingPage: React.FC = () => {
             </Button>
           </div>
         )}
+
+        <Modal
+          title="🔐 Privacidade e Proteção dos Seus Dados"
+          open={gdprModalVisible}
+          onCancel={() => setGdprModalVisible(false)}
+          footer={[
+            <Button key="cancel" onClick={() => setGdprModalVisible(false)}>
+              Cancelar
+            </Button>,
+            <Button 
+              key="submit" 
+              type="primary" 
+              disabled={!gdprChecked}
+              onClick={() => {
+                setHasConsented(true);
+                setGdprModalVisible(false);
+              }}
+            >
+              Confirmar
+            </Button>,
+          ]}
+        >
+          <Paragraph>
+            Na Digitalent, levamos a sua privacidade a sério. Os dados que partilha connosco são utilizados exclusivamente para gerir a sua inscrição ou proposta de parceria, bem como para comunicar consigo de forma relevante.
+          </Paragraph>
+          <Paragraph>
+            Tratamos os seus dados de forma segura e transparente, em conformidade com o RGPD e a legislação portuguesa em vigor.
+          </Paragraph>
+          <ul style={{ listStyleType: 'none', padding: 0 }}>
+            <li>✔ Utilizamos os seus dados apenas para as finalidades indicadas</li>
+            <li>✔ Não partilhamos informação sem fundamento legal</li>
+            <li>✔ Garantimos os seus direitos de acesso, alteração e eliminação</li>
+          </ul>
+          <Paragraph>
+            Poderá, a qualquer momento, solicitar a alteração ou remoção dos seus dados através de:<br />
+            📧 <strong>privacidade@digitalent.pt</strong>
+          </Paragraph>
+          
+          <Checkbox 
+            checked={gdprChecked} 
+            onChange={(e) => setGdprChecked(e.target.checked)}
+            style={{ marginTop: '16px', fontWeight: 500 }}
+          >
+            Ao prosseguir, está a concordar com o tratamento dos seus dados para estas finalidades.
+          </Checkbox>
+        </Modal>
       </Layout>
     </ConfigProvider>
   );
