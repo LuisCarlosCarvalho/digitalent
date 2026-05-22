@@ -316,7 +316,7 @@ const LandingPage: React.FC = () => {
                   padding: "0 30px",
                 }}
               >
-                Inscrição Gratuita
+                Garanta seu lugar
               </Button>
             )}
 
@@ -430,7 +430,7 @@ const LandingPage: React.FC = () => {
                   borderRadius: "8px",
                 }}
               >
-                Inscrição Gratuita
+                Garanta seu lugar
               </Button>
             </Space>
           </Drawer>
@@ -501,7 +501,7 @@ const LandingPage: React.FC = () => {
                     }}
                   >
                     <img
-                      src="/client-logo-v2.png"
+                      src="https://i.imgur.com/1USX4Kp.png"
                       alt={`Apoiador ${(i % 6) + 1}`}
                       style={{
                         height: screens.xs ? "70px" : "100px",
@@ -606,7 +606,7 @@ const LandingPage: React.FC = () => {
                       textAlign: "justify",
                     }}
                   >
-                    O Digital Talent ’26 nasce como ponto de encontro de mentes
+                    O Digital Talent’26 nasce como ponto de encontro de mentes
                     inquietas que procuram transformar o futuro do mercado. Sob
                     o conceito Marketing com Visão, o evento vai além das
                     métricas superficiais, mergulhando nas estratégias e
@@ -635,7 +635,7 @@ const LandingPage: React.FC = () => {
                         boxShadow: "0 10px 30px rgba(37, 99, 235, 0.2)",
                       }}
                     >
-                      Inscrição Gratuita
+                      Garanta seu lugar
                     </Button>
                     <Button
                       size="large"
@@ -1186,7 +1186,7 @@ const LandingPage: React.FC = () => {
                                       background: "#2563eb",
                                     }}
                                   >
-                                    Quero me inscrever agora
+                                    Garanta seu lugar
                                   </Button>
                                 </Form.Item>
                               </Form>
@@ -1506,7 +1506,7 @@ const LandingPage: React.FC = () => {
                                     Passe Ouro
                                   </Select.Option>
                                   <Select.Option value="investidor">
-                                    Quero ser Investidor Principal
+                                    Passe Apoiador  
                                   </Select.Option>
                                 </Select>
                               </Form.Item>
