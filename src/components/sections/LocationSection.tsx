@@ -9,12 +9,12 @@ const LocationSection: FC = () => {
   const screens = useBreakpoint();
 
   const sponsors = [
-    { name: 'Google', url: 'https://i.imgur.com/oBqyjs6.png' }, // Using logo for placeholder
-    { name: 'CISCO', url: 'https://i.imgur.com/oBqyjs6.png' },
-    { name: 'Letira', url: 'https://i.imgur.com/oBqyjs6.png' },
-    { name: 'Salesforce', url: 'https://i.imgur.com/oBqyjs6.png' },
-    { name: 'HubSpot', url: 'https://i.imgur.com/oBqyjs6.png' },
-    { name: 'Stripe', url: 'https://i.imgur.com/oBqyjs6.png' },
+    { name: 'Google', url: 'https://i.imgur.com/EpDGrzT.png' }, // Using logo for placeholder
+    { name: 'CISCO', url: 'https://i.imgur.com/EpDGrzT.png' },
+    { name: 'Letira', url: 'https://i.imgur.com/EpDGrzT.png' },
+    { name: 'Salesforce', url: 'https://i.imgur.com/EpDGrzT.png' },
+    { name: 'HubSpot', url: 'https://i.imgur.com/EpDGrzT.png' },
+    { name: 'Stripe', url: 'https://i.imgur.com/EpDGrzT.png' },
   ];
 
   return (
