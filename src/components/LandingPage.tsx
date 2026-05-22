@@ -153,7 +153,7 @@ const LandingPage: React.FC = () => {
   ) => {
     setIsSubmitting(true);
     try {
-      const env = (import.meta as any).env;
+      const env = (import.meta as unknown as { env: Record<string, string | undefined> }).env;
       const apiUrl = env.VITE_API_URL || "";
       const waToken = env.VITE_WHATSAPP_TOKEN || "";
 
