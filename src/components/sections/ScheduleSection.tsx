@@ -56,6 +56,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   ),
                   dot: <SolutionOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
                 },
+                <p>
                 {
                   children: (
                     <div style={{ textAlign: screens.xs ? 'left' : 'center', marginTop: '20px' }}>
@@ -64,6 +65,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   ),
                   dot: <ClockCircleOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
                 }
+                </p>
               ]}
             />
           </Col>

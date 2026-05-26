@@ -321,7 +321,7 @@ const LandingPage: React.FC = () => {
                   padding: "0 30px",
                 }}
               >
-                Garanta seu lugar
+                Garanta o seu lugar
               </Button>
             )}
 
@@ -439,7 +439,7 @@ const LandingPage: React.FC = () => {
                   borderRadius: "8px",
                 }}
               >
-                Garanta seu lugar
+                Garanta o seu lugar
               </Button>
             </Space>
           </Drawer>
@@ -644,7 +644,7 @@ const LandingPage: React.FC = () => {
                         boxShadow: "0 10px 30px rgba(37, 99, 235, 0.2)",
                       }}
                     >
-                      Garanta seu lugar
+                      Garanta o seu lugar
                     </Button>
                     <Button
                       size="large"
@@ -916,7 +916,7 @@ const LandingPage: React.FC = () => {
                   color: "var(--text-main)",
                 }}
               >
-                Garanta a Sua Presença
+                Garanta o seu lugar
               </Title>
               <Paragraph
                 style={{ fontSize: "1.2rem", color: "var(--text-sec)" }}
@@ -1185,7 +1185,7 @@ const LandingPage: React.FC = () => {
                                       background: "#2563eb",
                                     }}
                                   >
-                                    Garanta seu lugar
+                                    Garanta o seu lugar
                                   </Button>
                                 </Form.Item>
                               </Form>
