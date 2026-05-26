@@ -24,42 +24,50 @@ import {
   PhoneOutlined,
   SafetyCertificateOutlined,
   ArrowRightOutlined,
-  ArrowLeftOutlined,
   CheckCircleOutlined,
+  SettingOutlined,
+  SafetyOutlined,
+  AimOutlined,
+  FileTextOutlined,
+  TeamOutlined,
+  RocketOutlined,
+  TrophyOutlined,
+  CalendarOutlined,
+  EnvironmentOutlined,
 } from "@ant-design/icons";
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
 const { useBreakpoint } = Grid;
 
-// Premium Light Theme Token Configuration
-const lightThemeConfig = {
-  algorithm: theme.defaultAlgorithm,
+// Premium High-Tech Dark Theme Token Configuration
+const darkThemeConfig = {
+  algorithm: theme.darkAlgorithm,
   token: {
     colorPrimary: "#2563eb", // Royal Blue
-    colorBgBase: "#ffffff", // Pure White Background
-    colorTextBase: "#1e293b", // Slate 800 Dark Text
-    colorBgContainer: "#f8fafc", // Slate 50 Surface Background
+    colorBgBase: "#030712", // Deep slate background
+    colorTextBase: "#f8fafc", // Light gray/slate text
+    colorBgContainer: "#0b1329", // Deep slate surface
     borderRadius: 12,
     fontFamily: "'Outfit', sans-serif",
   },
   components: {
     Button: {
       colorPrimary: "#2563eb",
-      colorPrimaryHover: "#1d4ed8",
-      controlHeightLG: 56,
-      borderRadiusLG: 28,
+      colorPrimaryHover: "#3b82f6",
+      controlHeightLG: 52,
+      borderRadiusLG: 8,
     },
     Input: {
-      colorBgContainer: "#ffffff",
-      colorBorder: "#cbd5e1",
-      colorTextPlaceholder: "#94a3b8",
-      controlHeightLG: 50,
+      colorBgContainer: "#0f172a",
+      colorBorder: "#1e293b",
+      colorText: "#ffffff",
+      colorTextPlaceholder: "#64748b",
+      controlHeightLG: 48,
     },
     Card: {
-      colorBgContainer: "#f8fafc",
-      colorBorder: "#e2e8f0",
-      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)",
+      colorBgContainer: "#0b1329",
+      colorBorder: "rgba(37, 99, 235, 0.15)",
     },
     Checkbox: {
       colorPrimary: "#2563eb",
@@ -143,7 +151,6 @@ const InscricaoPage: React.FC = () => {
         placement: "topRight",
         style: {
           fontFamily: "'Outfit', sans-serif",
-          color: "#1e293b",
         },
       });
     } finally {
@@ -151,11 +158,47 @@ const InscricaoPage: React.FC = () => {
     }
   };
 
+  const triggerScrollToForm = () => {
+    const element = document.getElementById("passe-geral-form");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <ConfigProvider theme={lightThemeConfig}>
-      <Layout style={{ minHeight: "100vh", background: "#ffffff", position: "relative" }}>
+    <ConfigProvider theme={darkThemeConfig}>
+      <Layout style={{ minHeight: "100vh", background: "#020617", position: "relative", overflowX: "hidden" }}>
         
-        {/* Dossier Grid Pattern Overlay */}
+        {/* Custom CSS for Book Floating Animations & Neon Text Shadows */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          @keyframes floatBook {
+            0% { transform: rotateY(-25deg) rotateX(12deg) translateY(0px); }
+            50% { transform: rotateY(-25deg) rotateX(12deg) translateY(-12px); }
+            100% { transform: rotateY(-25deg) rotateX(12deg) translateY(0px); }
+          }
+          @keyframes pulseGlow {
+            0% { opacity: 0.4; transform: scale(0.95); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+            100% { opacity: 0.4; transform: scale(0.95); }
+          }
+          .floating-book {
+            animation: floatBook 6s infinite ease-in-out;
+          }
+          .neon-glow-platform {
+            animation: pulseGlow 3s infinite ease-in-out;
+          }
+          .glow-text {
+            color: #3b82f6;
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+          }
+          .card-hover:hover {
+            border-color: #2563eb !important;
+            box-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.15) !important;
+            transition: all 0.3s ease;
+          }
+        `}} />
+
+        {/* Global subtle radial gradient glow overlay */}
         <div
           style={{
             position: "absolute",
@@ -163,154 +206,285 @@ const InscricaoPage: React.FC = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundImage: "radial-gradient(#2563eb05 1px, transparent 1px)",
-            backgroundSize: "16px 16px",
+            backgroundImage: "radial-gradient(circle at 75% 20%, rgba(37, 99, 235, 0.12), transparent 45%), radial-gradient(circle at 20% 60%, rgba(37, 99, 235, 0.08), transparent 40%)",
             pointerEvents: "none",
             zIndex: 0,
           }}
         />
 
-        {/* Header Section */}
-        <Header
-          style={{
-            background: "rgba(255, 255, 255, 0.8)",
-            backdropFilter: "blur(8px)",
-            borderBottom: "1px solid #e2e8f0",
-            height: "70px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "0 5%",
-            position: "sticky",
-            top: 0,
-            zIndex: 10,
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={() => window.location.href = "/"}>
-            <ArrowLeftOutlined style={{ marginRight: "8px", color: "#2563eb", fontSize: "1.1rem" }} />
-            <Text strong style={{ color: "#64748b", fontSize: "0.95rem" }}>
-              Voltar ao Site Principal
-            </Text>
-          </div>
-          <div>
-            <img
-              src="https://i.imgur.com/EpDGrzT.png"
-              alt="Digitalent Logo"
-              style={{ height: "40px", width: "auto" }}
-            />
-          </div>
-        </Header>
-
-        {/* Content Body */}
-        <Content style={{ position: "relative", zIndex: 1, padding: screens.xs ? "32px 16px 80px" : "64px 24px 100px" }}>
+        {/* Main Content Body */}
+        <Content style={{ position: "relative", zIndex: 1, padding: screens.xs ? "24px 16px 140px" : "48px 24px 160px" }}>
           
-          {/* Main Dossier Container */}
           <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-            <Row justify="center">
-              <Col xs={24} sm={22} md={18} lg={13} style={{ textAlign: "center" }}>
+            
+            {/* TOP BAR BRAND ROW */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "40px" }}>
+              <div style={{ cursor: "pointer" }} onClick={() => window.location.href = "/"}>
+                <img
+                  src="https://i.imgur.com/EpDGrzT.png"
+                  alt="DigitalentLogo"
+                  style={{ height: "42px", width: "auto" }}
+                />
+              </div>
+              <Badge 
+                status="error" 
+                text={<span style={{ color: "#ef4444", fontWeight: 700, letterSpacing: "1.2px", fontSize: "11px" }}>🔒 RELATÓRIO SUBTERRÂNEO / INFORMAÇÃO RESTRITA</span>} 
+                style={{ background: "rgba(254, 242, 242, 0.05)", padding: "6px 18px", borderRadius: "50px", border: "1px solid rgba(239, 68, 68, 0.2)" }}
+              />
+            </div>
+
+            {/* TWO COLUMN GRID LAYOUT */}
+            <Row gutter={[40, 40]} justify="center" align="middle" style={{ marginBottom: "50px" }}>
+              
+              {/* LEFT COLUMN: Narrative & Info */}
+              <Col xs={24} lg={13} style={{ textAlign: "left" }}>
                 
-                {/* Logo top display */}
-                <div style={{ marginBottom: "32px", display: "inline-block", position: "relative" }}>
-                  <div 
-                    style={{ 
-                      position: "absolute", 
-                      width: "180px", 
-                      height: "180px", 
-                      background: "rgba(37, 99, 235, 0.08)", 
-                      filter: "blur(35px)", 
-                      borderRadius: "50%", 
-                      top: "50%", 
-                      left: "50%", 
-                      transform: "translate(-50%, -50%)", 
-                      zIndex: 0 
-                    }}
-                  />
-                  <img
-                    src="https://i.imgur.com/EpDGrzT.png"
-                    alt="Digitalent26 Logo"
-                    style={{ 
-                      width: "220px", 
-                      height: "auto", 
-                      position: "relative", 
-                      zIndex: 1, 
-                      filter: "drop-shadow(0px 10px 20px rgba(0,0,0,0.05))" 
-                    }}
-                  />
+                {/* Hero Headline */}
+                <Title level={1} style={{ color: "#ffffff", fontSize: screens.xs ? "30px" : "42px", fontWeight: 900, letterSpacing: "-1.5px", lineHeight: "1.2", marginBottom: "16px" }}>
+                  A vantagem invisível <br className="hidden-xs" />
+                  que está a redefinir <br className="hidden-xs" />
+                  o <span className="glow-text">marketing</span> em <span style={{ color: "#f97316" }}>2026</span>.
+                </Title>
+                
+                {/* Subheadline */}
+                <Paragraph style={{ color: "#94a3b8", fontSize: "15px", lineHeight: "1.6", fontWeight: 400, marginBottom: "24px" }}>
+                  Desvende os códigos exatos que empresas tradicionais aplicam para reter carteiras de clientes e gerar lucros maciços com a internet, totalmente blindados contra jargões técnicos ou agências abusivas.
+                </Paragraph>
+
+                {/* Concentric Circle Icon highlight */}
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+                  <div style={{ width: "24px", height: "24px", borderRadius: "50%", border: "2px solid #2563eb", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#2563eb" }} />
+                  </div>
+                  <Text style={{ color: "#cbd5e1", fontSize: "14.5px", fontWeight: 500 }}>
+                    O mapa de ação para explodir os seus resultados comerciais.
+                  </Text>
                 </div>
 
-                {/* Badge Restricted */}
-                <Space direction="vertical" size={12} style={{ width: "100%", marginBottom: "28px" }}>
-                  <Badge 
-                    status="error" 
-                    text={<span style={{ color: "#ef4444", fontWeight: 700, letterSpacing: "1.2px", fontSize: "11px" }}>⚠️ RELATÓRIO SUBTERRÂNEO / INFORMAÇÃO RESTRITA</span>} 
-                    style={{ background: "#fef2f2", padding: "6px 18px", borderRadius: "50px", border: "1px solid #fee2e2" }}
-                  />
-                  
-                  {/* Hero Headline */}
-                  <Title level={1} style={{ color: "#1e293b", fontSize: screens.xs ? "28px" : "38px", fontWeight: 900, letterSpacing: "-1.5px", lineHeight: "1.2", marginTop: "12px" }}>
-                    A vantagem invisível que está a redefinir o marketing em 2026.
-                  </Title>
-                  
-                  {/* Subheadline */}
-                  <Paragraph style={{ color: "#64748b", fontSize: "15px", maxWidth: "720px", margin: "0 auto", lineHeight: "1.6", fontWeight: 400 }}>
-                    Desvele os códigos exatos que empresas tradicionais aplicam para reter carteiras de clientes e gerar lucros maciços com a internet, totalmente blindados contra jargões técnicos ou agências abusivas. O mapa de ação para explodir os seus resultados comerciais.
-                  </Paragraph>
-
-                  {/* LinkedIn Certification Badge */}
-                  <div style={{ marginTop: "4px" }}>
-                    <Badge 
-                      count={
-                        <Space style={{ padding: "6px 14px", background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: "30px" }}>
-                          <SafetyCertificateOutlined style={{ color: "#2563eb", fontSize: "14px" }} /> 
-                          <span style={{ color: "#2563eb", fontWeight: 700, fontSize: "11px", letterSpacing: "0.3px" }}>
-                            Garante Credencial Digital Conectada ao LinkedIn (FUTURE-PROOF 2026)
-                          </span>
-                        </Space>
-                      }
-                    />
-                  </div>
-                </Space>
-
-                {/* The Hook Block (Secret Intelligence Dossier Styled Card) */}
-                <Card
-                  style={{
-                    background: "#f8fafc",
-                    border: "1px solid #e2e8f0",
-                    borderRadius: "16px",
-                    textAlign: "left",
-                    marginBottom: "32px",
-                    boxShadow: "0 4px 20px -2px rgba(37,99,235,0.02)"
-                  }}
-                  styles={{ body: { padding: "24px" } }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
-                    <LockOutlined style={{ color: "#2563eb", fontSize: "16px" }} />
-                    <span style={{ color: "#2563eb", fontWeight: 800, fontSize: "11px", textTransform: "uppercase", letterSpacing: "1px" }}>
-                      Dossiê Antidesperdício de Capital
+                {/* LinkedIn Badge */}
+                <div style={{ marginBottom: "32px" }}>
+                  <div
+                    style={{
+                      background: "rgba(37, 99, 235, 0.05)",
+                      border: "1px solid rgba(37, 99, 235, 0.3)",
+                      padding: "10px 18px",
+                      borderRadius: "30px",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      boxShadow: "0 2px 10px rgba(37, 99, 235, 0.05)",
+                    }}
+                  >
+                    <SafetyCertificateOutlined style={{ color: "#2563eb", fontSize: "14px" }} /> 
+                    <span style={{ color: "#3b82f6", fontWeight: 700, fontSize: "11px", letterSpacing: "0.3px" }}>
+                      Garanta Credencial Digital Conectada ao LinkedIn (FUTURE-PROOF 2026)
                     </span>
                   </div>
-                  <Title level={3} style={{ color: "#1e293b", marginTop: 0, fontSize: "19px", fontWeight: 800, letterSpacing: "-0.3px" }}>
+                </div>
+
+                {/* Dossier Card */}
+                <Card
+                  style={{
+                    background: "rgba(11, 19, 41, 0.65)",
+                    border: "1px solid rgba(37, 99, 235, 0.15)",
+                    borderRadius: "16px",
+                    boxShadow: "0 10px 30px -10px rgba(0,0,0,0.5)",
+                  }}
+                  styles={{ body: { padding: "28px" } }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                    <UserOutlined style={{ color: "#2563eb", fontSize: "16px" }} />
+                    <span style={{ color: "#2563eb", fontWeight: 800, fontSize: "11px", textTransform: "uppercase", letterSpacing: "1px" }}>
+                      DOSSIÊ ANTIDESPERDÍCIO DE CAPITAL
+                    </span>
+                  </div>
+                  
+                  <Title level={3} style={{ color: "#ffffff", marginTop: 0, fontSize: "19px", fontWeight: 800, letterSpacing: "-0.3px", marginBottom: "12px" }}>
                     O Raio-X Impiedoso aos Anúncios que Queimam o Seu Caixa
                   </Title>
-                  <Paragraph style={{ color: "#475569", fontSize: "13.5px", lineHeight: "1.6", margin: 0 }}>
-                    Cansado de ver o seu dinheiro sumir em orçamentos vazios sem retorno comercial palpável? No dia 9 de Julho, vamos auditar sem filtros as campanhas obsoletas que sabotam o seu negócio, entregando de bandeja as ferramentas táticas de conversão imediata.
+                  
+                  <Paragraph style={{ color: "#94a3b8", fontSize: "13.5px", lineHeight: "1.6", marginBottom: "28px" }}>
+                    Cansado de ver o seu dinheiro sumir em orçamentos vazios sem retorno comercial palpável? No dia <span style={{ color: "#2563eb", fontWeight: 600 }}>9 de Julho</span>, vamos auditar sem filtros as campanhas obsoletas que sabotam o seu negócio, entregando de bandeja as ferramentas táticas de conversão imediata.
                   </Paragraph>
+
+                  {/* 4 Columns Features Grid */}
+                  <Row gutter={[12, 16]}>
+                    {[
+                      { icon: <SettingOutlined />, label: "Estratégias que funcionam agora" },
+                      { icon: <LockOutlined />, label: "Conversão imediata e mensurável" },
+                      { icon: <SafetyOutlined />, label: "Proteção contra gastos inúteis" },
+                      { icon: <AimOutlined />, label: "Métodos usados pelos líderes de mercado" },
+                    ].map((feature, i) => (
+                      <Col xs={12} sm={6} key={i}>
+                        <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+                          <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "rgba(37, 99, 235, 0.08)", border: "1px solid rgba(37, 99, 235, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "15px", color: "#2563eb" }}>
+                            {feature.icon}
+                          </div>
+                          <Text style={{ color: "#94a3b8", fontSize: "11px", fontWeight: 500, lineHeight: "1.3", display: "block" }}>
+                            {feature.label}
+                          </Text>
+                        </div>
+                      </Col>
+                    ))}
+                  </Row>
                 </Card>
 
-                {/* Bloco de Formulário Clean e Focado */}
+              </Col>
+
+              {/* RIGHT COLUMN: 3D Book & Passe Geral Form */}
+              <Col xs={24} lg={11} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                
+                {/* Stunning 3D glowing Book Mockup */}
+                <div style={{ position: "relative", width: "260px", height: "330px", marginBottom: "40px", perspective: "1000px" }}>
+                  {/* Glowing platform on floor */}
+                  <div 
+                    className="neon-glow-platform"
+                    style={{
+                      position: "absolute",
+                      bottom: "-15px",
+                      left: "10%",
+                      width: "80%",
+                      height: "40px",
+                      background: "radial-gradient(ellipse, rgba(37, 99, 235, 0.3) 0%, transparent 70%)",
+                      borderRadius: "50%",
+                      zIndex: 0
+                    }} 
+                  />
+                  
+                  {/* Glowing circular rings */}
+                  <div style={{
+                    position: "absolute",
+                    bottom: "-18px",
+                    left: "5%",
+                    width: "90%",
+                    height: "45px",
+                    border: "2px solid rgba(37, 99, 235, 0.35)",
+                    borderRadius: "50%",
+                    transform: "rotateX(75deg)",
+                    boxShadow: "0 0 25px rgba(37, 99, 235, 0.5)",
+                    zIndex: 0
+                  }} />
+                  <div style={{
+                    position: "absolute",
+                    bottom: "-25px",
+                    left: "-5%",
+                    width: "110%",
+                    height: "55px",
+                    border: "1px solid rgba(37, 99, 235, 0.15)",
+                    borderRadius: "50%",
+                    transform: "rotateX(75deg)",
+                    boxShadow: "0 0 35px rgba(37, 99, 235, 0.2)",
+                    zIndex: 0
+                  }} />
+
+                  {/* Actual 3D Book */}
+                  <div className="floating-book" style={{
+                    width: "100%",
+                    height: "100%",
+                    position: "relative",
+                    transform: "rotateY(-25deg) rotateX(12deg)",
+                    transformStyle: "preserve-3d",
+                    zIndex: 1,
+                  }}>
+                    {/* Spine */}
+                    <div style={{
+                      position: "absolute",
+                      width: "24px",
+                      height: "100%",
+                      background: "linear-gradient(90deg, #090e1f 0%, #1e3a8a 50%, #090e1f 100%)",
+                      transform: "rotateY(-90deg) translateZ(12px)",
+                      transformOrigin: "left center",
+                      borderLeft: "1px solid rgba(255, 255, 255, 0.1)",
+                      borderRadius: "2px 0 0 2px"
+                    }} />
+                    
+                    {/* Front Cover */}
+                    <div style={{
+                      position: "absolute",
+                      width: "100%",
+                      height: "100%",
+                      background: "linear-gradient(135deg, #080f27 0%, #0b1329 100%)",
+                      transform: "translateZ(12px)",
+                      borderRadius: "0 8px 8px 0",
+                      border: "1px solid rgba(37, 99, 235, 0.35)",
+                      boxShadow: "inset 0 0 25px rgba(37, 99, 235, 0.25), 15px 15px 35px rgba(0,0,0,0.6)",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "20px",
+                      boxSizing: "border-box"
+                    }}>
+                      <div style={{
+                        border: "1px dashed rgba(37, 99, 235, 0.3)",
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "6px",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "16px",
+                        boxSizing: "border-box",
+                        position: "relative"
+                      }}>
+                        <Text style={{
+                          fontSize: "10px",
+                          fontWeight: 800,
+                          color: "#3b82f6",
+                          letterSpacing: "2.5px",
+                          textTransform: "uppercase",
+                          marginBottom: "16px"
+                        }}>
+                          DOSSIÊ
+                        </Text>
+                        <Title level={4} style={{
+                          color: "#ffffff",
+                          fontWeight: 900,
+                          textAlign: "center",
+                          fontSize: "16px",
+                          margin: "0 0 24px 0",
+                          letterSpacing: "0.5px",
+                          lineHeight: "1.4"
+                        }}>
+                          ANTIDESPERDÍCIO<br/>DE CAPITAL
+                        </Title>
+                        <div style={{
+                          width: "44px",
+                          height: "44px",
+                          borderRadius: "50%",
+                          background: "rgba(37, 99, 235, 0.08)",
+                          border: "1px solid rgba(37, 99, 235, 0.3)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          boxShadow: "0 0 15px rgba(37, 99, 235, 0.25)"
+                        }}>
+                          <LockOutlined style={{ color: "#3b82f6", fontSize: "18px" }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Form Box */}
                 <div
-                  style={{ 
-                    background: "#ffffff", 
-                    border: "1px solid #e2e8f0", 
-                    padding: screens.xs ? "24px 20px" : "36px", 
-                    borderRadius: "20px", 
-                    boxShadow: "0 20px 25px -5px rgba(0,0,0,0.02), 0 10px 10px -5px rgba(0,0,0,0.02)" 
+                  id="passe-geral-form"
+                  style={{
+                    background: "rgba(11, 19, 41, 0.7)",
+                    border: "1px solid rgba(37, 99, 235, 0.15)",
+                    padding: screens.xs ? "24px 20px" : "36px",
+                    borderRadius: "16px",
+                    boxShadow: "0 20px 25px -5px rgba(0,0,0,0.3), 0 10px 10px -5px rgba(0,0,0,0.3)",
+                    width: "100%",
+                    maxWidth: "460px",
                   }}
                 >
-                  <Title level={4} style={{ color: "#1e293b", marginBottom: "4px", fontWeight: 800, fontSize: "18px" }}>
-                    Passe Geral (Acesso Isento de Custos)
+                  <Title level={4} style={{ color: "#ffffff", marginBottom: "4px", fontWeight: 800, fontSize: "18px", textAlign: "center" }}>
+                    PASSE GERAL<br />
+                    <span style={{ color: "#3b82f6", fontSize: "14px" }}>(ACESSO ISENTO DE CUSTOS)</span>
                   </Title>
-                  <Paragraph style={{ color: "#64748b", marginBottom: "24px", fontSize: "13px" }}>
+                  <Paragraph style={{ color: "#94a3b8", marginBottom: "24px", fontSize: "13px", textAlign: "center" }}>
                     Insira os seus dados de verificação abaixo para emitir a sua credencial operacional e aceder ao ecossistema.
                   </Paragraph>
 
@@ -321,10 +495,10 @@ const InscricaoPage: React.FC = () => {
                         rules={[{ required: true, message: "Por favor, indique o seu nome completo." }]}
                       >
                         <Input 
-                          prefix={<UserOutlined style={{ color: "#94a3b8" }} />} 
+                          prefix={<UserOutlined style={{ color: "#475569" }} />} 
                           placeholder="Nome do Proprietário / Diretor" 
                           size="large" 
-                          style={{ borderRadius: "8px", height: "44px" }} 
+                          style={{ background: "#0f172a", border: "1px solid #1e293b", color: "#ffffff" }} 
                         />
                       </Form.Item>
 
@@ -336,10 +510,10 @@ const InscricaoPage: React.FC = () => {
                         ]}
                       >
                         <Input 
-                          prefix={<MailOutlined style={{ color: "#94a3b8" }} />} 
+                          prefix={<MailOutlined style={{ color: "#475569" }} />} 
                           placeholder="E-mail de Contacto Direto" 
                           size="large" 
-                          style={{ borderRadius: "8px", height: "44px" }} 
+                          style={{ background: "#0f172a", border: "1px solid #1e293b", color: "#ffffff" }} 
                         />
                       </Form.Item>
 
@@ -348,14 +522,14 @@ const InscricaoPage: React.FC = () => {
                         rules={[{ required: true, message: "Introduza o seu telemóvel." }]}
                       >
                         <Input 
-                          prefix={<PhoneOutlined style={{ color: "#94a3b8" }} />} 
+                          prefix={<PhoneOutlined style={{ color: "#475569" }} />} 
                           placeholder="Telemóvel Corporativo (WhatsApp)" 
                           size="large" 
-                          style={{ borderRadius: "8px", height: "44px" }} 
+                          style={{ background: "#0f172a", border: "1px solid #1e293b", color: "#ffffff" }} 
                         />
                       </Form.Item>
 
-                      <Form.Item style={{ marginBottom: 0, marginTop: "28px" }}>
+                      <Form.Item style={{ marginBottom: 0, marginTop: "24px" }}>
                         <Button 
                           type="primary" 
                           htmlType="submit" 
@@ -363,7 +537,6 @@ const InscricaoPage: React.FC = () => {
                           loading={loading}
                           disabled={loading}
                           block
-                          icon={<ArrowRightOutlined />}
                           style={{
                             height: "50px",
                             background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
@@ -372,27 +545,149 @@ const InscricaoPage: React.FC = () => {
                             fontWeight: 700,
                             fontSize: "15px",
                             letterSpacing: "0.5px",
-                            boxShadow: "0 4px 14px rgba(37,99,235,0.25)"
+                            boxShadow: "0 4px 14px rgba(37,99,235,0.3)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "8px"
                           }}
                         >
-                          DESBLOQUEAR MEU ACESSO GRATUITO
+                          <span>DESBLOQUEAR MEU ACESSO GRATUITO</span>
+                          <ArrowRightOutlined />
                         </Button>
                       </Form.Item>
                     </Form>
                   </div>
                 </div>
 
-                {/* Footer Brand Info */}
-                <div style={{ textAlign: "center", marginTop: "40px", color: "#64748b", fontSize: "0.8rem" }}>
-                  Digitalent.pt © 2026. Todos os direitos reservados.
-                  <br />
-                  Evento presencial no Auditório do IEFP Rio Meão.
-                </div>
-
               </Col>
             </Row>
+
+            {/* HORIZONTAL INFO ROW (Divider + Details) */}
+            <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "24px", marginBottom: "50px" }}>
+              <Row gutter={[20, 20]} justify="space-between" align="middle" style={{ textAlign: "center" }}>
+                <Col xs={24} md={6}>
+                  <Space style={{ color: "#94a3b8" }}>
+                    <CalendarOutlined style={{ color: "#2563eb" }} />
+                    <Text strong style={{ color: "#cbd5e1" }}>09 DE JULHO, 2026</Text>
+                  </Space>
+                </Col>
+                <Col xs={24} md={8}>
+                  <Space style={{ color: "#94a3b8" }}>
+                    <EnvironmentOutlined style={{ color: "#2563eb" }} />
+                    <Text strong style={{ color: "#cbd5e1" }}>AUDITÓRIO DO IEFP RIO MAIOR</Text>
+                  </Space>
+                </Col>
+                <Col xs={24} md={5}>
+                  <Space style={{ color: "#94a3b8" }}>
+                    <SafetyCertificateOutlined style={{ color: "#2563eb" }} />
+                    <Text strong style={{ color: "#cbd5e1" }}>EVENTO PRESENCIAL</Text>
+                  </Space>
+                </Col>
+                <Col xs={24} md={5}>
+                  <Text style={{ color: "#64748b", fontSize: "11px" }}>
+                    Digitalent.pt © 2026. Todos os direitos reservados.
+                  </Text>
+                </Col>
+              </Row>
+            </div>
+
+            {/* BENEFIT SECTION: O QUE VAI RECEBER AO GARANTIR O SEU ACESSO */}
+            <div style={{ textAlign: "center", marginBottom: "60px" }}>
+              <Text style={{ color: "#3b82f6", fontWeight: 800, fontSize: "11px", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: "32px" }}>
+                O QUE VAI RECEBER AO GARANTIR O SEU ACESSO
+              </Text>
+              
+              <Row gutter={[24, 24]}>
+                {[
+                  { icon: <FileTextOutlined />, title: "RELATÓRIO EXCLUSIVO", desc: "Dossier Antidesperdício de Capital" },
+                  { icon: <TrophyOutlined />, title: "CREDENCIAL DIGITAL", desc: "Conectada ao LinkedIn (FUTURE-PROOF 2026)" },
+                  { icon: <TeamOutlined />, title: "ACESSO À COMUNIDADE", desc: "Networking com profissionais de alta performance" },
+                  { icon: <RocketOutlined />, title: "ATUALIZAÇÕES ESTRATÉGICAS", desc: "Conteúdos e ferramentas de aplicação imediata" },
+                ].map((item, i) => (
+                  <Col xs={24} sm={12} md={6} key={i}>
+                    <Card
+                      className="card-hover"
+                      style={{
+                        background: "rgba(11, 19, 41, 0.4)",
+                        border: "1px solid rgba(255,255,255,0.04)",
+                        borderRadius: "12px",
+                        textAlign: "center",
+                        height: "100%",
+                      }}
+                      styles={{ body: { padding: "24px 16px" } }}
+                    >
+                      <div style={{ width: "44px", height: "44px", borderRadius: "50%", background: "rgba(37, 99, 235, 0.08)", border: "1px solid rgba(37, 99, 235, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", color: "#2563eb", margin: "0 auto 16px" }}>
+                        {item.icon}
+                      </div>
+                      <Text strong style={{ color: "#3b82f6", fontSize: "11px", letterSpacing: "1px", display: "block", marginBottom: "8px" }}>
+                        {item.title}
+                      </Text>
+                      <Text style={{ color: "#94a3b8", fontSize: "13px", fontWeight: 400, display: "block", lineHeight: "1.4" }}>
+                        {item.desc}
+                      </Text>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </div>
+
           </div>
         </Content>
+
+        {/* BOTTOM STICKY BANNER BAR */}
+        <div
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            background: "rgba(2, 6, 23, 0.95)",
+            backdropFilter: "blur(12px)",
+            borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+            padding: "16px 5%",
+            zIndex: 999,
+            display: "flex",
+            flexDirection: screens.xs ? "column" : "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "16px"
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <img
+              src="https://i.imgur.com/EpDGrzT.png"
+              alt="Digitalent26"
+              style={{ height: "30px", width: "auto" }}
+            />
+          </div>
+          
+          <Text style={{ color: "#ffffff", fontSize: screens.xs ? "13px" : "15px", fontWeight: 700, letterSpacing: "0.5px", textAlign: "center" }}>
+            O FUTURO DO MARKETING COMEÇA COM <span style={{ color: "#f97316" }}>UMA DECISÃO.</span>
+          </Text>
+          
+          <Button
+            type="primary"
+            onClick={triggerScrollToForm}
+            style={{
+              height: "44px",
+              background: "#f97316",
+              borderColor: "#f97316",
+              color: "#ffffff",
+              fontWeight: 800,
+              fontSize: "13px",
+              padding: "0 24px",
+              boxShadow: "0 4px 15px rgba(249, 115, 22, 0.35)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              borderRadius: "6px"
+            }}
+          >
+            <span>GARANTA JÁ O SEU ACESSO GRATUITO</span>
+            <ArrowRightOutlined />
+          </Button>
+        </div>
 
         {/* GDPR Privacy Modal */}
         <Modal
@@ -413,10 +708,10 @@ const InscricaoPage: React.FC = () => {
           centered
           width={500}
         >
-          <Paragraph>
+          <Paragraph style={{ color: "#475569" }}>
             Na Digitalent, levamos a privacidade da tua empresa a sério. Os dados fornecidos são utilizados para processar a tua credencial de ouvinte oficial, enviar o comprovativo digital e dar-te suporte para o evento.
           </Paragraph>
-          <Paragraph>
+          <Paragraph style={{ color: "#475569" }}>
             Ao inscrever-te, estás a concordar com as seguintes diretrizes:
           </Paragraph>
           <ul style={{ paddingLeft: "20px", color: "#475569", marginBottom: "20px" }}>
@@ -444,8 +739,9 @@ const InscricaoPage: React.FC = () => {
             body: {
               padding: "40px 24px",
               textAlign: "center",
-              background: "#ffffff",
+              background: "#0b1329",
               borderRadius: "16px",
+              border: "1px solid rgba(37, 99, 235, 0.2)"
             }
           }}
         >
@@ -454,23 +750,23 @@ const InscricaoPage: React.FC = () => {
               style={{
                 width: "72px",
                 height: "72px",
-                background: "#f0fdf4",
+                background: "rgba(34, 197, 94, 0.1)",
                 borderRadius: "50%",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 marginBottom: "24px",
-                border: "2px solid #bbf7d0",
+                border: "2px solid rgba(34, 197, 94, 0.3)",
               }}
             >
               <CheckCircleOutlined style={{ fontSize: "36px", color: "#22c55e" }} />
             </div>
             
-            <Title level={2} style={{ color: "#1e293b", fontWeight: 900, fontSize: "24px", marginBottom: "12px", letterSpacing: "-0.01em" }}>
+            <Title level={2} style={{ color: "#ffffff", fontWeight: 900, fontSize: "24px", marginBottom: "12px", letterSpacing: "-0.01em" }}>
               Dossier Desbloqueado com Sucesso!
             </Title>
             
-            <Paragraph style={{ color: "#475569", fontSize: "15px", lineHeight: 1.6, marginBottom: "32px" }}>
+            <Paragraph style={{ color: "#94a3b8", fontSize: "15px", lineHeight: 1.6, marginBottom: "32px" }}>
               O teu documento operacional exclusivo e o bilhete digital foram enviados para a nossa central de atendimento via WhatsApp. Vemo-nos no evento!
             </Paragraph>
             
