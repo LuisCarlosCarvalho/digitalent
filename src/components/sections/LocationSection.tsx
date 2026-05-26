@@ -22,7 +22,7 @@ const LocationSection: FC = () => {
       {/* Sponsors Grid Section */}
       <div style={{ padding: screens.xs ? '60px 5%' : '80px 5%', textAlign: 'center' }}>
         <Title level={3} style={{ color: '#1e293b', marginBottom: '40px', fontWeight: 700 }}>
-          Parceiros de Confiança
+          Agradecimentos 
         </Title>
         
         <Row gutter={[32, 32]} justify="center" align="middle">
@@ -119,7 +119,7 @@ const LocationSection: FC = () => {
               
               <Paragraph style={{ color: '#475569', fontSize: '1.1rem', marginBottom: '32px', lineHeight: 1.6 }}>
                 Auditório do IEFP - Rio Meão.<br />
-                Estacionamento gratuito disponível no local.
+                Morada. Av. de Santiago, 88, 4520-462 Rio Meã.
               </Paragraph>
 
               <Space direction="vertical" size="middle" style={{ width: '100%' }}>

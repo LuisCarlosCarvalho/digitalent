@@ -1365,8 +1365,8 @@ const LandingPage: React.FC = () => {
                                 Candidatura a Patrocínio
                               </Title>
                               <Text style={{ color: "var(--text-sec)" }}>
-                                Posicione a sua marca perante centenas de
-                                decisões locais e lidere o mercado.
+                                Posicione a sua marca diante de
+                                empresas e lidere o mercado.
                               </Text>
                             </div>
 
