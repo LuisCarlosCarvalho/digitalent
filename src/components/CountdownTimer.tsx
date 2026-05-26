@@ -9,7 +9,7 @@ interface CountdownTimerProps {
 
 export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false }) => {
   const [timeLeft, setTimeLeft] = useState({
-    days: '000',
+    days: '00',
     hours: '00',
     minutes: '00',
     seconds: '00',
@@ -17,7 +17,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false 
   });
 
   useEffect(() => {
-    const targetDate = new Date('2026-07-09T00:00:00').getTime();
+    const targetDate = new Date('2026-07-09T09:00:00').getTime();
 
     const updateTimer = () => {
       const now = new Date().getTime();
@@ -25,7 +25,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false 
 
       if (difference <= 0) {
         setTimeLeft({
-          days: '000',
+          days: '00',
           hours: '00',
           minutes: '00',
           seconds: '00',
@@ -40,7 +40,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false 
       const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
       setTimeLeft({
-        days: String(days).padStart(3, '0'),
+        days: String(days).padStart(2, '0'),
         hours: String(hours).padStart(2, '0'),
         minutes: String(minutes).padStart(2, '0'),
         seconds: String(seconds).padStart(2, '0'),
@@ -143,7 +143,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false 
         {/* Countdown Digital Section */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
           {/* Days */}
-          <div style={digitBlockStyle(compact ? '30px' : '40px')}>
+          <div style={digitBlockStyle(compact ? '20px' : '28px')}>
             <span className="notranslate" style={numberStyle}>{timeLeft.days}</span>
             <span className="notranslate" style={labelStyle}>Dias</span>
           </div>
