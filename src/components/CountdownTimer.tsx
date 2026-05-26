@@ -17,7 +17,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false 
   });
 
   useEffect(() => {
-    const targetDate = new Date('2026-07-09T09:00:00').getTime();
+    const targetDate = new Date('2026-07-09T00:00:00').getTime();
 
     const updateTimer = () => {
       const now = new Date().getTime();
