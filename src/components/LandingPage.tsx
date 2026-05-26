@@ -45,6 +45,7 @@ import {
 const SpeakersSection = lazy(() => import("./sections/SpeakersSection"));
 const LocationSection = lazy(() => import("./sections/LocationSection"));
 const ScheduleSection = lazy(() => import("./sections/ScheduleSection"));
+import { CountdownTimer } from "./CountdownTimer";
 
 const { Header, Content, Footer } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -221,13 +222,13 @@ const LandingPage: React.FC = () => {
             height: "80px",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             <img
               src="https://i.imgur.com/EpDGrzT.png"
               alt="Digitalent26 Logo"
-              style={{ height: "50px", width: "auto", marginRight: "10px" }}
+              style={{ height: "50px", width: "auto" }}
             />
-
+            {screens.md && <CountdownTimer compact />}
           </div>
 
           {screens.md && (
@@ -586,6 +587,11 @@ const LandingPage: React.FC = () => {
                         height: "auto",
                       }}
                     />
+                  </div>
+
+                  {/* Prominent Hero Countdown Timer */}
+                  <div style={{ marginBottom: "10px" }}>
+                    <CountdownTimer />
                   </div>
 
                   <Title

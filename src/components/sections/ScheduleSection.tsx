@@ -22,47 +22,254 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
         </div>
         
         <Row justify="center">
-          <Col xs={24} md={18} lg={12}>
+          <Col xs={24} md={22} lg={18}>
             <Timeline
-              mode={screens.xs ? 'left' : 'alternate'}
+              mode="left"
               items={[
                 {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 700 }}>09:00</Text>,
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>09h00 - 09h20</Text>,
                   children: (
-                    <div style={{ textAlign: screens.xs ? 'left' : 'left', marginBottom: '40px' }}>
-                      <Title level={4} style={{ color: 'var(--text-main)' }}>Abertura & Desmistificação</Title>
-                      <Text type="secondary" style={{ color: 'var(--text-sec)' }}>O marketing digital para pequenos negócios sem complicações.</Text>
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Check-in & Receção de Participantes
+                      </Title>
+                      <Text style={{ color: 'var(--text-sec)', fontSize: '0.95rem' }}>
+                        Acolhimento dos participantes e entrega de credenciais e materiais exclusivos do evento.
+                      </Text>
                     </div>
                   ),
-                  dot: <BulbOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
+                  dot: <ClockCircleOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
                 },
                 {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 700 }}>10:30</Text>,
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>09h20 - 09h50</Text>,
                   children: (
-                    <div style={{ textAlign: screens.xs ? 'left' : 'right', marginBottom: '40px' }}>
-                      <Title level={4} style={{ color: 'var(--text-main)' }}>Tráfego Pago Local</Title>
-                      <Text type="secondary" style={{ color: 'var(--text-sec)' }}>Como usar Google e Meta Ads para atrair clientes à sua porta.</Text>
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Sessão de Abertura Oficial
+                      </Title>
+                      <div style={{ marginTop: '8px' }}>
+                        <div style={{ marginBottom: '4px' }}>
+                          <Text style={{ color: 'var(--text-sec)', fontSize: '0.95rem' }}>• Intervenção institucional: </Text>
+                          <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Dr.ª Presidente do IEFP</Text>
+                        </div>
+                        <div>
+                          <Text style={{ color: 'var(--text-sec)', fontSize: '0.95rem' }}>• Coordenadora da Ação de Formação: </Text>
+                          <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Dr.ª Fernanda Cardoso</Text>
+                        </div>
+                      </div>
+                    </div>
+                  ),
+                  dot: <BulbOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>09h50 - 10h20</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Palestra: Estratégia Digital & Gestão de Marcas
+                      </Title>
+                      <div style={{ marginTop: '4px' }}>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradora: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Beatriz Andrade Ferreira</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Senior Global Brand Manager - Mimosa na Lactogal)</Text>
+                      </div>
+                    </div>
+                  ),
+                  dot: <RocketOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>10h20 - 10h50</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Palestra: Entre Dados e Decisões: A Nova Estrutura do Talento e do Desempenho no Digital
+                      </Title>
+                      <div style={{ marginTop: '4px' }}>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Sérgio Vieira</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Head of Sales & Innovation na Elevus Group)</Text>
+                      </div>
+                    </div>
+                  ),
+                  dot: <SolutionOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#059669', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>10h50 - 11h20</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px', background: 'rgba(5, 150, 105, 0.04)', padding: '12px 16px', borderRadius: '12px', borderLeft: '3px solid #059669' }}>
+                      <Title level={5} style={{ margin: 0, color: '#059669', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Coffee Break & Networking Ativo
+                      </Title>
+                      <Text style={{ color: 'var(--text-sec)', fontSize: '0.95rem' }}>
+                        Uma pausa excelente para descontrair, trocar contactos e debater novas oportunidades de negócio.
+                      </Text>
+                    </div>
+                  ),
+                  dot: <ClockCircleOutlined style={{ fontSize: '18px', color: '#059669' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>11h20 - 11h50</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Palestra: Redes Sociais e Marketing de Influência na Era da IA
+                      </Title>
+                      <div style={{ marginTop: '4px' }}>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradora: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Laura Fontoura</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Fundadora & CEO na Syena)</Text>
+                      </div>
+                    </div>
+                  ),
+                  dot: <RocketOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>11h50 - 12h30</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Painel Temático: Gestão de Inteligência Artificial na Era Digital
+                      </Title>
+                      <div style={{ marginTop: '6px' }}>
+                        <div style={{ color: 'var(--text-sec)', fontSize: '0.9rem', marginBottom: '2px' }}>Oradores Convidados:</div>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Inês Sá Silva</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Aero Agency), </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Gonçalo Bastos da Fonseca</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Fundação Champalimaud) </Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>e </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Inês G.</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Corticeira Amorim)</Text>
+                      </div>
+                    </div>
+                  ),
+                  dot: <SolutionOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#059669', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>12h30 - 14h15</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px', background: 'rgba(5, 150, 105, 0.04)', padding: '12px 16px', borderRadius: '12px', borderLeft: '3px solid #059669' }}>
+                      <Title level={5} style={{ margin: 0, color: '#059669', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Pausa para Almoço
+                      </Title>
+                      <Text style={{ color: 'var(--text-sec)', fontSize: '0.95rem' }}>
+                        Pausa livre para almoço e descanso dos oradores e participantes.
+                      </Text>
+                    </div>
+                  ),
+                  dot: <ClockCircleOutlined style={{ fontSize: '18px', color: '#059669' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>14h15 - 14h45</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Palestra: Personalização em Escala com IA
+                      </Title>
+                      <div style={{ marginTop: '4px' }}>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Rafael Pereira</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Co-Founder na Digital Alchimia)</Text>
+                      </div>
+                    </div>
+                  ),
+                  dot: <RocketOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>14h45 - 15h15</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Palestra: SEO para Otimização na Inteligência Artificial
+                      </Title>
+                      <div style={{ marginTop: '4px' }}>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Marco Gouveia</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Consultor & Orador de Marketing Digital)</Text>
+                      </div>
+                    </div>
+                  ),
+                  dot: <SolutionOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#059669', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>15h15 - 15h30</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px', background: 'rgba(5, 150, 105, 0.04)', padding: '12px 16px', borderRadius: '12px', borderLeft: '3px solid #059669' }}>
+                      <Title level={5} style={{ margin: 0, color: '#059669', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Pausa & Digital Networking
+                      </Title>
+                      <Text style={{ color: 'var(--text-sec)', fontSize: '0.95rem' }}>
+                        Momento dinâmico de troca rápida de experiências e ampliação da rede de contactos digitais.
+                      </Text>
+                    </div>
+                  ),
+                  dot: <ClockCircleOutlined style={{ fontSize: '18px', color: '#059669' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>15h30 - 16h00</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Palestra: O Futuro da Criação de Conteúdo com IA
+                      </Title>
+                      <div style={{ marginTop: '4px' }}>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Bruno V.</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (AI Consulting & Innovation Strategist na Certidata)</Text>
+                      </div>
+                    </div>
+                  ),
+                  dot: <BulbOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>16h00 - 16h30</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Painel Temático: Gestão da Transformação Digital na Perspetiva de Empreendedores
+                      </Title>
+                      <div style={{ marginTop: '6px' }}>
+                        <div style={{ color: 'var(--text-sec)', fontSize: '0.9rem', marginBottom: '2px' }}>Oradores Convidados:</div>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Sara Sousa</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Blip), </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Gaspar João</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(coCEO LOBA) </Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>e </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>João Ribas</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Partner Link&Grow)</Text>
+                      </div>
+                    </div>
+                  ),
+                  dot: <SolutionOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>16h30 - 17h00</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Encerramento e Manifesto 2026
+                      </Title>
+                      <Text style={{ color: 'var(--text-sec)', fontSize: '0.95rem' }}>
+                        Resumo estratégico do dia, apresentação do Manifesto 2026 e considerações finais.
+                      </Text>
+                    </div>
+                  ),
+                  dot: <BulbOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#dc2626', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>17h00</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: '#dc2626', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Fim do Evento
+                      </Title>
+                      <Text style={{ color: 'var(--text-sec)', fontSize: '0.95rem' }}>
+                        Encerramento oficial das atividades. Agradecemos a presença de todos!
+                      </Text>
+                    </div>
+                  ),
+                  dot: <ClockCircleOutlined style={{ fontSize: '18px', color: '#dc2626' }} />,
+                },
+                {
+                  children: (
+                    <div style={{ textAlign: 'left', marginTop: '30px', paddingLeft: '10px' }}>
+                      <Button type="primary" size="large" onClick={() => onRegisterClick('1')}>Garantir a Minha Vaga</Button>
                     </div>
                   ),
                   dot: <RocketOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
-                },
-                {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 700 }}>14:00</Text>,
-                  children: (
-                    <div style={{ textAlign: 'left', marginBottom: '40px' }}>
-                      <Title level={4} style={{ color: 'var(--text-main)' }}>Copywriting e Vendas</Title>
-                      <Text type="secondary" style={{ color: 'var(--text-sec)' }}>Frameworks de comunicação persuasiva para fechar mais negócios.</Text>
-                    </div>
-                  ),
-                  dot: <SolutionOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
-                },
-                {
-                  children: (
-                    <div style={{ textAlign: screens.xs ? 'left' : 'center', marginTop: '20px' }}>
-                      <Button type="primary" size="large" onClick={() => onRegisterClick('1')}>Quero Inscrever-me</Button>
-                    </div>
-                  ),
-                  dot: <ClockCircleOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
                 }
               ]}
             />
