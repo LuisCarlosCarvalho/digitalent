@@ -470,7 +470,7 @@ const LandingPage: React.FC = () => {
                   fontWeight: 600,
                 }}
               >
-                APOIADORES DO EVENTO:
+                AGRADECIMENTOS:
               </Text>
             </div>
             <div
@@ -550,7 +550,7 @@ const LandingPage: React.FC = () => {
                     key={i}
                     style={{ margin: "0 20px", whiteSpace: "nowrap" }}
                   >
-                    Disponibilidade limitada no momento
+                    Vagas Limitadas    "Garanta o seu lugar"
                   </div>
                 ))}
               </div>
