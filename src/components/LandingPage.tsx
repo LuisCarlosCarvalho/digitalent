@@ -600,9 +600,10 @@ const LandingPage: React.FC = () => {
                       letterSpacing: "-0.02em",
                     }}
                   >
-                    Eleve o seu{" "}
-                    <span style={{ color: "#2563eb" }}>Negócio Local</span> para
-                    o Digital
+                    Eleve seu{" "}
+                    <span style={{ color: "#2563eb" }}>Negócio Local</span>
+                    <br />
+                    para o Digital
                   </Title>
 
                   <Paragraph
