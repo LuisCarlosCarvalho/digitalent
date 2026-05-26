@@ -600,9 +600,9 @@ const LandingPage: React.FC = () => {
                       letterSpacing: "-0.02em",
                     }}
                   >
-                    Transforme o seu{" "}
-                    <span style={{ color: "#2563eb" }}>Negócio Local</span> na
-                    Era Digital
+                    Eleve o seu{" "}
+                    <span style={{ color: "#2563eb" }}>Negócio Local</span> para
+                    o Digital
                   </Title>
 
                   <Paragraph
@@ -615,7 +615,7 @@ const LandingPage: React.FC = () => {
                       textAlign: "justify",
                     }}
                   >
-                    O Digital Talent’26 nasce como ponto de encontro de mentes
+                    O Digitalent’26 nasce como ponto de encontro de mentes
                     inquietas que procuram transformar o futuro do mercado. Sob
                     o conceito Marketing com Visão, o evento vai além das
                     métricas superficiais, mergulhando nas estratégias e
@@ -751,7 +751,7 @@ const LandingPage: React.FC = () => {
                   >
                     Sabemos que gerir um negócio local não é fácil. Entre a
                     operação diária e o atendimento ao cliente, sobra pouco
-                    tempo para o marketing. Muitos sentem medo da tecnologia ou
+                    tempo para o marketing. Muitos sentem receio da tecnologia ou
                     acham que o digital é apenas para grandes marcas.
                   </Paragraph>
                   <Space
@@ -765,7 +765,7 @@ const LandingPage: React.FC = () => {
                         desc: "Aprenda a automatizar processos de atração de clientes.",
                       },
                       {
-                        title: "Medo da Tecnologia",
+                        title: "Receio da Tecnologia",
                         desc: "Ferramentas simples e intuitivas desenhadas para si.",
                       },
                       {
@@ -830,7 +830,7 @@ const LandingPage: React.FC = () => {
                   </Title>
                   <Paragraph style={{ color: "var(--text-sec)" }}>
                     O Digitalent26 não é apenas mais um evento teórico. É um
-                    acelerador prático onde sairá com o plano exato para
+                    acelerador prático do qual sairá com o plano exato para
                     digitalizar a sua presença e aumentar a faturação utilizando
                     o poder da internet.
                   </Paragraph>
