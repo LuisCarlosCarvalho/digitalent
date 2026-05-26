@@ -94,81 +94,97 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false 
   });
 
   return (
-    <div
-      className="countdown-capsule"
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        background: 'linear-gradient(135deg, #09132e 0%, #030712 100%)',
-        border: '1.5px solid rgba(0, 162, 232, 0.45)',
-        borderRadius: '30px',
-        padding: compact ? '4px 14px' : '8px 24px',
-        boxShadow: '0 0 20px rgba(0, 162, 232, 0.3), inset 0 0 8px rgba(0, 162, 232, 0.15)',
-        height: compact ? '40px' : '50px',
-        userSelect: 'none',
-        transition: 'transform 0.2s ease',
-      }}
-    >
-      {/* Target Date Section */}
-      <Text
+    <>
+      <div
+        className="countdown-capsule notranslate"
+        translate="no"
         style={{
-          color: '#ef4444',
-          fontWeight: 900,
-          fontFamily: '"Courier New", Courier, monospace',
-          fontSize: compact ? '0.8rem' : '1rem',
-          letterSpacing: '1.5px',
-          textShadow: '0 0 10px rgba(239, 68, 68, 0.75)',
-          marginRight: compact ? '8px' : '14px',
-          whiteSpace: 'nowrap',
+          display: 'inline-flex',
+          alignItems: 'center',
+          background: 'linear-gradient(135deg, #09132e 0%, #030712 100%)',
+          border: '1.5px solid rgba(0, 162, 232, 0.45)',
+          borderRadius: '30px',
+          padding: compact ? '4px 14px' : '8px 24px',
+          boxShadow: '0 0 20px rgba(0, 162, 232, 0.3), inset 0 0 8px rgba(0, 162, 232, 0.15)',
+          height: compact ? '40px' : '50px',
+          userSelect: 'none',
+          transition: 'transform 0.2s ease',
         }}
       >
-        09 DE JULHO 2026
-      </Text>
+        {/* Target Date Section */}
+        <Text
+          className="notranslate"
+          style={{
+            color: '#ef4444',
+            fontWeight: 900,
+            fontFamily: '"Courier New", Courier, monospace',
+            fontSize: compact ? '0.8rem' : '1rem',
+            letterSpacing: '1.5px',
+            textShadow: '0 0 10px rgba(239, 68, 68, 0.75)',
+            marginRight: compact ? '8px' : '14px',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          09 DE JULHO 2026
+        </Text>
 
-      {/* Divider */}
-      <div
-        style={{
-          width: '1.5px',
-          height: compact ? '20px' : '28px',
-          background: 'rgba(0, 162, 232, 0.35)',
-          marginRight: compact ? '8px' : '14px',
-        }}
-      />
+        {/* Divider */}
+        <div
+          style={{
+            width: '1.5px',
+            height: compact ? '20px' : '28px',
+            background: 'rgba(0, 162, 232, 0.35)',
+            marginRight: compact ? '8px' : '14px',
+          }}
+        />
 
-      {/* Countdown Digital Section */}
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {/* Days */}
-        <div style={digitBlockStyle(compact ? '24px' : '30px')}>
-          <span style={numberStyle}>{timeLeft.days}</span>
-          <span style={labelStyle}>Dias</span>
-        </div>
+        {/* Countdown Digital Section */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {/* Days */}
+          <div style={digitBlockStyle(compact ? '24px' : '30px')}>
+            <span className="notranslate" style={numberStyle}>{timeLeft.days}</span>
+            <span className="notranslate" style={labelStyle}>Dias</span>
+          </div>
 
-        <span style={colonStyle}>:</span>
+          <span className="notranslate" style={{
+            ...colonStyle,
+            display: 'inline-block',
+            transform: compact ? 'translateY(-2px)' : 'translateY(-3px)',
+          }}>:</span>
 
-        {/* Hours */}
-        <div style={digitBlockStyle(compact ? '18px' : '24px')}>
-          <span style={numberStyle}>{timeLeft.hours}</span>
-          <span style={labelStyle}>Horas</span>
-        </div>
+          {/* Hours */}
+          <div style={digitBlockStyle(compact ? '18px' : '24px')}>
+            <span className="notranslate" style={numberStyle}>{timeLeft.hours}</span>
+            <span className="notranslate" style={labelStyle}>Horas</span>
+          </div>
 
-        <span style={colonStyle}>:</span>
+          <span className="notranslate" style={{
+            ...colonStyle,
+            display: 'inline-block',
+            transform: compact ? 'translateY(-2px)' : 'translateY(-3px)',
+          }}>:</span>
 
-        {/* Minutes */}
-        <div style={digitBlockStyle(compact ? '18px' : '24px')}>
-          <span style={numberStyle}>{timeLeft.minutes}</span>
-          <span style={labelStyle}>Min</span>
-        </div>
+          {/* Minutes */}
+          <div style={digitBlockStyle(compact ? '18px' : '24px')}>
+            <span className="notranslate" style={numberStyle}>{timeLeft.minutes}</span>
+            <span className="notranslate" style={labelStyle}>Min</span>
+          </div>
 
-        <span style={colonStyle}>:</span>
+          <span className="notranslate" style={{
+            ...colonStyle,
+            display: 'inline-block',
+            transform: compact ? 'translateY(-2px)' : 'translateY(-3px)',
+          }}>:</span>
 
-        {/* Seconds */}
-        <div style={digitBlockStyle(compact ? '18px' : '24px')}>
-          <span style={numberStyle}>{timeLeft.seconds}</span>
-          <span style={labelStyle}>Seg</span>
+          {/* Seconds */}
+          <div style={digitBlockStyle(compact ? '18px' : '24px')}>
+            <span className="notranslate" style={numberStyle}>{timeLeft.seconds}</span>
+            <span className="notranslate" style={labelStyle}>Seg</span>
+          </div>
         </div>
       </div>
 
-      {/* Embedded animation keyframes in standard CSS */}
+      {/* Embedded animation keyframes in standard CSS (rendered outside flex container) */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes pulse {
           0%, 100% { opacity: 1; }
@@ -185,6 +201,6 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false 
           }
         }
       `}} />
-    </div>
+    </>
   );
 };
