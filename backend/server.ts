@@ -3,6 +3,7 @@ import cors from 'cors';
 import PDFDocument from 'pdfkit';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import nodemailer from 'nodemailer';
 
 dotenv.config();
 
@@ -31,7 +32,46 @@ app.post('/api/register-whatsapp', async (req, res) => {
       // 2. Preparar os dados para envio
       const textMessage = `*Novo Registo Digitalent26*\n\n*Tipo:* ${formType}\n*Nome:* ${name}\n*Email:* ${email}\n*Telemóvel:* ${phone}\n${company ? `*Empresa:* ${company}\n` : ''}${sponsorshipLevel ? `*Nível de Patrocínio:* ${sponsorshipLevel}\n` : ''}`;
 
-      // 3. Comunicação Invisível com a API de Integração do WhatsApp
+      // 3. Enviar E-mail de Notificação com o PDF anexo
+      try {
+        const smtpUser = process.env.SMTP_USER || 'digitaltalent2026@gmail.com';
+        const smtpPass = process.env.SMTP_PASS;
+        const receiverEmail = process.env.RECEIVER_EMAIL || 'digitaltalent2026@gmail.com';
+
+        if (smtpPass) {
+          const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST || 'smtp.gmail.com',
+            port: parseInt(process.env.SMTP_PORT || '465'),
+            secure: process.env.SMTP_SECURE !== 'false', // true para 465, false para outros
+            auth: {
+              user: smtpUser,
+              pass: smtpPass,
+            },
+          });
+
+          const mailOptions = {
+            from: `"Digitalent26" <${smtpUser}>`,
+            to: receiverEmail,
+            subject: `📢 Nova Inscrição (${formType}) - ${name}`,
+            text: `Olá,\n\nUma nova inscrição foi realizada no site Digitalent26!\n\nDetalhes da Inscrição:\n---------------------------\nTipo: ${formType}\nNome: ${name}\nE-mail: ${email}\nTelemóvel: ${phone}\n${company ? `Empresa: ${company}\n` : ''}${sponsorshipLevel ? `Nível de Patrocínio: ${sponsorshipLevel}\n` : ''}\nO comprovativo em PDF está anexado a este e-mail.\n\nAtenciosamente,\nDigitalent26 Core SaaS`,
+            attachments: [
+              {
+                filename: `Inscricao_${name.replace(/\s+/g, '_')}.pdf`,
+                content: pdfBuffer,
+              },
+            ],
+          };
+
+          await transporter.sendMail(mailOptions);
+          console.log(`📧 E-mail de confirmação enviado para ${receiverEmail}`);
+        } else {
+          console.warn("⚠️ SMTP_PASS não configurado no .env. Ignorando envio de e-mail.");
+        }
+      } catch (emailError) {
+        console.error("❌ Erro ao enviar e-mail de notificação:", emailError);
+      }
+
+      // 4. Comunicação Invisível com a API de Integração do WhatsApp
       const base64Pdf = pdfBuffer.toString('base64');
       
       try {
