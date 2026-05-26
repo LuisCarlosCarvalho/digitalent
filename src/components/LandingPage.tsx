@@ -12,7 +12,6 @@ import {
   Statistic,
   Form,
   Input,
-  Select,
   Badge,
   notification,
   Dropdown,
@@ -946,7 +945,7 @@ const LandingPage: React.FC = () => {
                         }}
                       >
                         <Badge
-                          count="RESERVA O TEU LUGAR"
+                          count="INSCRIÇÃO"
                           style={{
                             backgroundColor: "#2563eb",
                             padding: "0 20px",
@@ -967,7 +966,7 @@ const LandingPage: React.FC = () => {
                             fontWeight: 800,
                           }}
                         >
-                          Ouvinte / Participante Local
+                          Participante
                         </Title>
                         <Text
                           style={{
@@ -1108,7 +1107,7 @@ const LandingPage: React.FC = () => {
                                 <span style={{ color: "#ef4444" }}>
                                   *
                                 </span>{" "}
-                                E-mail Profissional
+                                E-mail
                               </Text>
                             }
                             name="email"
@@ -1176,7 +1175,7 @@ const LandingPage: React.FC = () => {
                                 background: "#2563eb",
                               }}
                             >
-                              Garanta o seu lugar
+                              Enviar Inscrição
                             </Button>
                           </Form.Item>
                         </Form>
@@ -1308,7 +1307,7 @@ const LandingPage: React.FC = () => {
                                 letterSpacing: "1px",
                               }}
                             >
-                              Digitalent26
+                              Digitalent´26
                             </div>
                           </div>
                         </div>
@@ -1342,7 +1341,7 @@ const LandingPage: React.FC = () => {
                           onClick={() => setActiveTab("2")}
                           style={{ color: "#2563eb", fontWeight: 600, fontSize: "1rem" }}
                         >
-                          Quero candidatar a minha empresa como Parceiro / Investidor ➔
+                          Quero candidatar a minha empresa como Apoiador ➔
                         </Button>
                       </div>
                     </div>
@@ -1358,7 +1357,7 @@ const LandingPage: React.FC = () => {
                           level={4}
                           style={{ color: "var(--text-main)" }}
                         >
-                          Candidatura a Patrocínio
+                          Candidatura a Apoiador
                         </Title>
                         <Text style={{ color: "var(--text-sec)" }}>
                           Posicione a sua marca diante de
@@ -1473,38 +1472,6 @@ const LandingPage: React.FC = () => {
                             </Form.Item>
                           </Col>
                         </Row>
-
-                        <Form.Item
-                          label={
-                            <Text
-                              strong
-                              style={{ color: "var(--text-main)" }}
-                            >
-                              Nível de Interesse
-                            </Text>
-                          }
-                          name="nivel"
-                          rules={[{ required: true }]}
-                        >
-                          <Select
-                            size="large"
-                            placeholder="Selecione o nível de patrocínio"
-                          >
-                            <Select.Option value="bronze">
-                              Passe Bronze
-                            </Select.Option>
-                            <Select.Option value="prata">
-                              Passe Prata
-                            </Select.Option>
-                            <Select.Option value="ouro">
-                              Passe Ouro
-                            </Select.Option>
-                            <Select.Option value="investidor">
-                              Passe Apoiador  
-                            </Select.Option>
-                          </Select>
-                        </Form.Item>
-
                         <Form.Item
                           label={
                             <Text
@@ -1542,7 +1509,7 @@ const LandingPage: React.FC = () => {
                               color: "#2563eb",
                             }}
                           >
-                            Enviar Candidatura a Patrocínio
+                            Enviar Candidatura a Apoiador
                           </Button>
                         </Form.Item>
                       </Form>
@@ -1553,9 +1520,7 @@ const LandingPage: React.FC = () => {
                           type="link"
                           onClick={() => setActiveTab("1")}
                           style={{ color: "#2563eb", fontWeight: 600, fontSize: "1rem" }}
-                        >
-                          Quero fazer Inscrição de Ouvinte / Participante ➔
-                        </Button>
+                        ></Button>
                       </div>
                     </div>
                   )}
