@@ -1349,7 +1349,7 @@ const LandingPage: React.FC = () => {
                       },
                       {
                         key: "2",
-                        label: "Parceiro / Investidor",
+                        label: "Seja Parceiro",
                         children: (
                           <div style={{ paddingTop: "30px" }}>
                             <div
@@ -1663,7 +1663,7 @@ const LandingPage: React.FC = () => {
         )}
 
         <Modal
-          title="🔐 Privacidade e Proteção dos Seus Dados"
+          title="🔐 Privacidade, Proteção de Dados e Direito de Imagem"
           open={gdprModalVisible}
           onCancel={() => setGdprModalVisible(false)}
           footer={[
@@ -1684,18 +1684,29 @@ const LandingPage: React.FC = () => {
           ]}
         >
           <Paragraph>
-            Na Digitalent, levamos a sua privacidade a sério. Os dados que partilha connosco são utilizados exclusivamente para gerir a sua inscrição ou proposta de parceria, bem como para comunicar consigo de forma relevante.
+            Na Digitalent, levamos a sua privacidade a sério. Os dados pessoais que nos são fornecidos são utilizados exclusivamente para gerir a sua inscrição ou proposta de parceria, bem como para comunicar consigo de forma relevante.
           </Paragraph>
           <Paragraph>
-            Tratamos os seus dados de forma segura e transparente, em conformidade com o RGPD e a legislação portuguesa em vigor.
+            Os seus dados são tratados de forma segura, transparente e em conformidade com o RGPD e a legislação portuguesa em vigor.
           </Paragraph>
           <ul style={{ listStyleType: 'none', padding: 0 }}>
             <li>✔ Utilizamos os seus dados apenas para as finalidades indicadas</li>
             <li>✔ Não partilhamos informação sem fundamento legal</li>
-            <li>✔ Garantimos os seus direitos de acesso, alteração e eliminação</li>
+            <li>✔ Garantimos os seus direitos de acesso, retificação e eliminação</li>
           </ul>
+          
+          <Title level={5} style={{ marginTop: '20px', color: 'var(--text-main)', fontWeight: 600 }}>
+            📸 Captação e Utilização de Imagem
+          </Title>
           <Paragraph>
-            Poderá, a qualquer momento, solicitar a alteração ou remoção dos seus dados através de:<br />
+            Informamos que, no âmbito do evento, poderão ser captadas imagens (fotografias e vídeo) para fins de comunicação e divulgação nas nossas plataformas, nomeadamente redes sociais, website e materiais promocionais da Digitalent.
+          </Paragraph>
+          <Paragraph>
+            Ao participar no evento, autoriza a recolha e utilização da sua imagem para estes fins, podendo a qualquer momento retirar o seu consentimento.
+          </Paragraph>
+          
+          <Paragraph style={{ marginTop: '16px' }}>
+            Poderá, a qualquer momento, solicitar a alteração, remoção dos seus dados ou revogar a autorização de utilização de imagem através de:<br />
             📧 <strong>privacidade@digitalent.pt</strong>
           </Paragraph>
           
@@ -1704,7 +1715,7 @@ const LandingPage: React.FC = () => {
             onChange={(e) => setGdprChecked(e.target.checked)}
             style={{ marginTop: '16px', fontWeight: 500 }}
           >
-            Ao prosseguir, está a concordar com o tratamento dos seus dados para estas finalidades.
+            Ao submeter os seus dados, está a concordar com o seu tratamento para as finalidades acima descritas.
           </Checkbox>
         </Modal>
       </Layout>
