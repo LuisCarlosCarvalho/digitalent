@@ -10,7 +10,6 @@ import {
   Card,
   Divider,
   Statistic,
-  Tabs,
   Form,
   Input,
   Select,
@@ -938,625 +937,628 @@ const LandingPage: React.FC = () => {
                     boxShadow: "0 20px 50px rgba(0, 0, 0, 0.05)",
                   }}
                 >
-                  <Tabs
-                    activeKey={activeTab}
-                    onChange={(key) => setActiveTab(key)}
-                    centered
-                    size="large"
-                    items={[
-                      {
-                        key: "1",
-                        label: "Inscrição de Participante",
-                        children: (
-                          <div style={{ paddingTop: "10px" }}>
-                            <div
-                              style={{
-                                textAlign: "center",
-                                marginBottom: "24px",
-                              }}
-                            >
-                              <Badge
-                                count="RESERVA O TEU LUGAR"
-                                style={{
-                                  backgroundColor: "#2563eb",
-                                  padding: "0 20px",
-                                  height: "32px",
-                                  lineHeight: "32px",
-                                  fontSize: "0.9rem",
-                                  fontWeight: 800,
-                                  borderRadius: "16px",
-                                  letterSpacing: "0.5px",
-                                }}
-                              />
-                              <Title
-                                level={4}
-                                style={{
-                                  marginTop: "20px",
-                                  marginBottom: "8px",
-                                  color: "var(--text-main)",
-                                  fontWeight: 800,
-                                }}
-                              >
-                                Ouvinte / Participante Local
-                              </Title>
-                              <Text
-                                style={{
-                                  color: "var(--text-sec)",
-                                  fontSize: "0.9rem",
-                                }}
-                              >
-                                Acesso total às palestras, networking e recursos
-                                exclusivos do evento.
-                              </Text>
-                            </div>
+                  {activeTab === "1" ? (
+                    <div style={{ paddingTop: "10px" }}>
+                      <div
+                        style={{
+                          textAlign: "center",
+                          marginBottom: "24px",
+                        }}
+                      >
+                        <Badge
+                          count="RESERVA O TEU LUGAR"
+                          style={{
+                            backgroundColor: "#2563eb",
+                            padding: "0 20px",
+                            height: "32px",
+                            lineHeight: "32px",
+                            fontSize: "0.9rem",
+                            fontWeight: 800,
+                            borderRadius: "16px",
+                            letterSpacing: "0.5px",
+                          }}
+                        />
+                        <Title
+                          level={4}
+                          style={{
+                            marginTop: "20px",
+                            marginBottom: "8px",
+                            color: "var(--text-main)",
+                            fontWeight: 800,
+                          }}
+                        >
+                          Ouvinte / Participante Local
+                        </Title>
+                        <Text
+                          style={{
+                            color: "var(--text-sec)",
+                            fontSize: "0.9rem",
+                          }}
+                        >
+                          Acesso total às palestras, networking e recursos
+                          exclusivos do evento.
+                        </Text>
+                      </div>
 
-                            {/* Ticket Container */}
-                            <div
-                              style={{
-                                position: "relative",
-                                border: "2px solid #2563eb",
-                                borderRadius: "16px",
-                                padding: "40px 24px 16px",
-                                marginTop: "30px",
-                              }}
-                            >
-                              {/* Top Border Mask */}
-                              <div
-                                style={{
-                                  position: "absolute",
-                                  top: "-2px",
-                                  left: "50%",
-                                  transform: "translateX(-50%)",
-                                  width: "64px",
-                                  height: "4px",
-                                  background: "var(--card-bg)",
-                                  zIndex: 1,
-                                }}
-                              />
+                      {/* Ticket Container */}
+                      <div
+                        style={{
+                          position: "relative",
+                          border: "2px solid #2563eb",
+                          borderRadius: "16px",
+                          padding: "40px 24px 16px",
+                          marginTop: "30px",
+                        }}
+                      >
+                        {/* Top Border Mask */}
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "-2px",
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            width: "64px",
+                            height: "4px",
+                            background: "var(--card-bg)",
+                            zIndex: 1,
+                          }}
+                        />
 
-                              {/* Top Notch */}
-                              <div
-                                style={{
-                                  position: "absolute",
-                                  top: "-2px",
-                                  left: "50%",
-                                  transform: "translateX(-50%)",
-                                  width: "60px",
-                                  height: "30px",
-                                  background: "transparent",
-                                  borderBottomLeftRadius: "30px",
-                                  borderBottomRightRadius: "30px",
-                                  border: "2px solid #2563eb",
-                                  borderTop: "none",
-                                  zIndex: 2,
-                                }}
-                              />
+                        {/* Top Notch */}
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "-2px",
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            width: "60px",
+                            height: "30px",
+                            background: "transparent",
+                            borderBottomLeftRadius: "30px",
+                            borderBottomRightRadius: "30px",
+                            border: "2px solid #2563eb",
+                            borderTop: "none",
+                            zIndex: 2,
+                          }}
+                        />
 
-                              <div onClickCapture={handleFormInteraction} onFocusCapture={handleFormInteraction}>
-                                <Form
-                                  layout="vertical"
-                                  onFinish={(values) =>
-                                    handleFormSubmit(values, "Participante")
-                                  }
-                                >
-                                <Row gutter={16}>
-                                  <Col xs={24} md={12}>
-                                    <Form.Item
-                                      label={
-                                        <Text
-                                          strong
-                                          style={{
-                                            color: "var(--text-main)",
-                                            fontSize: "0.85rem",
-                                          }}
-                                        >
-                                          <span style={{ color: "#ef4444" }}>
-                                            *
-                                          </span>{" "}
-                                          Nome Completo
-                                        </Text>
-                                      }
-                                      name="nome"
-                                      rules={[
-                                        {
-                                          required: true,
-                                          message:
-                                            "Por favor, insira o seu nome.",
-                                        },
-                                      ]}
-                                    >
-                                      <Input
-                                        prefix={
-                                          <UserOutlined
-                                            style={{ color: "#94a3b8" }}
-                                          />
-                                        }
-                                        placeholder="Ex: João Silva"
-                                        size="large"
-                                        style={{ borderRadius: "8px" }}
-                                      />
-                                    </Form.Item>
-                                  </Col>
-                                  <Col xs={24} md={12}>
-                                    <Form.Item
-                                      label={
-                                        <Text
-                                          strong
-                                          style={{
-                                            color: "var(--text-main)",
-                                            fontSize: "0.85rem",
-                                          }}
-                                        >
-                                          Telemóvel (Opcional)
-                                        </Text>
-                                      }
-                                      name="telemovel"
-                                    >
-                                      <Input
-                                        prefix={
-                                          <PhoneIcon
-                                            style={{ color: "#94a3b8" }}
-                                          />
-                                        }
-                                        placeholder="912 345 678"
-                                        size="large"
-                                        style={{ borderRadius: "8px" }}
-                                      />
-                                    </Form.Item>
-                                  </Col>
-                                </Row>
-
-                                <Form.Item
-                                  label={
-                                    <Text
-                                      strong
-                                      style={{
-                                        color: "var(--text-main)",
-                                        fontSize: "0.85rem",
-                                      }}
-                                    >
-                                      <span style={{ color: "#ef4444" }}>
-                                        *
-                                      </span>{" "}
-                                      E-mail Profissional
-                                    </Text>
-                                  }
-                                  name="email"
-                                  rules={[
-                                    {
-                                      required: true,
-                                      type: "email",
-                                      message: "Insira um e-mail válido.",
-                                    },
-                                  ]}
-                                >
-                                  <Input
-                                    prefix={
-                                      <MailIcon style={{ color: "#94a3b8" }} />
-                                    }
-                                    placeholder="joao@empresa.pt"
-                                    size="large"
-                                    style={{ borderRadius: "8px" }}
-                                  />
-                                </Form.Item>
-
-                                <Form.Item
-                                  label={
-                                    <Text
-                                      strong
-                                      style={{
-                                        color: "var(--text-main)",
-                                        fontSize: "0.85rem",
-                                      }}
-                                    >
-                                      Nome da Empresa / Ramo (Opcional)
-                                    </Text>
-                                  }
-                                  name="empresa"
-                                >
-                                  <Input
-                                    prefix={
-                                      <ShopOutlined
-                                        style={{ color: "#94a3b8" }}
-                                      />
-                                    }
-                                    placeholder="Ex: Café Central / Restauração"
-                                    size="large"
-                                    style={{ borderRadius: "8px" }}
-                                  />
-                                </Form.Item>
-
-                                <Form.Item
-                                  style={{
-                                    marginTop: "32px",
-                                    marginBottom: "24px",
-                                  }}
-                                >
-                                  <Button
-                                    type="primary"
-                                    size="large"
-                                    shape="round"
-                                    htmlType="submit"
-                                    block
-                                    loading={isSubmitting}
-                                    style={{
-                                      height: "56px",
-                                      fontSize: "1.1rem",
-                                      fontWeight: 700,
-                                      background: "#2563eb",
-                                    }}
-                                  >
-                                    Garanta o seu lugar
-                                  </Button>
-                                </Form.Item>
-                              </Form>
-                              </div>
-
-                              {/* Benefits & Barcode Row */}
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  flexWrap: "wrap",
-                                  gap: "20px",
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    fontSize: "0.85rem",
-                                    color: "var(--text-main)",
-                                    fontWeight: 500,
-                                    lineHeight: 1.6,
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      gap: "8px",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <span
-                                      style={{
-                                        color: "#2563eb",
-                                        fontSize: "10px",
-                                      }}
-                                    >
-                                      ❯
-                                    </span>{" "}
-                                    Acesso total ao evento no dia
-                                  </div>
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      gap: "8px",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <span
-                                      style={{
-                                        color: "#2563eb",
-                                        fontSize: "10px",
-                                      }}
-                                    >
-                                      ❯
-                                    </span>{" "}
-                                    Acesso ao coffee-break
-                                  </div>
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      gap: "8px",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <span
-                                      style={{
-                                        color: "#2563eb",
-                                        fontSize: "10px",
-                                      }}
-                                    >
-                                      ❯
-                                    </span>{" "}
-                                    Brindes do Evento
-                                  </div>
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      gap: "8px",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <span
-                                      style={{
-                                        color: "#2563eb",
-                                        fontSize: "10px",
-                                      }}
-                                    >
-                                      ❯
-                                    </span>{" "}
-                                    Network com grandes agencias
-                                  </div>
-                                </div>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "8px",
-                                  }}
-                                >
-                                  {/* CSS Barcode Simulation to avoid external images */}
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      height: "50px",
-                                      gap: "2px",
-                                      alignItems: "flex-end",
-                                    }}
-                                  >
-                                    {[
-                                      2, 4, 1, 3, 2, 1, 5, 1, 2, 3, 1, 4, 2, 1,
-                                      2, 3, 1, 2, 4,
-                                    ].map((w, i) => (
-                                      <div
-                                        key={i}
-                                        style={{
-                                          width: `${w * 2}px`,
-                                          height: "100%",
-                                          background: "var(--text-main)",
-                                        }}
-                                      />
-                                    ))}
-                                  </div>
-                                  <div
-                                    style={{
-                                      writingMode: "vertical-rl",
-                                      transform: "rotate(180deg)",
-                                      fontSize: "0.65rem",
-                                      color: "#94a3b8",
-                                      letterSpacing: "1px",
-                                    }}
-                                  >
-                                    Digitalent26
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Dashed Divider */}
-                              <div
-                                style={{
-                                  borderTop: "2px dashed #2563eb",
-                                  margin: "20px -24px 12px",
-                                  position: "relative",
-                                }}
-                              />
-
-                              <Text
-                                style={{
-                                  display: "block",
-                                  textAlign: "center",
-                                  fontSize: "0.8rem",
-                                  color: "var(--text-main)",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                Ao inscrever-se, concorda com a nossa Politica
-                                de Privacidade
-                              </Text>
-                            </div>
-                          </div>
-                        ),
-                      },
-                      {
-                        key: "2",
-                        label: "Seja Parceiro",
-                        children: (
-                          <div style={{ paddingTop: "30px" }}>
-                            <div
-                              style={{
-                                textAlign: "center",
-                                marginBottom: "32px",
-                              }}
-                            >
-                              <Title
-                                level={4}
-                                style={{ color: "var(--text-main)" }}
-                              >
-                                Candidatura a Patrocínio
-                              </Title>
-                              <Text style={{ color: "var(--text-sec)" }}>
-                                Posicione a sua marca diante de
-                                empresas e lidere o mercado.
-                              </Text>
-                            </div>
-
-                            <div onClickCapture={handleFormInteraction} onFocusCapture={handleFormInteraction}>
-                              <Form
-                                layout="vertical"
-                                onFinish={(values) =>
-                                  handleFormSubmit(values, "Parceiro")
-                                }
-                              >
-                              <Row gutter={16}>
-                                <Col xs={24} md={12}>
-                                  <Form.Item
-                                    label={
-                                      <Text
-                                        strong
-                                        style={{ color: "var(--text-main)" }}
-                                      >
-                                        Nome da Empresa
-                                      </Text>
-                                    }
-                                    name="empresa"
-                                    rules={[{ required: true }]}
-                                  >
-                                    <Input
-                                      prefix={
-                                        <ShopOutlined
-                                          style={{ color: "#94a3b8" }}
-                                        />
-                                      }
-                                      placeholder="Empresa S.A."
-                                      size="large"
-                                    />
-                                  </Form.Item>
-                                </Col>
-                                <Col xs={24} md={12}>
-                                  <Form.Item
-                                    label={
-                                      <Text
-                                        strong
-                                        style={{ color: "var(--text-main)" }}
-                                      >
-                                        Nome do Responsável
-                                      </Text>
-                                    }
-                                    name="responsavel"
-                                    rules={[{ required: true }]}
-                                  >
-                                    <Input
-                                      prefix={
-                                        <UserOutlined
-                                          style={{ color: "#94a3b8" }}
-                                        />
-                                      }
-                                      placeholder="Nome Completo"
-                                      size="large"
-                                    />
-                                  </Form.Item>
-                                </Col>
-                              </Row>
-
-                              <Row gutter={16}>
-                                <Col xs={24} md={12}>
-                                  <Form.Item
-                                    label={
-                                      <Text
-                                        strong
-                                        style={{ color: "var(--text-main)" }}
-                                      >
-                                        E-mail de Contacto
-                                      </Text>
-                                    }
-                                    name="email"
-                                    rules={[{ required: true, type: "email" }]}
-                                  >
-                                    <Input
-                                      prefix={
-                                        <MailIcon
-                                          style={{ color: "#94a3b8" }}
-                                        />
-                                      }
-                                      placeholder="email@empresa.pt"
-                                      size="large"
-                                    />
-                                  </Form.Item>
-                                </Col>
-                                <Col xs={24} md={12}>
-                                  <Form.Item
-                                    label={
-                                      <Text
-                                        strong
-                                        style={{ color: "var(--text-main)" }}
-                                      >
-                                        Telemóvel (Opcional)
-                                      </Text>
-                                    }
-                                    name="telemovel"
-                                  >
-                                    <Input
-                                      prefix={
-                                        <PhoneIcon
-                                          style={{ color: "#94a3b8" }}
-                                        />
-                                      }
-                                      placeholder="9xx xxx xxx"
-                                      size="large"
-                                    />
-                                  </Form.Item>
-                                </Col>
-                              </Row>
-
+                        <div onClickCapture={handleFormInteraction} onFocusCapture={handleFormInteraction}>
+                          <Form
+                            layout="vertical"
+                            onFinish={(values) =>
+                              handleFormSubmit(values, "Participante")
+                            }
+                          >
+                          <Row gutter={16}>
+                            <Col xs={24} md={12}>
                               <Form.Item
                                 label={
                                   <Text
                                     strong
-                                    style={{ color: "var(--text-main)" }}
+                                    style={{
+                                      color: "var(--text-main)",
+                                      fontSize: "0.85rem",
+                                    }}
                                   >
-                                    Nível de Interesse
+                                    <span style={{ color: "#ef4444" }}>
+                                      *
+                                    </span>{" "}
+                                    Nome Completo
                                   </Text>
                                 }
-                                name="nivel"
-                                rules={[{ required: true }]}
+                                name="nome"
+                                rules={[
+                                  {
+                                    required: true,
+                                    message:
+                                      "Por favor, insira o seu nome.",
+                                  },
+                                ]}
                               >
-                                <Select
+                                <Input
+                                  prefix={
+                                    <UserOutlined
+                                      style={{ color: "#94a3b8" }}
+                                    />
+                                  }
+                                  placeholder="Ex: João Silva"
                                   size="large"
-                                  placeholder="Selecione o nível de patrocínio"
-                                >
-                                  <Select.Option value="bronze">
-                                    Passe Bronze
-                                  </Select.Option>
-                                  <Select.Option value="prata">
-                                    Passe Prata
-                                  </Select.Option>
-                                  <Select.Option value="ouro">
-                                    Passe Ouro
-                                  </Select.Option>
-                                  <Select.Option value="investidor">
-                                    Passe Apoiador  
-                                  </Select.Option>
-                                </Select>
-                              </Form.Item>
-
-                              <Form.Item
-                                label={
-                                  <Text
-                                    strong
-                                    style={{ color: "var(--text-main)" }}
-                                  >
-                                    Objetivos no Evento
-                                  </Text>
-                                }
-                                name="objetivos"
-                              >
-                                <Input.TextArea
-                                  rows={4}
-                                  placeholder="Conte-nos brevemente o que espera alcançar com esta parceria..."
-                                  style={{
-                                    borderRadius: "12px",
-                                    background: "var(--bg-alt)",
-                                  }}
+                                  style={{ borderRadius: "8px" }}
                                 />
                               </Form.Item>
-
-                              <Form.Item style={{ marginTop: "40px" }}>
-                                <Button
-                                  type="default"
-                                  htmlType="submit"
-                                  block
+                            </Col>
+                            <Col xs={24} md={12}>
+                              <Form.Item
+                                label={
+                                  <Text
+                                    strong
+                                    style={{
+                                      color: "var(--text-main)",
+                                      fontSize: "0.85rem",
+                                    }}
+                                  >
+                                    Telemóvel (Opcional)
+                                  </Text>
+                                }
+                                name="telemovel"
+                              >
+                                <Input
+                                  prefix={
+                                    <PhoneIcon
+                                      style={{ color: "#94a3b8" }}
+                                    />
+                                  }
+                                  placeholder="912 345 678"
                                   size="large"
-                                  loading={isSubmitting}
-                                  style={{
-                                    height: "60px",
-                                    fontSize: "1.1rem",
-                                    fontWeight: 700,
-                                    borderRadius: "30px",
-                                    border: "2px solid #2563eb",
-                                    color: "#2563eb",
-                                  }}
-                                >
-                                  Enviar Candidatura a Patrocínio
-                                </Button>
+                                  style={{ borderRadius: "8px" }}
+                                />
                               </Form.Item>
-                            </Form>
+                            </Col>
+                          </Row>
+
+                          <Form.Item
+                            label={
+                              <Text
+                                strong
+                                style={{
+                                  color: "var(--text-main)",
+                                  fontSize: "0.85rem",
+                                }}
+                              >
+                                <span style={{ color: "#ef4444" }}>
+                                  *
+                                </span>{" "}
+                                E-mail Profissional
+                              </Text>
+                            }
+                            name="email"
+                            rules={[
+                              {
+                                required: true,
+                                type: "email",
+                                message: "Insira um e-mail válido.",
+                              },
+                            ]}
+                          >
+                            <Input
+                              prefix={
+                                <MailIcon style={{ color: "#94a3b8" }} />
+                              }
+                              placeholder="joao@empresa.pt"
+                              size="large"
+                              style={{ borderRadius: "8px" }}
+                            />
+                          </Form.Item>
+
+                          <Form.Item
+                            label={
+                              <Text
+                                strong
+                                style={{
+                                  color: "var(--text-main)",
+                                  fontSize: "0.85rem",
+                                }}
+                              >
+                                Nome da Empresa / Ramo (Opcional)
+                              </Text>
+                            }
+                            name="empresa"
+                          >
+                            <Input
+                              prefix={
+                                <ShopOutlined
+                                  style={{ color: "#94a3b8" }}
+                                />
+                              }
+                              placeholder="Ex: Café Central / Restauração"
+                              size="large"
+                              style={{ borderRadius: "8px" }}
+                            />
+                          </Form.Item>
+
+                          <Form.Item
+                            style={{
+                              marginTop: "32px",
+                              marginBottom: "24px",
+                            }}
+                          >
+                            <Button
+                              type="primary"
+                              size="large"
+                              shape="round"
+                              htmlType="submit"
+                              block
+                              loading={isSubmitting}
+                              style={{
+                                height: "56px",
+                                fontSize: "1.1rem",
+                                fontWeight: 700,
+                                background: "#2563eb",
+                              }}
+                            >
+                              Garanta o seu lugar
+                            </Button>
+                          </Form.Item>
+                        </Form>
+                        </div>
+
+                        {/* Benefits & Barcode Row */}
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            flexWrap: "wrap",
+                            gap: "20px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontSize: "0.85rem",
+                              color: "var(--text-main)",
+                              fontWeight: 500,
+                              lineHeight: 1.6,
+                            }}
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                gap: "8px",
+                                alignItems: "center",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  color: "#2563eb",
+                                  fontSize: "10px",
+                                }}
+                              >
+                                ❯
+                              </span>{" "}
+                              Acesso total ao evento no dia
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                gap: "8px",
+                                alignItems: "center",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  color: "#2563eb",
+                                  fontSize: "10px",
+                                }}
+                              >
+                                ❯
+                              </span>{" "}
+                              Acesso ao coffee-break
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                gap: "8px",
+                                alignItems: "center",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  color: "#2563eb",
+                                  fontSize: "10px",
+                                }}
+                              >
+                                ❯
+                              </span>{" "}
+                              Brindes do Evento
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                gap: "8px",
+                                alignItems: "center",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  color: "#2563eb",
+                                  fontSize: "10px",
+                                }}
+                              >
+                                ❯
+                              </span>{" "}
+                              Network com grandes agencias
                             </div>
                           </div>
-                        ),
-                      },
-                    ]}
-                  />
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "8px",
+                            }}
+                          >
+                            {/* CSS Barcode Simulation to avoid external images */}
+                            <div
+                              style={{
+                                display: "flex",
+                                height: "50px",
+                                gap: "2px",
+                                alignItems: "flex-end",
+                              }}
+                            >
+                              {[
+                                2, 4, 1, 3, 2, 1, 5, 1, 2, 3, 1, 4, 2, 1,
+                                2, 3, 1, 2, 4,
+                              ].map((w, i) => (
+                                <div
+                                  key={i}
+                                  style={{
+                                    width: `${w * 2}px`,
+                                    height: "100%",
+                                    background: "var(--text-main)",
+                                  }}
+                                />
+                              ))}
+                            </div>
+                            <div
+                              style={{
+                                writingMode: "vertical-rl",
+                                transform: "rotate(180deg)",
+                                fontSize: "0.65rem",
+                                color: "#94a3b8",
+                                letterSpacing: "1px",
+                              }}
+                            >
+                              Digitalent26
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Dashed Divider */}
+                        <div
+                          style={{
+                            borderTop: "2px dashed #2563eb",
+                            margin: "20px -24px 12px",
+                            position: "relative",
+                          }}
+                        />
+
+                        <Text
+                          style={{
+                            display: "block",
+                            textAlign: "center",
+                            fontSize: "0.8rem",
+                            color: "var(--text-main)",
+                            fontWeight: 500,
+                          }}
+                        >
+                          Ao inscrever-se, concorda com a nossa Politica
+                          de Privacidade
+                        </Text>
+                      </div>
+                      
+                      <div style={{ textAlign: "center", marginTop: "30px" }}>
+                        <Button
+                          type="link"
+                          onClick={() => setActiveTab("2")}
+                          style={{ color: "#2563eb", fontWeight: 600, fontSize: "1rem" }}
+                        >
+                          Quero candidatar a minha empresa como Parceiro / Investidor ➔
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ paddingTop: "10px" }}>
+                      <div
+                        style={{
+                          textAlign: "center",
+                          marginBottom: "32px",
+                        }}
+                      >
+                        <Title
+                          level={4}
+                          style={{ color: "var(--text-main)" }}
+                        >
+                          Candidatura a Patrocínio
+                        </Title>
+                        <Text style={{ color: "var(--text-sec)" }}>
+                          Posicione a sua marca diante de
+                          empresas e lidere o mercado.
+                        </Text>
+                      </div>
+
+                      <div onClickCapture={handleFormInteraction} onFocusCapture={handleFormInteraction}>
+                        <Form
+                          layout="vertical"
+                          onFinish={(values) =>
+                            handleFormSubmit(values, "Parceiro")
+                          }
+                        >
+                        <Row gutter={16}>
+                          <Col xs={24} md={12}>
+                            <Form.Item
+                              label={
+                                <Text
+                                  strong
+                                  style={{ color: "var(--text-main)" }}
+                                >
+                                  Nome da Empresa
+                                </Text>
+                              }
+                              name="empresa"
+                              rules={[{ required: true }]}
+                            >
+                              <Input
+                                prefix={
+                                  <ShopOutlined
+                                    style={{ color: "#94a3b8" }}
+                                  />
+                                }
+                                placeholder="Empresa S.A."
+                                size="large"
+                              />
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} md={12}>
+                            <Form.Item
+                              label={
+                                <Text
+                                  strong
+                                  style={{ color: "var(--text-main)" }}
+                                >
+                                  Nome do Responsável
+                                </Text>
+                              }
+                              name="responsavel"
+                              rules={[{ required: true }]}
+                            >
+                              <Input
+                                prefix={
+                                  <UserOutlined
+                                    style={{ color: "#94a3b8" }}
+                                  />
+                                }
+                                placeholder="Nome Completo"
+                                size="large"
+                              />
+                            </Form.Item>
+                          </Col>
+                        </Row>
+
+                        <Row gutter={16}>
+                          <Col xs={24} md={12}>
+                            <Form.Item
+                              label={
+                                <Text
+                                  strong
+                                  style={{ color: "var(--text-main)" }}
+                                >
+                                  E-mail de Contacto
+                                </Text>
+                              }
+                              name="email"
+                              rules={[{ required: true, type: "email" }]}
+                            >
+                              <Input
+                                prefix={
+                                  <MailIcon
+                                    style={{ color: "#94a3b8" }}
+                                  />
+                                }
+                                placeholder="email@empresa.pt"
+                                size="large"
+                              />
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} md={12}>
+                            <Form.Item
+                              label={
+                                <Text
+                                  strong
+                                  style={{ color: "var(--text-main)" }}
+                                >
+                                  Telemóvel (Opcional)
+                                </Text>
+                              }
+                              name="telemovel"
+                            >
+                              <Input
+                                prefix={
+                                  <PhoneIcon
+                                    style={{ color: "#94a3b8" }}
+                                  />
+                                }
+                                placeholder="9xx xxx xxx"
+                                size="large"
+                              />
+                            </Form.Item>
+                          </Col>
+                        </Row>
+
+                        <Form.Item
+                          label={
+                            <Text
+                              strong
+                              style={{ color: "var(--text-main)" }}
+                            >
+                              Nível de Interesse
+                            </Text>
+                          }
+                          name="nivel"
+                          rules={[{ required: true }]}
+                        >
+                          <Select
+                            size="large"
+                            placeholder="Selecione o nível de patrocínio"
+                          >
+                            <Select.Option value="bronze">
+                              Passe Bronze
+                            </Select.Option>
+                            <Select.Option value="prata">
+                              Passe Prata
+                            </Select.Option>
+                            <Select.Option value="ouro">
+                              Passe Ouro
+                            </Select.Option>
+                            <Select.Option value="investidor">
+                              Passe Apoiador  
+                            </Select.Option>
+                          </Select>
+                        </Form.Item>
+
+                        <Form.Item
+                          label={
+                            <Text
+                              strong
+                              style={{ color: "var(--text-main)" }}
+                            >
+                              Objetivos no Evento
+                            </Text>
+                          }
+                          name="objetivos"
+                        >
+                          <Input.TextArea
+                            rows={4}
+                            placeholder="Conte-nos brevemente o que espera alcançar com esta parceria..."
+                            style={{
+                              borderRadius: "12px",
+                              background: "var(--bg-alt)",
+                            }}
+                          />
+                        </Form.Item>
+
+                        <Form.Item style={{ marginTop: "40px" }}>
+                          <Button
+                            type="default"
+                            htmlType="submit"
+                            block
+                            size="large"
+                            loading={isSubmitting}
+                            style={{
+                              height: "60px",
+                              fontSize: "1.1rem",
+                              fontWeight: 700,
+                              borderRadius: "30px",
+                              border: "2px solid #2563eb",
+                              color: "#2563eb",
+                            }}
+                          >
+                            Enviar Candidatura a Patrocínio
+                          </Button>
+                        </Form.Item>
+                      </Form>
+                      </div>
+                      
+                      <div style={{ textAlign: "center", marginTop: "30px" }}>
+                        <Button
+                          type="link"
+                          onClick={() => setActiveTab("1")}
+                          style={{ color: "#2563eb", fontWeight: 600, fontSize: "1rem" }}
+                        >
+                          Quero fazer Inscrição de Ouvinte / Participante ➔
+                        </Button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </Col>
             </Row>
