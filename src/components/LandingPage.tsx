@@ -222,13 +222,12 @@ const LandingPage: React.FC = () => {
             height: "80px",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <img
               src="https://i.imgur.com/EpDGrzT.png"
               alt="Digitalent26 Logo"
-              style={{ height: "50px", width: "auto" }}
+              style={{ height: "50px", width: "auto", marginRight: "10px" }}
             />
-            {screens.md && <CountdownTimer compact />}
           </div>
 
           {screens.md && (

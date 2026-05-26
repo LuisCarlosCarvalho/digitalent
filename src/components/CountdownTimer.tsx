@@ -58,10 +58,12 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false 
   const colonStyle: React.CSSProperties = {
     color: '#06b6d4',
     textShadow: '0 0 10px rgba(6, 182, 212, 0.8)',
-    fontWeight: 800,
-    fontSize: compact ? '1rem' : '1.3rem',
-    margin: compact ? '0 3px' : '0 6px',
+    fontWeight: 900,
+    fontSize: compact ? '1.1rem' : '1.4rem',
+    fontFamily: '"Courier New", Courier, monospace',
+    margin: compact ? '0 2px' : '0 4px',
     animation: 'pulse 1s infinite',
+    lineHeight: 1,
   };
 
   const numberStyle: React.CSSProperties = {
@@ -141,43 +143,55 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false 
         {/* Countdown Digital Section */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
           {/* Days */}
-          <div style={digitBlockStyle(compact ? '24px' : '30px')}>
+          <div style={digitBlockStyle(compact ? '30px' : '40px')}>
             <span className="notranslate" style={numberStyle}>{timeLeft.days}</span>
             <span className="notranslate" style={labelStyle}>Dias</span>
           </div>
 
-          <span className="notranslate" style={{
-            ...colonStyle,
-            display: 'inline-block',
-            transform: compact ? 'translateY(-2px)' : 'translateY(-3px)',
-          }}>:</span>
+          <div style={{
+            height: compact ? '1.1rem' : '1.4rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignSelf: 'flex-start',
+          }}>
+            <span className="notranslate" style={colonStyle}>:</span>
+          </div>
 
           {/* Hours */}
-          <div style={digitBlockStyle(compact ? '18px' : '24px')}>
+          <div style={digitBlockStyle(compact ? '20px' : '28px')}>
             <span className="notranslate" style={numberStyle}>{timeLeft.hours}</span>
             <span className="notranslate" style={labelStyle}>Horas</span>
           </div>
 
-          <span className="notranslate" style={{
-            ...colonStyle,
-            display: 'inline-block',
-            transform: compact ? 'translateY(-2px)' : 'translateY(-3px)',
-          }}>:</span>
+          <div style={{
+            height: compact ? '1.1rem' : '1.4rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignSelf: 'flex-start',
+          }}>
+            <span className="notranslate" style={colonStyle}>:</span>
+          </div>
 
           {/* Minutes */}
-          <div style={digitBlockStyle(compact ? '18px' : '24px')}>
+          <div style={digitBlockStyle(compact ? '20px' : '28px')}>
             <span className="notranslate" style={numberStyle}>{timeLeft.minutes}</span>
             <span className="notranslate" style={labelStyle}>Min</span>
           </div>
 
-          <span className="notranslate" style={{
-            ...colonStyle,
-            display: 'inline-block',
-            transform: compact ? 'translateY(-2px)' : 'translateY(-3px)',
-          }}>:</span>
+          <div style={{
+            height: compact ? '1.1rem' : '1.4rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignSelf: 'flex-start',
+          }}>
+            <span className="notranslate" style={colonStyle}>:</span>
+          </div>
 
           {/* Seconds */}
-          <div style={digitBlockStyle(compact ? '18px' : '24px')}>
+          <div style={digitBlockStyle(compact ? '20px' : '28px')}>
             <span className="notranslate" style={numberStyle}>{timeLeft.seconds}</span>
             <span className="notranslate" style={labelStyle}>Seg</span>
           </div>
