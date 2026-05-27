@@ -201,6 +201,14 @@ const LandingPage: React.FC = () => {
     }
   };
 
+  const sponsorLogos = [
+    "https://i.imgur.com/1USX4Kp.png",
+    "https://i.imgur.com/n0g2qAC.png",
+    "https://i.imgur.com/SFWphsk.png",
+    "https://i.imgur.com/Plb9o3i.png",
+    "https://i.imgur.com/EpDGrzT.png"
+  ];
+
   return (
     <ConfigProvider theme={getBaseThemeConfig(isDarkMode)}>
       <Layout style={{ minHeight: "100vh", background: "var(--bg-base)" }}>
@@ -491,7 +499,7 @@ const LandingPage: React.FC = () => {
                 }}
               >
                 {/* Repetindo os logos para garantir scroll infinito contínuo e sem cortes */}
-                {[...Array(12)].map((_, i) => (
+                {[...sponsorLogos, ...sponsorLogos, ...sponsorLogos, ...sponsorLogos].map((logoUrl, i) => (
                   <div
                     key={i}
                     className="sponsor-logo"
@@ -507,8 +515,8 @@ const LandingPage: React.FC = () => {
                     }}
                   >
                     <img
-                      src="https://i.imgur.com/1USX4Kp.png"
-                      alt={`Apoiador ${(i % 6) + 1}`}
+                      src={logoUrl}
+                      alt={`Apoiador ${i + 1}`}
                       style={{
                         height: screens.xs ? "70px" : "100px",
                         width: "auto",
