@@ -33,9 +33,6 @@ import {
   ShopOutlined,
   MailOutlined as MailIcon,
   PhoneOutlined as PhoneIcon,
-  InstagramOutlined,
-  LinkedinOutlined,
-  FacebookOutlined,
   DesktopOutlined,
   MoonOutlined,
   SunOutlined,
@@ -48,7 +45,7 @@ const ScheduleSection = lazy(() => import("./sections/ScheduleSection"));
 import { CountdownTimer } from "./CountdownTimer";
 import { Footer as CustomFooter } from "./Footer";
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
 
 const getBaseThemeConfig = (isDark: boolean) => ({
@@ -1641,17 +1638,12 @@ const LandingPage: React.FC = () => {
           footer={null}
           centered
           width={480}
+          style={{ borderRadius: "24px", overflow: "hidden" }}
           styles={{
             body: {
               padding: "32px 24px",
               textAlign: "center",
               background: "#ffffff",
-              borderRadius: "24px",
-            },
-            content: {
-              borderRadius: "24px",
-              padding: 0,
-              overflow: "hidden",
             }
           }}
         >
