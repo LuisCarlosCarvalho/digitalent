@@ -34,7 +34,7 @@ export default function CountdownTimer() {
                 strong
                 style={{
                   color: '#2563eb',
-                  fontSize: '13px',
+                  fontSize: '12px',
                   letterSpacing: '1.5px',
                   fontWeight: 700,
                   textTransform: 'uppercase'
@@ -63,7 +63,7 @@ export default function CountdownTimer() {
                   letterSpacing: '0.5px' 
                 }}
               >
-                FALTA
+                FALTAM
               </span>
               <span 
                 style={{ 
