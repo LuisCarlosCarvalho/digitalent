@@ -46,6 +46,7 @@ const SpeakersSection = lazy(() => import("./sections/SpeakersSection"));
 const LocationSection = lazy(() => import("./sections/LocationSection"));
 const ScheduleSection = lazy(() => import("./sections/ScheduleSection"));
 import { CountdownTimer } from "./CountdownTimer";
+import { Footer as CustomFooter } from "./Footer";
 
 const { Header, Content, Footer } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -76,7 +77,8 @@ const { useBreakpoint } = Grid;
 
 const LandingPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("1");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [successModalVisible, setSuccessModalVisible] = useState(false);
   // Inicialização do tema
   const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
     if (typeof window !== "undefined") {
@@ -150,7 +152,7 @@ const LandingPage: React.FC = () => {
     values: Record<string, string>,
     type: "Participante" | "Parceiro",
   ) => {
-    setIsSubmitting(true);
+    setLoading(true);
     try {
       const env = (import.meta as unknown as { env: Record<string, string | undefined> }).env;
       const apiUrl = env.VITE_API_URL || "";
@@ -174,23 +176,23 @@ const LandingPage: React.FC = () => {
       });
 
       if (response.ok) {
-        notification.success({
-          message: "Inscrição Confirmada!",
-          description: "O seu comprovativo foi gerado e enviado com sucesso.",
-          placement: "topRight",
-        });
+        setSuccessModalVisible(true);
       } else {
-        throw new Error("Server error");
+        throw new Error("HTTP error " + response.status);
       }
-    } catch {
+    } catch (err) {
       notification.error({
-        message: "Erro no Processamento",
+        message: "Erro no Registo",
         description:
-          "Não foi possível processar a sua inscrição. Por favor, tente novamente.",
+          "Não foi possível processar a tua inscrição neste momento. Por favor, verifica a tua ligação ou tenta novamente.",
         placement: "topRight",
+        style: {
+          fontFamily: "'Outfit', sans-serif",
+          color: "#1e293b",
+        },
       });
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
@@ -1172,7 +1174,8 @@ const LandingPage: React.FC = () => {
                               shape="round"
                               htmlType="submit"
                               block
-                              loading={isSubmitting}
+                              loading={loading}
+                              disabled={loading}
                               style={{
                                 height: "56px",
                                 fontSize: "1.1rem",
@@ -1504,7 +1507,8 @@ const LandingPage: React.FC = () => {
                             htmlType="submit"
                             block
                             size="large"
-                            loading={isSubmitting}
+                            loading={loading}
+                            disabled={loading}
                             style={{
                               height: "60px",
                               fontSize: "1.1rem",
@@ -1535,69 +1539,7 @@ const LandingPage: React.FC = () => {
           </section>
         </Content>
 
-        <Footer
-          style={{
-            textAlign: "center",
-            background: "var(--bg-base)",
-            borderTop: "1px solid #e2e8f0",
-            padding: "40px 0",
-          }}
-        >
-          <Space size="large" style={{ marginBottom: "20px" }}>
-            <a
-              href="https://www.instagram.com/digitalent26"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: "var(--text-sec)",
-                fontSize: "24px",
-                transition: "color 0.3s",
-              }}
-              className="social-icon"
-            >
-              <InstagramOutlined />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/digitalent26"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: "var(--text-sec)",
-                fontSize: "24px",
-                transition: "color 0.3s",
-              }}
-              className="social-icon"
-            >
-              <LinkedinOutlined />
-            </a>
-            <a
-              href="https://www.facebook.com/profile.php?id=61590137976137"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: "var(--text-sec)",
-                fontSize: "24px",
-                transition: "color 0.3s",
-              }}
-              className="social-icon"
-            >
-              <FacebookOutlined />
-            </a>
-          </Space>
-          <br />
-          <Text style={{ color: "var(--text-sec)" }}>
-            © 2026 Digitalent26 - Marketing com Visão. Desenvolvido pela{" "}
-            <a
-              href="https://fslsolution.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "#2563eb", fontWeight: 600 }}
-            >
-              @FSLSolution
-            </a>{" "}
-            - Todos os direitos reservados.
-          </Text>
-        </Footer>
+        <CustomFooter />
 
         {/* Sticky Mobile CTA */}
         {screens.xs && showStickyCTA && (
@@ -1690,6 +1632,78 @@ const LandingPage: React.FC = () => {
           >
             Ao submeter os seus dados, está a concordar com o seu tratamento para as finalidades acima descritas.
           </Checkbox>
+        </Modal>
+
+        {/* Success Modal (Attendee & Partner) */}
+        <Modal
+          open={successModalVisible}
+          onCancel={() => setSuccessModalVisible(false)}
+          footer={null}
+          centered
+          width={480}
+          styles={{
+            body: {
+              padding: "32px 24px",
+              textAlign: "center",
+              background: "#ffffff",
+              borderRadius: "24px",
+            },
+            content: {
+              borderRadius: "24px",
+              padding: 0,
+              overflow: "hidden",
+            }
+          }}
+        >
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <CheckCircleOutlined
+              style={{
+                fontSize: "64px",
+                color: "#22c55e",
+                marginBottom: "20px",
+              }}
+            />
+            <Title
+              level={3}
+              style={{
+                color: "#1e293b",
+                fontWeight: 800,
+                marginBottom: "16px",
+                fontFamily: "'Outfit', sans-serif",
+              }}
+            >
+              Inscrição Confirmada!
+            </Title>
+            <Paragraph
+              style={{
+                color: "#475569",
+                fontSize: "15px",
+                lineHeight: "1.6",
+                marginBottom: "28px",
+                fontFamily: "'Outfit', sans-serif",
+                textAlign: "center",
+              }}
+            >
+              Olá! O teu comprovativo oficial em PDF foi gerado e enviado com sucesso para a nossa organização via WhatsApp. Vemo-nos no Auditório do IEFP Rio Meão!
+            </Paragraph>
+            <Button
+              type="primary"
+              size="large"
+              shape="round"
+              onClick={() => setSuccessModalVisible(false)}
+              style={{
+                height: "50px",
+                padding: "0 40px",
+                fontSize: "1rem",
+                fontWeight: 700,
+                background: "#2563eb",
+                borderColor: "#2563eb",
+                boxShadow: "0 4px 14px rgba(37, 99, 235, 0.3)",
+              }}
+            >
+              Excelente!
+            </Button>
+          </div>
         </Modal>
       </Layout>
     </ConfigProvider>
