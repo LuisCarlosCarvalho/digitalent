@@ -493,7 +493,7 @@ const LandingPage: React.FC = () => {
               <div
                 className="marquee-content"
                 style={{
-                  animationDuration: "25s",
+                  animationDuration: "40s",
                   display: "flex",
                   alignItems: "center",
                 }}
@@ -505,13 +505,6 @@ const LandingPage: React.FC = () => {
                     className="sponsor-logo"
                     style={{
                       margin: "0 20px",
-                      transition: "transform 0.3s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "scale(1.05)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "scale(1)";
                     }}
                   >
                     <img
