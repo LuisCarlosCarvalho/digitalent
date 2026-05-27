@@ -42,7 +42,7 @@ import {
 const SpeakersSection = lazy(() => import("./sections/SpeakersSection"));
 const LocationSection = lazy(() => import("./sections/LocationSection"));
 const ScheduleSection = lazy(() => import("./sections/ScheduleSection"));
-import { CountdownTimer } from "./CountdownTimer";
+import CountdownTimer from "./sections/CountdownTimer";
 import { Footer as CustomFooter } from "./Footer";
 
 const { Header, Content } = Layout;
