@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Row, Col, Typography, Space } from 'antd';
 
 const { Text } = Typography;
@@ -11,11 +11,14 @@ interface TimeLeft {
 }
 
 export default function CountdownTimer() {
-  // Data Alvo: 09 de Julho de 2026 às 09:00:00
-  const targetDate = new Date('2026-07-09T09:00:00').getTime();
+  // Data Alvo definitiva: 09 de Julho de 2026 às 09:00:00 AM (Fuso Horário Local)
+  const TARGET_TIMESTAMP = new Date('2026-07-09T09:00:00').getTime();
 
-  const calculateTimeLeft = (): TimeLeft => {
-    const difference = targetDate - new Date().getTime();
+  // Função isolada e memorizada para evitar recriação de escopo
+  const calculateTimeLeft = useCallback((): TimeLeft => {
+    const now = Date.now();
+    const difference = TARGET_TIMESTAMP - now;
+
     let timeLeft: TimeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
 
     if (difference > 0) {
@@ -27,48 +30,50 @@ export default function CountdownTimer() {
       };
     }
     return timeLeft;
-  };
+  }, [TARGET_TIMESTAMP]);
 
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    // Atualização forçada a cada segundo
+    const intervalId = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
-    return () => clearInterval(timer);
-  }, []);
+    // Limpeza de memória ao desmontar o componente
+    return () => clearInterval(intervalId);
+  }, [calculateTimeLeft]);
 
-  // Formatar números com zero à esquerda (ex: 09 em vez de 9)
-  const formatNumber = (num: number) => String(num).padStart(2, '0');
+  const formatDigits = (num: number) => String(num).padStart(2, '0');
 
   return (
-    <div style={{ width: '100%', padding: '0 16px', margin: '20px 0' }}>
+    <div style={{ width: '100%', padding: '0 16px', margin: '24px auto', maxWidth: '1200px' }}>
       <Row justify="center" align="middle">
         <Col xs={24} sm={22} md={18} lg={14}>
-          <div 
-            className="countdown-container"
+          <div
             style={{
-              background: 'rgba(37, 99, 235, 0.08)',
-              border: '1px solid rgba(37, 99, 235, 0.3)',
+              background: 'rgba(37, 99, 235, 0.05)',
+              border: '1px solid rgba(37, 99, 235, 0.2)',
               borderRadius: '50px',
-              padding: '12px 24px',
+              padding: '14px 28px',
               display: 'flex',
               flexWrap: 'wrap',
               justifyContent: 'space-between',
               alignItems: 'center',
               gap: '12px',
-              boxShadow: '0 0 20px rgba(37, 99, 235, 0.15)'
+              backdropFilter: 'blur(8px)',
+              boxShadow: '0 4px 12px rgba(37, 99, 235, 0.05)'
             }}
           >
-            {/* Bloco da Data do Evento */}
-            <div style={{ flex: '1 1 auto', textAlign: 'center', minWidth: '140px' }}>
-              <Text 
-                strong 
-                style={{ 
-                  color: '#2563eb', 
-                  fontSize: '14px', 
-                  letterSpacing: '2px',
+            {/* Target Date Label */}
+            <div style={{ flex: '1 1 auto', textAlign: 'center', minWidth: '150px' }}>
+              <Text
+                strong
+                style={{
+                  color: '#2563eb',
+                  fontSize: '14px',
+                  letterSpacing: '1.5px',
+                  fontWeight: 700,
                   textTransform: 'uppercase'
                 }}
               >
@@ -76,12 +81,12 @@ export default function CountdownTimer() {
               </Text>
             </div>
 
-            {/* Linha Divisória Oculta no Mobile */}
-            <div className="hidden-mobile" style={{ width: '1px', height: '24px', background: 'rgba(37, 99, 235, 0.3)' }}></div>
+            {/* Vertical Divider Line */}
+            <div className="countdown-divider" style={{ width: '1px', height: '24px', background: 'rgba(37, 99, 235, 0.2)' }}></div>
 
-            {/* Bloco dos Números Regressivos */}
+            {/* Live Counter Digits */}
             <div style={{ flex: '1 1 auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Space size={16} align="center">
+              <Space size={14} align="center">
                 {[
                   { label: 'DIAS', value: timeLeft.days },
                   { label: 'HORAS', value: timeLeft.hours },
@@ -89,16 +94,16 @@ export default function CountdownTimer() {
                   { label: 'SEG', value: timeLeft.seconds }
                 ].map((item, index) => (
                   <React.Fragment key={item.label}>
-                    <div style={{ textAlign: 'center', display: 'inline-block', minWidth: '42px' }}>
-                      <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#1e293b', fontFamily: 'monospace', lineHeight: '1' }}>
-                        {formatNumber(item.value)}
+                    <div style={{ textAlign: 'center', minWidth: '45px' }}>
+                      <div style={{ fontSize: '20px', fontWeight: 800, color: '#1e293b', fontFamily: 'monospace', lineHeight: '1' }}>
+                        {formatDigits(item.value)}
                       </div>
-                      <div style={{ fontSize: '9px', color: '#64748b', marginTop: '4px', fontWeight: '600', letterSpacing: '0.5px' }}>
+                      <div style={{ fontSize: '9px', color: '#64748b', marginTop: '4px', fontWeight: 700, letterSpacing: '0.5px' }}>
                         {item.label}
                       </div>
                     </div>
                     {index < 3 && (
-                      <span style={{ color: '#2563eb', fontWeight: 'bold', fontSize: '18px', alignSelf: 'flex-start', marginTop: '-2px' }}>:</span>
+                      <span style={{ color: '#2563eb', fontWeight: 700, fontSize: '18px', position: 'relative', top: '-4px' }}>:</span>
                     )}
                   </React.Fragment>
                 ))}
@@ -108,17 +113,15 @@ export default function CountdownTimer() {
         </Col>
       </Row>
 
-      {/* Estilos CSS Embutidos para Ajustes de Tela */}
       <style>{`
         @media (max-width: 576px) {
-          .countdown-container {
-            border-radius: 24px !important;
+          .countdown-divider {
+            display: none !important;
+          }
+          div[style*="borderRadius: '50px'"] {
+            border-radius: 20px !important;
             padding: 16px !important;
             justify-content: center !important;
-            gap: 8px !important;
-          }
-          .hidden-mobile {
-            display: none !important;
           }
         }
       `}</style>
