@@ -1,0 +1,42 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum AccessTier {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum LanguagePref {
+  PT
+  EN
+}
+
+model DossierLead {
+  id               String     @id @default(uuid())
+  name             String     @map("name")
+  email            String     @unique @map("email")
+  phone            String     @map("phone") // WhatsApp Number
+  tierAccess       AccessTier @default(FREE) @map("tier_access")
+  registrationDate DateTime   @default(now()) @map("registration_date")
+
+  @@map("dossier_leads")
+}
+
+model SubscriberLead {
+  id                 String       @id @default(uuid()) @map("id")
+  fullName           String       @map("full_name")
+  corporateEmail     String       @unique @map("corporate_email")
+  whatsappNumber     String       @map("whatsapp_number")
+  languagePreference LanguagePref @default(PT) @map("language_preference")
+  planTier           AccessTier   @default(FREE) @map("plan_tier")
+  registrationDate   DateTime     @default(now()) @map("registration_date")
+
+  @@map("subscriber_leads")
+}

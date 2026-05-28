@@ -509,7 +509,7 @@ const LandingPage: React.FC = () => {
                   >
                     <img
                       src={logoUrl}
-                      alt={`Apoiador ${i + 1}`}
+                      alt={`Parceiro ${i + 1}`}
                       style={{
                         height: screens.xs ? "70px" : "100px",
                         width: "auto",
@@ -603,10 +603,10 @@ const LandingPage: React.FC = () => {
                       letterSpacing: "-0.02em",
                     }}
                   >
-                    Eleve seu{" "}
+                    Eleve o seu{" "}
                     <span style={{ color: "#2563eb" }}>Negócio Local</span>
                     <br />
-                    para o Digital
+                    à era Digital
                   </Title>
 
                   <Paragraph
@@ -1347,7 +1347,7 @@ const LandingPage: React.FC = () => {
                           onClick={() => setActiveTab("2")}
                           style={{ color: "#2563eb", fontWeight: 600, fontSize: "1rem" }}
                         >
-                          Quero candidatar a minha empresa como Apoiador ➔
+                          Quero candidatar a minha empresa como Parceiro ➔
                         </Button>
                       </div>
                     </div>
@@ -1363,7 +1363,7 @@ const LandingPage: React.FC = () => {
                           level={4}
                           style={{ color: "var(--text-main)" }}
                         >
-                          Candidatura a Apoiador
+                          Candidatura a Parceiro
                         </Title>
                         <Text style={{ color: "var(--text-sec)" }}>
                           Posicione a sua marca diante de
@@ -1516,7 +1516,7 @@ const LandingPage: React.FC = () => {
                               color: "#2563eb",
                             }}
                           >
-                            Enviar Candidatura a Apoiador
+                            Enviar Candidatura a Parceiro
                           </Button>
                         </Form.Item>
                       </Form>

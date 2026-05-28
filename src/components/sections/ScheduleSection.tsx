@@ -291,7 +291,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                 boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)'
               }}
             >
-              <Title level={4} style={{ color: 'var(--text-main)' }}>Seja um Apoiador</Title>
+              <Title level={4} style={{ color: 'var(--text-main)' }}>Seja um Parceiro</Title>
               <Paragraph style={{ color: 'var(--text-sec)' }}>
                 Posicione a sua marca diante de centenas de pequenas empresas locais e lidere a transformação digital na região.
               </Paragraph>
@@ -301,7 +301,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                 icon={<RocketOutlined />}
                 onClick={() => onRegisterClick('2')}
               >
-                Quero ser Apoiador
+                Quero ser Parceiro
               </Button>
             </Card>
           </Col>

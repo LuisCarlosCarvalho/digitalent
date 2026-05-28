@@ -1,94 +1,129 @@
-import { Row, Col, Typography } from 'antd';
+import { useState, useEffect } from 'react';
+import { Row, Col, Typography, Button } from 'antd';
+import { GlobalOutlined } from '@ant-design/icons';
 
 const { Text } = Typography;
 
 export default function CountdownTimer() {
-  // Configuração das datas em formato padrão ISO
-  const TARGET_DATE = new Date('2026-07-09T00:00:00');
-  const CURRENT_DATE = new Date('2026-05-27T00:00:00'); // Data atual síncrona do sistema
+  const [language, setLanguage] = useState<'PT' | 'EN'>('PT');
 
-  // Cálculo preciso da diferença de dias absolutos
-  const diffInMs = TARGET_DATE.getTime() - CURRENT_DATE.getTime();
-  const daysRemaining = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+  const getDaysRemaining = (): number => {
+    // Target date in Portugal's West time zone: July 9, 2026 00:00:00
+    const targetNormalized = new Date(2026, 6, 9, 0, 0, 0, 0).getTime(); // July is index 6
+    
+    // Live client current date
+    const clientDate = new Date();
+    const clientNormalized = new Date(
+      clientDate.getFullYear(),
+      clientDate.getMonth(),
+      clientDate.getDate(),
+      0, 0, 0, 0
+    ).getTime();
+
+    // Exact integer remaining days math
+    const diffInMs = targetNormalized - clientNormalized;
+    const daysRemaining = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    
+    return daysRemaining > 0 ? daysRemaining : 0;
+  };
+
+  const [days, setDays] = useState<number>(getDaysRemaining);
+
+  useEffect(() => {
+    setDays(getDaysRemaining());
+
+    const interval = setInterval(() => {
+      setDays(getDaysRemaining());
+    }, 1000 * 60 * 60); // Clean hourly interval update
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div style={{ width: '100%', padding: '0 16px', margin: '24px auto', maxWidth: '1200px' }}>
+    <div style={{ width: '100%', padding: '0 12px', margin: '24px auto', maxWidth: '1200px' }}>
       <Row justify="center" align="middle">
-        <Col xs={24} sm={22} md={16} lg={12}>
+        <Col>
           <div
             style={{
-              background: 'rgba(37, 99, 235, 0.04)',
-              border: '1px solid rgba(37, 99, 235, 0.2)',
-              borderRadius: '50px',
-              padding: '12px 32px',
+              background: 'rgba(3, 7, 18, 0.65)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid rgba(37, 99, 235, 0.3)',
+              borderRadius: '9999px',
+              padding: '10px 24px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              gap: '24px',
-              boxShadow: '0 2px 8px rgba(37, 99, 235, 0.03)'
+              gap: '16px',
+              boxShadow: '0 0 35px rgba(37, 99, 235, 0.15), inset 0 0 15px rgba(37, 99, 235, 0.08)',
+              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
-            {/* Bloco de Data Base */}
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Text
-                strong
-                style={{
-                  color: '#2563eb',
-                  fontSize: '12px',
-                  letterSpacing: '1.5px',
-                  fontWeight: 700,
-                  textTransform: 'uppercase'
-                }}
-              >
-                09 de Julho 2026
-              </Text>
-            </div>
-
-            {/* Divisor Vertical */}
-            <div 
-              style={{ 
-                width: '1px', 
-                height: '20px', 
-                background: 'rgba(37, 99, 235, 0.2)' 
+            {/* Unified Text Layout with Bulletproof Anti-Corruption Font Styling */}
+            <Text
+              strong
+              style={{
+                color: '#ffffffff',
+                fontSize: '15px',
+                letterSpacing: '2px',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                fontFamily: "'Outfit', sans-serif",
+                whiteSpace: 'nowrap',
+                display: 'inline-flex',
+                alignItems: 'center',
               }}
-            ></div>
+            >
+              {language === 'PT' ? (
+                <span style={{ display: 'inline-flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+                  <span style={{ whiteSpace: 'nowrap', fontFamily: "'Outfit', sans-serif" }}>
+                    09 DE JULHO 2026
+                  </span>
+                  <span style={{ color: 'rgba(253, 253, 253, 0.4)', margin: '0 8px', fontWeight: 300 }}>|</span>
+                  <span style={{ whiteSpace: 'nowrap', fontFamily: "'Outfit', sans-serif" }}>
+                    FALTAM <span style={{ fontSize: '18px', fontWeight: 800, fontFamily: 'monospace', margin: '0 2px' }}>{days}</span> DIAS
+                  </span>
+                </span>
+              ) : (
+                <span style={{ display: 'inline-flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+                  <span style={{ whiteSpace: 'nowrap', fontFamily: "'Outfit', sans-serif" }}>
+                    JULY 09, 2026
+                  </span>
+                  <span style={{ color: 'rgba(37, 99, 235, 0.4)', margin: '0 8px', fontWeight: 300 }}>|</span>
+                  <span style={{ whiteSpace: 'nowrap', fontFamily: "'Outfit', sans-serif" }}>
+                    <span style={{ fontSize: '18px', fontWeight: 800, fontFamily: 'monospace', margin: '0 2px' }}>{days}</span> DAYS LEFT
+                  </span>
+                </span>
+              )}
+            </Text>
 
-            {/* Contador Simplificado Baseado em Dias */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span 
-                style={{ 
-                  color: '#2563eb', 
-                  fontSize: '22px', 
-                  fontWeight: 400, 
-                  letterSpacing: '0.5px' 
-                }}
-              >
-                FALTAM
-              </span>
-              <span 
-                style={{ 
-                  color: '#2563eb', 
-                  fontSize: '38px', 
-                  fontWeight: 600, 
-                  lineHeight: '1',
-                  fontFamily: 'system-ui, sans-serif',
-                  position: 'relative',
-                  top: '-2px'
-                }}
-              >
-                {daysRemaining}
-              </span>
-              <span 
-                style={{ 
-                  color: '#2563eb', 
-                  fontSize: '22px', 
-                  fontWeight: 500, 
-                  letterSpacing: '0.5px' 
-                }}
-              >
-                DIAS
-              </span>
-            </div>
+            {/* i18n Language Toggle Button */}
+            <Button
+              type="text"
+              size="small"
+              icon={<GlobalOutlined style={{ color: '#ffffffff', fontSize: '15px' }} />}
+              onClick={() => setLanguage(l => l === 'PT' ? 'EN' : 'PT')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'rgba(37, 99, 235, 0.1)',
+                borderRadius: '50%',
+                width: '26px',
+                height: '26px',
+                border: 'none',
+                padding: 0,
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(37, 99, 235, 0.2)';
+                e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(37, 99, 235, 0.1)';
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            />
           </div>
         </Col>
       </Row>

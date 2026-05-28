@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { Typography, Row, Col, Card, Button, Grid, Space } from 'antd';
 import { GoogleOutlined, CompassOutlined, EnvironmentFilled } from '@ant-design/icons';
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Paragraph } = Typography;
 const { useBreakpoint } = Grid;
 
 const LocationSection: FC = () => {
@@ -50,17 +50,7 @@ const LocationSection: FC = () => {
             </Col>
           ))}
         </Row>
-
-        <div style={{ marginTop: '40px' }}>
-          <Text style={{ color: '#64748b' }}>
-            Quer ser um patrocinador?{' '}
-            <a href="mailto:contato@digitalent.pt" style={{ color: '#2563eb', fontWeight: 600 }}>
-              Entre em contacto pelo email: contato@digitalent.pt
-            </a>
-          </Text>
-        </div>
       </div>
-
       {/* Exact Location Section */}
       <div style={{ 
         position: 'relative', 

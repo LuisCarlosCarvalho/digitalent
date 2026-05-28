@@ -4,8 +4,13 @@ import PDFDocument from 'pdfkit';
 import axios from 'axios';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
+import Stripe from 'stripe';
 
 dotenv.config();
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+  apiVersion: '2023-10-16' as any,
+});
 
 const app = express();
 app.use(cors());
@@ -120,6 +125,98 @@ app.post('/api/register-whatsapp', async (req, res) => {
   } catch (error: unknown) {
     console.error("Erro interno no envio invisível:", error);
     res.status(500).json({ success: false, error: "Erro ao processar e disparar fluxo automático." });
+  }
+});
+
+// Stripe Checkout Integration Endpoint (Legacy Legacy fallback)
+app.post('/api/stripe/create-checkout', async (req, res) => {
+  const { tier, name, email, phone } = req.body;
+
+  if (!tier || !['PRO', 'ENTERPRISE'].includes(tier)) {
+    return res.status(400).json({ error: 'Invalid or missing access tier. Must be PRO or ENTERPRISE.' });
+  }
+
+  const amount = tier === 'PRO' ? 4900 : 19900;
+  const productName = tier === 'PRO' ? 'Digitalent26 Pro Pass' : 'Digitalent26 Enterprise Pass';
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'eur',
+            product_data: {
+              name: productName,
+              metadata: { tier },
+            },
+            unit_amount: amount,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      customer_email: email,
+      success_url: `${process.env.FRONTEND_URL || 'https://digitalent.pt'}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.FRONTEND_URL || 'https://digitalent.pt'}/cancel`,
+      metadata: { name, email, phone, tier },
+    });
+
+    res.json({ id: session.id, url: session.url });
+  } catch (error: any) {
+    console.error('❌ Stripe Checkout Error:', error);
+    res.status(500).json({ error: error.message || 'Internal Stripe Checkout error' });
+  }
+});
+
+// Official Stripe Session Creator Integration Endpoint
+app.post('/api/stripe/create-session', async (req, res) => {
+  const { tier, fullName, corporateEmail, whatsappNumber, languagePreference } = req.body;
+
+  // Validate tier access
+  if (!tier || !['PRO', 'ENTERPRISE'].includes(tier)) {
+    return res.status(400).json({ error: 'Invalid or missing plan tier. Must be PRO or ENTERPRISE.' });
+  }
+
+  const amount = tier === 'PRO' ? 4900 : 19900; // in cents (€49 / €199)
+  const productName = tier === 'PRO' ? 'Digitalent26 Premium Pro Pass' : 'Digitalent26 Premium Enterprise Pass';
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'eur',
+            product_data: {
+              name: productName,
+              metadata: {
+                tier,
+                languagePreference: languagePreference || 'PT'
+              },
+            },
+            unit_amount: amount,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      customer_email: corporateEmail,
+      success_url: `${process.env.FRONTEND_URL || 'https://digitalent.pt'}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.FRONTEND_URL || 'https://digitalent.pt'}/cancel`,
+      metadata: {
+        fullName: fullName || '',
+        corporateEmail: corporateEmail || '',
+        whatsappNumber: whatsappNumber || '',
+        planTier: tier,
+        languagePreference: languagePreference || 'PT'
+      },
+    });
+
+    res.status(200).json({ id: session.id, url: session.url });
+  } catch (error: any) {
+    console.error('❌ Stripe Create-Session Error:', error);
+    res.status(500).json({ error: error.message || 'Internal Stripe session creation failed' });
   }
 });
 

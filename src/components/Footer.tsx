@@ -76,7 +76,7 @@ export const Footer: React.FC = () => {
             <InstagramOutlined />
           </a>
           <a
-            href="https://www.linkedin.com/in/digitalent26"
+            href="https://www.linkedin.com/company/digitalent26/?viewAsMember=true"
             target="_blank"
             rel="noopener noreferrer"
             style={{

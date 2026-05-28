@@ -12,9 +12,13 @@ function App() {
 
     if (
       pathname === "/inscricao" ||
+      pathname === "/insc" ||
       hash === "#/inscricao" ||
+      hash === "#/insc" ||
       hash === "#inscricao" ||
-      pParam === "inscricao"
+      hash === "#insc" ||
+      pParam === "inscricao" ||
+      pParam === "insc"
     ) {
       return "inscricao";
     }
