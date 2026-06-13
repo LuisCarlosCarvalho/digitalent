@@ -3,7 +3,7 @@ import { Form, Input, Button, Upload, Checkbox, Row, Col, Typography, message, S
 import { InboxOutlined, GlobalOutlined } from '@ant-design/icons';
 import type { UploadFile } from 'antd/es/upload/interface';
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph } = Typography;
 
 const SpeakersRegistration: React.FC = () => {
   const [form] = Form.useForm();
