@@ -10,9 +10,7 @@ import { PrismaClient } from '@prisma/client';
 
 dotenv.config();
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy_key', {
-  apiVersion: '2023-10-16' as any,
-});
+
 
 const app = express();
 app.use(cors());
@@ -170,6 +168,9 @@ app.post('/api/stripe/create-checkout', async (req, res) => {
   const productName = tier === 'PRO' ? 'Digitalent26 Pro Pass' : 'Digitalent26 Enterprise Pass';
 
   try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy_key', {
+      apiVersion: '2023-10-16' as any,
+    });
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -212,6 +213,9 @@ app.post('/api/stripe/create-session', async (req, res) => {
   const productName = tier === 'PRO' ? 'Digitalent26 Premium Pro Pass' : 'Digitalent26 Premium Enterprise Pass';
 
   try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy_key', {
+      apiVersion: '2023-10-16' as any,
+    });
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
