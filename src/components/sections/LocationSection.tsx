@@ -145,7 +145,7 @@ const LocationSection: FC = () => {
                     borderRadius: '12px',
                     fontSize: '1rem',
                     fontWeight: 700,
-                    color: '#1e293b',
+                    color: '#e0dd0fff',
                     borderColor: '#e2e8f0',
                     display: 'flex',
                     alignItems: 'center',

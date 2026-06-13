@@ -70,7 +70,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                       </Title>
                       <div style={{ marginTop: '4px' }}>
                         <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradora: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Beatriz Andrade Ferreira</Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text>
                         <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Senior Global Brand Manager - Mimosa na Lactogal)</Text>
                       </div>
                     </div>
@@ -116,7 +116,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                       </Title>
                       <div style={{ marginTop: '4px' }}>
                         <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradora: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Laura Fontoura</Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text>
                         <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Fundadora & CEO na Syena)</Text>
                       </div>
                     </div>
@@ -131,11 +131,11 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                         Painel Temático: Gestão de Inteligência Artificial na Era Digital
                       </Title>
                       <div style={{ marginTop: '6px' }}>
-                        <div style={{ color: 'var(--text-sec)', fontSize: '0.9rem', marginBottom: '2px' }}>Oradores Convidados:</div>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Inês Sá Silva</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Aero Agency), </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Gonçalo Bastos da Fonseca</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Fundação Champalimaud) </Text>
+                        <div style={{ color: 'var(--text-sec)', fontSize: '0.9rem', marginBottom: '2px' }}>Oradores:</div>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Aero Agency), </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Fundação Champalimaud) </Text>
                         <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>e </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Inês G.</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Corticeira Amorim)</Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservados</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Corticeira Amorim)</Text>
                       </div>
                     </div>
                   ),
@@ -164,7 +164,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                       </Title>
                       <div style={{ marginTop: '4px' }}>
                         <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Rafael Pereira</Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text>
                         <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Co-Founder na Digital Alchimia)</Text>
                       </div>
                     </div>
@@ -180,7 +180,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                       </Title>
                       <div style={{ marginTop: '4px' }}>
                         <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Marco Gouveia</Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text>
                         <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Consultor & Orador de Marketing Digital)</Text>
                       </div>
                     </div>
@@ -210,7 +210,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                       </Title>
                       <div style={{ marginTop: '4px' }}>
                         <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Bruno V.</Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text>
                         <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (AI Consulting & Innovation Strategist na Certidata)</Text>
                       </div>
                     </div>
@@ -226,10 +226,10 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                       </Title>
                       <div style={{ marginTop: '6px' }}>
                         <div style={{ color: 'var(--text-sec)', fontSize: '0.9rem', marginBottom: '2px' }}>Oradores Convidados:</div>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Sara Sousa</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Blip), </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Gaspar João</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(coCEO LOBA) </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Blip), </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(coCEO LOBA) </Text>
                         <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>e </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>João Ribas</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Partner Link&Grow)</Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Partner Link&Grow)</Text>
                       </div>
                     </div>
                   ),

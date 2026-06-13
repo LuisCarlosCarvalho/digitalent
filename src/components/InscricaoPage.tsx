@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Row, Col, Typography, Form, Input, Button, Badge, Card, notification, Space, Modal, Checkbox, ConfigProvider, theme } from 'antd';
-import { UserOutlined, MailOutlined, PhoneOutlined, GlobalOutlined, CheckCircleOutlined, ArrowRightOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, MailOutlined, PhoneOutlined, GlobalOutlined, CheckCircleOutlined, ArrowRightOutlined, LockOutlined, InstagramOutlined } from '@ant-design/icons';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -12,7 +12,7 @@ const dictionary = {
     heroTitle: 'A vantagem invisível que está a redefinir o marketing em 2026.',
     heroSub: 'Desvende os códigos exatos que empresas tradicionais aplicam para reter carteiras de clientes e gerar lucros maciços com a internet, totalmente blindados contra torções técnicas ou agências abusivas.',
     bullet1: 'O mapa de ação para explodir os seus resultados comerciais.',
-    bullet2: 'Garanta Credencial Digital Conectada ao LinkedIn (FUTURE-PROOF 2026)',
+    bullet2: 'Garanta Credencial Digital Conectada ao Instagram',
     dossierTitle: 'O Raio-X Impiedoso aos Anúncios que Queimam o Seu Caixa',
     dossierText: 'Cansado de ver o seu dinheiro sumir em orçamentos vazios sem retorno comercial palpável? No dia 9 de Julho, vamos auditar em filtra os campanhas obsoletas que sabotam o seu negócio, entregando de bandeja as ferramentas táticas de conversão imediata.',
     benefit1: 'Estratégias que funcionam agora',
@@ -169,6 +169,14 @@ export default function InscriptionPage() {
       });
       const data = await response.json();
       if (response.ok || data.success) {
+        // Track Facebook Pixel Event
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+          (window as any).fbq('track', 'CompleteRegistration', {
+            content_name: 'Dossier Antidesperdício',
+            status: 'Success'
+          });
+        }
+
         notification.success({
           message: t.submitSuccess,
           description: t.submitSuccessDesc,
@@ -295,6 +303,15 @@ export default function InscriptionPage() {
           .scan-laser {
             animation: scanLine 12s linear infinite;
           }
+
+          .insta-btn-glow {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          }
+          .insta-btn-glow:hover {
+            transform: scale(1.05) translateY(-1px) !important;
+            box-shadow: 0 6px 18px rgba(220, 39, 67, 0.45) !important;
+            filter: brightness(1.1);
+          }
         `}} />
 
         {/* NAVBAR (Badge and Lang Switcher strictly on the top-right) */}
@@ -331,7 +348,42 @@ export default function InscriptionPage() {
 
               <Space direction="vertical" size={14} style={{ width: '100%', marginBottom: '32px' }}>
                 <Space align="start"><CheckCircleOutlined style={{ color: '#2563eb', marginTop: '3px' }} /> <Text style={{ color: '#1e293b', fontFamily: safeFont }}>{t.bullet1}</Text></Space>
-                <Space align="start"><CheckCircleOutlined style={{ color: '#2563eb', marginTop: '3px' }} /> <Text style={{ color: '#1e293b', fontWeight: 600, fontFamily: safeFont }}>{t.bullet2}</Text></Space>
+                <Space align="start">
+                  <CheckCircleOutlined style={{ color: '#2563eb', marginTop: '3px' }} />
+                  {lang === 'PT' ? (
+                    <span style={{ display: 'inline-flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px', lineHeight: '1.4' }}>
+                      <Text style={{ color: '#1e293b', fontWeight: 600, fontFamily: safeFont }}>
+                        Garanta Credencial Digital Conectada ao
+                      </Text>
+                      <Button 
+                        type="primary" 
+                        size="small" 
+                        icon={<InstagramOutlined />} 
+                        href="https://www.instagram.com/digitalent26/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{ 
+                          background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)', 
+                          border: 'none', 
+                          borderRadius: '6px', 
+                          fontWeight: 700, 
+                          fontFamily: safeFont, 
+                          fontSize: '12px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          padding: '4px 10px',
+                          height: '26px',
+                          boxShadow: '0 4px 12px rgba(220, 39, 67, 0.25)'
+                        }}
+                        className="insta-btn-glow"
+                      >
+                        Instagram
+                      </Button>
+                    </span>
+                  ) : (
+                    <Text style={{ color: '#1e293b', fontWeight: 600, fontFamily: safeFont }}>{t.bullet2}</Text>
+                  )}
+                </Space>
               </Space>
 
               {/* CARD INTERNO - RAIO X DOS ANÚNCIOS */}

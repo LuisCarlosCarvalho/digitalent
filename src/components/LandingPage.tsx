@@ -153,26 +153,47 @@ const LandingPage: React.FC = () => {
     try {
       const env = (import.meta as unknown as { env: Record<string, string | undefined> }).env;
       const apiUrl = env.VITE_API_URL || "";
-      const waToken = env.VITE_WHATSAPP_TOKEN || "";
 
-      const response = await fetch(`${apiUrl}/api/register-whatsapp`, {
+      let endpoint = "";
+      let payload = {};
+
+      if (type === "Participante") {
+        endpoint = "/api/participants/register";
+        payload = {
+          fullName: values.nome,
+          emailAddress: values.email,
+          phoneNumber: values.telemovel,
+          companyName: values.empresa,
+          dataProtectionConsent: true
+        };
+      } else {
+        endpoint = "/api/partners/register";
+        payload = {
+          companyName: values.empresa,
+          contactName: values.responsavel,
+          emailAddress: values.email,
+          phoneNumber: values.telemovel,
+          objectives: values.objetivos,
+          dataProtectionConsent: true
+        };
+      }
+
+      const response = await fetch(`${apiUrl}${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(waToken ? { Authorization: `Bearer ${waToken}` } : {}),
         },
-        body: JSON.stringify({
-          formType: type,
-          name: values.nome || values.responsavel,
-          email: values.email,
-          phone: values.telemovel,
-          company: values.empresa || "",
-          sponsorshipLevel: values.nivel || "",
-          adminNumber: "351964300708",
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
+        // Track Facebook Pixel Event
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+          (window as any).fbq('track', 'Lead', {
+            content_name: type,
+            status: 'Success'
+          });
+        }
         setSuccessModalVisible(true);
       } else {
         throw new Error("HTTP error " + response.status);
@@ -206,7 +227,9 @@ const LandingPage: React.FC = () => {
     "https://i.imgur.com/n0g2qAC.png",
     "https://i.imgur.com/SFWphsk.png",
     "https://i.imgur.com/Plb9o3i.png",
-    "https://i.imgur.com/EpDGrzT.png"
+    "https://i.imgur.com/EpDGrzT.png",
+    "https://i.imgur.com/KvjOZO6.png",
+    "https://i.imgur.com/bfYdCUW.png"
   ];
 
   return (

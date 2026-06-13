@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import LandingPage from "./components/LandingPage";
 import InscricaoPage from "./components/InscricaoPage";
+import SpeakersRegistration from "./components/sections/SpeakersRegistration";
+import ParticipantRegistration from "./components/sections/ParticipantRegistration";
+import PartnerRegistration from "./components/sections/PartnerRegistration";
 import "./index.css";
 
 function App() {
@@ -22,6 +25,34 @@ function App() {
     ) {
       return "inscricao";
     }
+
+    if (
+      pathname === "/oradores" ||
+      hash === "#/oradores" ||
+      hash === "#oradores" ||
+      pParam === "oradores"
+    ) {
+      return "oradores";
+    }
+
+    if (
+      pathname === "/participante" ||
+      hash === "#/participante" ||
+      hash === "#participante" ||
+      pParam === "participante"
+    ) {
+      return "participante";
+    }
+
+    if (
+      pathname === "/parceiro" ||
+      hash === "#/parceiro" ||
+      hash === "#parceiro" ||
+      pParam === "parceiro"
+    ) {
+      return "parceiro";
+    }
+
     return "home";
   };
 
@@ -50,7 +81,11 @@ function App() {
 
   return (
     <div className="App">
-      {route === "inscricao" ? <InscricaoPage /> : <LandingPage />}
+      {route === "inscricao" ? <InscricaoPage /> : 
+       route === "oradores" ? <SpeakersRegistration /> : 
+       route === "participante" ? <ParticipantRegistration /> :
+       route === "parceiro" ? <PartnerRegistration /> :
+       <LandingPage />}
     </div>
   );
 }

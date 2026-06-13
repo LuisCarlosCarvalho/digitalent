@@ -28,3 +28,11 @@ jobs:
 
       - name: Validate TypeScript & Vite Production Build
         run: npm run build
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: npm install
+
+      - name: Validate Backend TypeScript Build
+        working-directory: ./backend
+        run: npx tsc --noEmit

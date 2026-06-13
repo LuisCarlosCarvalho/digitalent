@@ -40,3 +40,46 @@ model SubscriberLead {
 
   @@map("subscriber_leads")
 }
+
+model SpeakerApplication {
+  id                     String   @id @default(uuid()) @map("id")
+  fullName               String   @map("full_name")
+  professionalTitle      String   @map("professional_title")
+  companyName            String   @map("company_name")
+  whatsappNumber         String   @map("whatsapp_number")
+  emailAddress           String   @map("email_address")
+  speakerTopic           String   @map("speaker_topic")
+  observations           String?
+  registrationCode       String?  @map("registration_code")
+  attachmentVerification String   @map("attachment_verification")
+  dataProtectionConsent  Boolean  @map("data_protection_consent")
+  createdAt              DateTime @default(now()) @map("created_at")
+
+  @@map("speaker_applications")
+}
+
+model ParticipantApplication {
+  id                    String   @id @default(uuid())
+  fullName              String   @map("full_name")
+  phoneNumber           String?  @map("phone_number")
+  emailAddress          String   @map("email_address")
+  companyName           String?  @map("company_name")
+  registrationCode      String?  @map("registration_code")
+  dataProtectionConsent Boolean  @map("data_protection_consent")
+  createdAt             DateTime @default(now()) @map("created_at")
+
+  @@map("participant_applications")
+}
+
+model PartnerApplication {
+  id                    String   @id @default(uuid())
+  companyName           String   @map("company_name")
+  contactName           String   @map("contact_name")
+  emailAddress          String   @map("email_address")
+  phoneNumber           String?  @map("phone_number")
+  objectives            String?  
+  dataProtectionConsent Boolean  @map("data_protection_consent")
+  createdAt             DateTime @default(now()) @map("created_at")
+
+  @@map("partner_applications")
+}
