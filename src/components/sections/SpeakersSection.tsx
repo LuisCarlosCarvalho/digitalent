@@ -1,128 +1,201 @@
 import React from 'react';
-import { Typography, Row, Col, Space, Card, Button, Grid } from 'antd';
+import { Typography, Row, Col, Grid, Button } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Text } = Typography;
 const { useBreakpoint } = Grid;
+
+const speakers = [
+  { 
+    name: "Carlos Silva", 
+    role: "Growth Specialist & CEO", 
+    company: "DIGITALENT26",
+    expertise: "Estratégia de Crescimento Exponencial",
+    shortBio: "O Carlos trata de toda a operação de growth, coordenando cada processo de marketing para escalar negócios de forma sustentável e rápida.",
+    image: "https://i.imgur.com/5Q8Y4sI.png" 
+  },
+  { 
+    name: "Ana Rocha", 
+    role: "Local Traffic Expert", 
+    company: "ADS MASTER",
+    expertise: "Tráfego Pago para Comércio Local",
+    shortBio: "Especialista em gestão de tráfego pago para lojas físicas. A Ana foca-se no Retorno sobre o Investimento, atraindo clientes reais todos os dias.",
+    image: "https://i.imgur.com/5Q8Y4sI.png" 
+  },
+  { 
+    name: "Pedro Mendes", 
+    role: "Content Strategy Director", 
+    company: "SFL SOLUTION",
+    expertise: "Copywriting e Frameworks de Venda",
+    shortBio: "O cérebro por trás de campanhas de alta performance. O Pedro estrutura narrativas e copys que convertem curiosos em clientes pagantes.",
+    image: "https://i.imgur.com/5Q8Y4sI.png" 
+  },
+  { 
+    name: "Sofia Costa", 
+    role: "Social Media Strategist", 
+    company: "SOCIAL FLOW",
+    expertise: "Gestão de Comunidades e Redes Sociais",
+    shortBio: "Especialista em criar ligações autênticas através das redes sociais. A Sofia ajuda marcas a transformarem seguidores em clientes fiéis.",
+    image: "https://i.imgur.com/5Q8Y4sI.png" 
+  },
+  { 
+    name: "Ricardo Almeida", 
+    role: "Data Analytics Manager", 
+    company: "METRIX",
+    expertise: "Análise de Dados e Business Intelligence",
+    shortBio: "O mestre dos números. O Ricardo transforma dados complexos em insights práticos para tomada de decisão e otimização de campanhas.",
+    image: "https://i.imgur.com/5Q8Y4sI.png" 
+  },
+  { 
+    name: "Marta Sousa", 
+    role: "Branding Specialist", 
+    company: "CREATIVE LAB",
+    expertise: "Posicionamento de Marca e Identidade Visual",
+    shortBio: "Com uma visão apurada para o design, a Marta constrói marcas inesquecíveis que se destacam num mercado cada vez mais competitivo.",
+    image: "https://i.imgur.com/5Q8Y4sI.png" 
+  }
+];
 
 const SpeakersSection: React.FC = () => {
   const screens = useBreakpoint();
 
   return (
-    <section id="oradores" style={{ padding: screens.xs ? '60px 5%' : '120px 5%', background: 'var(--bg-base)' }}>
-      <div style={{ textAlign: 'center', marginBottom: screens.xs ? '40px' : '80px' }}>
-        <Title level={2} style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', color: 'var(--text-main)', marginBottom: '16px' }}>Oradores Confirmados</Title>
+    <section id="oradores" style={{ padding: screens.xs ? '60px 5%' : '100px 5%', background: 'var(--bg-base)' }}>
+      <div style={{ textAlign: 'center', marginBottom: screens.xs ? '40px' : '60px' }}>
+        <Title level={2} style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', color: 'var(--text-main)', marginBottom: '16px', textTransform: 'uppercase' }}>Oradores Confirmados</Title>
         <Text style={{ fontSize: '1.1rem', color: 'var(--text-sec)' }}>Especialistas prontos para partilhar o caminho do sucesso.</Text>
       </div>
 
-      <Space orientation="vertical" size={screens.xs ? 40 : 100} style={{ width: '100%' }}>
-        {[
-          { 
-            name: "Carlos Silva", 
-            role: "Growth Specialist & CEO", 
-            company: "Digitalent26",
-            expertise: "Estratégia de Crescimento Exponencial",
-            bio: [
-              "Carlos Silva é uma figura de referência no panorama do marketing digital em Portugal, acumulando mais de 15 anos de experiência na transformação de negócios tradicionais em potências digitais. Como CEO da Digitalent26, liderou projetos que resultaram em crescimentos de faturação superiores a 300% para PMEs locais.",
-              "A sua abordagem foca-se na desmistificação da tecnologia, tornando ferramentas complexas em processos simples e rentáveis. Neste evento, Carlos irá partilhar o 'roadmap' exato que utilizou para escalar dezenas de negócios, focando-se em resultados práticos e sustentáveis a longo prazo."
-            ],
-            image: "https://i.imgur.com/5Q8Y4sI.png" 
-          },
-          { 
-            name: "Ana Rocha", 
-            role: "Local Traffic Expert", 
-            company: "Ads Master",
-            expertise: "Tráfego Pago para Comércio Local",
-            bio: [
-              "Ana Rocha é especialista em gestão de tráfego pago, com foco exclusivo em atrair clientes para lojas físicas e serviços locais. Com passagens por agências internacionais, Ana domina as plataformas Google e Meta Ads como poucos, focando-se sempre no Retorno sobre o Investimento (ROI).",
-              "A sua metodologia permite que pequenos empresários compitam com grandes marcas, utilizando orçamentos otimizados e segmentação geográfica precisa. Durante a sua sessão, Ana irá revelar as campanhas 'chave-na-mão' que qualquer negócio local pode implementar para encher a sua agenda já amanhã."
-            ],
-            image: "https://i.imgur.com/5Q8Y4sI.png" 
-          },
-          { 
-            name: "Pedro Mendes", 
-            role: "Content Strategy Director", 
-            company: "SFL Solution",
-            expertise: "Copywriting e Frameworks de Venda",
-            bio: [
-              "Pedro Mendes é o cérebro por trás de algumas das campanhas de comunicação mais eficazes em Portugal. Diretor de Estratégia de Conteúdo na SFL Solution, Pedro especializou-se na arte de converter palavras em vendas diretas através de 'Copywriting' de alta performance.",
-              "Acredita que a história de um negócio é a sua maior vantagem competitiva. No Digitalent26, Pedro irá ensinar como construir uma narrativa poderosa que cria desejo imediato nos clientes e como estruturar mensagens que fecham vendas de forma automática, eliminando a resistência do preço."
-            ],
-            image: "https://i.imgur.com/5Q8Y4sI.png" 
+      <style>
+        {`
+          .speaker-card {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.15);
+            transition: box-shadow 0.4s ease, transform 0.4s ease;
           }
-        ].map((speaker, index) => (
-          <Card 
-            key={index} 
-            bordered={false} 
-            style={{ 
-              background:  'var(--card-bg)', 
-              borderRadius: '24px', 
-              boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
-            }}
-            styles={{ body: { padding: screens.xs ? '20px' : '40px' } }}
-          >
-            <Row gutter={[48, 48]} align="middle" style={{ flexDirection: screens.lg ? (index % 2 !== 0 ? 'row-reverse' : 'row') : 'column' }}>
-              <Col xs={24} md={24} lg={10}>
-                <div style={{ 
-                  position: 'relative', 
-                  borderRadius: '16px', 
-                  overflow: 'hidden',
-                  aspectRatio: screens.xs ? '4/3' : '3/4',
-                  boxShadow: screens.xs ? '0 0 25px rgba(37, 99, 235, 0.4)' : '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)'
-                }}>
-                  <img 
-                    src={speaker.image} 
-                    alt={speaker.name} 
-                    style={{ 
-                      width: '100%', 
-                      height: '100%', 
-                      objectFit: 'cover'
-                    }} 
-                  />
-                  <div style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    padding: screens.xs ? '20px' : '30px',
-                    background: 'linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%)',
-                    zIndex: 3
-                  }}>
-                    <Title level={3} style={{ color: '#fff', margin: 0, fontWeight: 800, fontSize: screens.xs ? '1.5rem' : '1.75rem' }}>{speaker.name}</Title>
-                    <Text style={{ color: 'var(--border-color)', fontSize: '1rem', opacity: 0.9 }}>{speaker.role}</Text>
-                    <br />
-                    <Text strong style={{ color: 'var(--brand-blue)', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{speaker.company}</Text>
-                  </div>
-                </div>
-              </Col>
-              <Col xs={24} md={24} lg={14}>
-                <div style={{ padding: screens.xs ? '0' : '0 10px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                    <div style={{ width: '40px', height: '2px', background: '#2563eb' }} />
-                    <Text strong style={{ color: '#2563eb', fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '2px' }}>
-                      Especialista em...
-                    </Text>
-                  </div>
-                  
-                  <Title level={2} style={{ color: 'var(--text-main)', marginBottom: '24px', fontSize: screens.xs ? '1.8rem' : '2.2rem' }}>
-                    {speaker.expertise}
-                  </Title>
 
-                  {speaker.bio.map((paragraph, pIndex) => (
-                    <Paragraph key={pIndex} style={{ fontSize: screens.xs ? '1.05rem' : '1.15rem', color: 'var(--text-sec)', lineHeight: '1.7', marginBottom: '20px', textAlign: 'left' }}>
-                      {paragraph}
-                    </Paragraph>
-                  ))}
+          .speaker-card:hover {
+            box-shadow: 0 20px 30px -5px rgba(37, 99, 235, 0.3);
+            transform: translateY(-4px);
+          }
+          
+          .speaker-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+          }
+          
+          .speaker-card:hover .speaker-image {
+            transform: scale(1.08);
+          }
 
-                  <Button type="link" icon={<ArrowRightOutlined />} style={{ color: '#2563eb', padding: 0, fontSize: '1.1rem', fontWeight: 600 }}>
-                    Saber mais sobre {speaker.name.split(' ')[0]}
-                  </Button>
-                </div>
-              </Col>
-            </Row>
-          </Card>
+          .speaker-info-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 50px 20px 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0,0,0,0.6) 40%, transparent 100%);
+            transition: opacity 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+          }
+
+          .speaker-card:hover .speaker-info-gradient {
+            opacity: 0;
+            pointer-events: none;
+          }
+
+          .speaker-hover-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.95), rgba(29, 78, 216, 0.95));
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            z-index: 10;
+          }
+
+          .speaker-card:hover .speaker-hover-overlay {
+            opacity: 1;
+          }
+        `}
+      </style>
+
+      <Row gutter={[24, 24]} justify="center">
+        {speakers.map((speaker, index) => (
+          <Col xs={24} sm={12} md={8} key={index}>
+            <div className="speaker-card">
+              <img 
+                src={speaker.image} 
+                alt={speaker.name} 
+                className="speaker-image"
+              />
+              
+              {/* Default State */}
+              <div className="speaker-info-gradient">
+                <Text style={{ color: '#ffffff', fontSize: '1.6rem', fontWeight: 800, marginBottom: '4px', fontFamily: "'Inter', sans-serif" }}>
+                  {speaker.name}
+                </Text>
+                <Text style={{ color: '#f8fafc', fontSize: '1.05rem', fontWeight: 400, marginBottom: '8px' }}>
+                  {speaker.role}
+                </Text>
+                <Text style={{ color: '#60a5fa', fontSize: '0.85rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1.5px' }}>
+                  {speaker.company}
+                </Text>
+              </div>
+
+              {/* Hover State */}
+              <div className="speaker-hover-overlay">
+                <Text style={{ color: '#ffffff', fontSize: '1.8rem', fontWeight: 800, marginBottom: '8px', fontFamily: "'Inter', sans-serif" }}>
+                  {speaker.name}
+                </Text>
+                <Text style={{ color: 'rgba(255, 255, 255, 0.9)', fontSize: '1.05rem', fontStyle: 'italic', marginBottom: '20px' }}>
+                  {speaker.expertise}
+                </Text>
+                <Text style={{ color: '#ffffff', fontSize: '1rem', lineHeight: 1.6, fontWeight: 500, marginBottom: '24px' }}>
+                  {speaker.shortBio}
+                </Text>
+                <Button 
+                  type="default" 
+                  shape="round" 
+                  icon={<ArrowRightOutlined />}
+                  style={{
+                    background: 'transparent',
+                    color: '#ffffff',
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                    fontWeight: 600
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#ffffff';
+                    e.currentTarget.style.color = '#2563eb';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = '#ffffff';
+                  }}
+                >
+                  Saber mais
+                </Button>
+              </div>
+            </div>
+          </Col>
         ))}
-      </Space>
+      </Row>
     </section>
   );
 };

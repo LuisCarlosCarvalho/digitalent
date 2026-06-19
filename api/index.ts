@@ -7,6 +7,7 @@ import nodemailer from 'nodemailer';
 import Stripe from 'stripe';
 import multer from 'multer';
 import { PrismaClient } from '@prisma/client';
+import { logoDigiBase64, logoIefpBase64 } from './logos.js';
 
 dotenv.config();
 
@@ -30,6 +31,9 @@ app.post('/api/register-whatsapp', async (req, res) => {
   const registrationCode = 'DT26-' + Math.random().toString(36).substring(2, 8).toUpperCase();
 
   try {
+    const logoDigitalent = Buffer.from(logoDigiBase64, 'base64');
+    const logoIEFP = Buffer.from(logoIefpBase64, 'base64');
+
     // 1. Instanciar e Criar o PDF em memória (Buffer)
     const doc = new PDFDocument({ margin: 50 });
     const buffers: Buffer[] = [];
@@ -78,25 +82,34 @@ app.post('/api/register-whatsapp', async (req, res) => {
             html: `
               <div style="font-family: Arial, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px;">
                 <h2 style="color: #2563eb;">Olá, ${name}!</h2>
-                <p>A tua inscrição para o <strong>Digitalent'26</strong> (${formType}) foi confirmada.</p>
+                <p>A tua inscrição para o <strong>Digitalent'26</strong>, foi confirmada.</p>
                 <div style="background-color: #f8fafc; border-left: 4px solid #2563eb; padding: 15px; margin: 20px 0;">
                   <p style="margin: 0; font-size: 14px; color: #64748b;">O teu Código Único de Inscrição:</p>
                   <h3 style="margin: 5px 0 0 0; color: #0f172a; font-size: 24px; letter-spacing: 2px;">${registrationCode}</h3>
                 </div>
-                <p>Guarda este código. O teu PDF de admissão e credenciais de acesso ao Dossiê Antidesperdício foram também emitidos e enviados.</p>
+                <p>Guarda este código. O teu PDF de admissão e credenciais de acesso ao Dossiê Antidesperdício foram também emitidos e enviados em anexo.</p>
                 <p>Estamos ansiosos por te ver impulsionar os teus resultados no Digitalent'26.</p>
                 <br/>
                 <p>Até breve,</p>
                 <p><strong>Equipa Marketing | Digitalent'26</strong></p>
+                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+                <p style="font-size: 11px; color: #94a3b8;">* Confirmaste a tua autorização para a recolha, tratamento e divulgação de dados e direitos de imagem no âmbito do Regulamento Geral de Proteção de Dados (RGPD).</p>
               </div>
-            `
+            `,
+            attachments: [
+              {
+                filename: `Inscricao_${name.replace(/\s+/g, '_')}.pdf`,
+                content: pdfBuffer,
+              },
+            ],
           };
 
           await transporter.sendMail(mailOptionsAdmin);
           await transporter.sendMail(mailOptionsUser);
           console.log(`📧 E-mail de confirmação enviado para admin e para ${email}`);
         } else {
-          console.warn("⚠️ SMTP_PASS não configurado no .env. Ignorando envio de e-mail.");
+          console.warn("⚠️ SMTP_PASS não configurado no .env. Abortando envio.");
+          return res.status(500).json({ success: false, error: "Credenciais de e-mail da Vercel (SMTP_PASS) em falta. Configure as variáveis de ambiente!" });
         }
       } catch (emailError) {
         console.error("❌ Erro ao enviar e-mail de notificação:", emailError);
@@ -130,12 +143,15 @@ app.post('/api/register-whatsapp', async (req, res) => {
 
     // Design do PDF
     doc.rect(0, 0, doc.page.width, doc.page.height).fill('#0b0f19');
+    
     doc.fillColor('#ffffff');
     doc.fontSize(24).fillColor('#2563eb').text('DIGITALENT26', { align: 'center' });
+    doc.moveDown(1);
+
     doc.fontSize(12).fillColor('#cbd5e1').text('Marketing com Visão - Comprovativo de Candidatura', { align: 'center' });
     doc.moveDown(2);
     
-    doc.fontSize(14).fillColor('#ffffff').text(`Detalhes do Registo (${formType})`, { underline: true });
+    doc.fontSize(14).fillColor('#ffffff').text(`Detalhe do Registro: Digitalente'26`, { underline: true });
     doc.moveDown();
     doc.fontSize(12).fillColor('#cbd5e1').text(`Nome Completo: ${name}`);
     doc.text(`E-mail de Contacto: ${email}`);
@@ -146,7 +162,23 @@ app.post('/api/register-whatsapp', async (req, res) => {
     doc.fontSize(14).fillColor('#ffffff').text(`Código de Inscrição Único: ${registrationCode}`);
     
     doc.moveDown(3);
-    doc.fontSize(10).fillColor('#94a3b8').text('Emitido automaticamente pela plataforma Digitalent26 Core SaaS.', { align: 'center' });
+    doc.fontSize(10).fillColor('#94a3b8').text('Emitido automaticamente pela Digitalente core', { align: 'center' });
+
+    doc.moveDown(4);
+    
+    // Logos no rodapé
+    const currentY = doc.y;
+    if (logoDigitalent && logoIEFP) {
+      // Posicionar lado a lado
+      doc.image(logoDigitalent, 160, currentY, { width: 140 });
+      doc.image(logoIEFP, 340, currentY + 5, { width: 30 });
+      doc.y = currentY + 70; // Espaço abaixo das imagens
+    } else {
+      doc.y = currentY + 50;
+    }
+
+    doc.moveDown(1);
+    doc.fontSize(10).fillColor('#ffffff').text('https://digitalent.pt', { align: 'center' });
 
     doc.end();
 
@@ -355,6 +387,7 @@ app.post('/api/speakers/register', upload.fields([{ name: 'profilePhoto', maxCou
       await transporter.sendMail(mailOptionsSpeaker);
     } else {
       console.warn("⚠️ SMTP_PASS não configurado no .env. Ignorando envio de e-mail de orador.");
+      return res.status(500).json({ success: false, error: "Credenciais de e-mail da Vercel (SMTP_PASS) em falta. Configure as variáveis de ambiente!" });
     }
 
     res.status(200).json({ success: true, message: "Candidatura submetida com sucesso." });
@@ -432,6 +465,8 @@ app.post('/api/participants/register', async (req, res) => {
             <br/>
             <p>Até breve,</p>
             <p><strong>Equipa Marketing | Digitalent'26</strong></p>
+            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+            <p style="font-size: 11px; color: #94a3b8;">* Confirmaste a tua autorização para a recolha, tratamento e divulgação de dados e direitos de imagem no âmbito do Regulamento Geral de Proteção de Dados (RGPD).</p>
           </div>
         `
       };
@@ -440,6 +475,7 @@ app.post('/api/participants/register', async (req, res) => {
       await transporter.sendMail(mailOptionsParticipant);
     } else {
       console.warn("⚠️ SMTP_PASS não configurado no .env. Ignorando envio de e-mail de participante.");
+      return res.status(500).json({ success: false, error: "Credenciais de e-mail da Vercel (SMTP_PASS) em falta. Configure as variáveis de ambiente!" });
     }
 
     res.status(200).json({ success: true, message: "Inscrição submetida com sucesso." });
@@ -509,6 +545,8 @@ app.post('/api/partners/register', async (req, res) => {
             <br/>
             <p>Atenciosamente,</p>
             <p><strong>Equipa Marketing | Digitalent'26</strong></p>
+            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+            <p style="font-size: 11px; color: #94a3b8;">* Confirmaste a tua autorização para a recolha, tratamento e divulgação de dados e direitos de imagem no âmbito do Regulamento Geral de Proteção de Dados (RGPD).</p>
           </div>
         `
       };
@@ -517,6 +555,7 @@ app.post('/api/partners/register', async (req, res) => {
       await transporter.sendMail(mailOptionsPartner);
     } else {
       console.warn("⚠️ SMTP_PASS não configurado no .env. Ignorando envio de e-mail de parceiro.");
+      return res.status(500).json({ success: false, error: "Credenciais de e-mail da Vercel (SMTP_PASS) em falta. Configure as variáveis de ambiente!" });
     }
 
     res.status(200).json({ success: true, message: "Candidatura submetida com sucesso." });

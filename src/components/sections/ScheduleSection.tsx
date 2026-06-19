@@ -12,6 +12,16 @@ interface ScheduleSectionProps {
 const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) => {
   const screens = useBreakpoint();
 
+  const sponsorLogos = [
+    "https://i.imgur.com/1USX4Kp.png",
+    "https://i.imgur.com/n0g2qAC.png",
+    "https://i.imgur.com/SFWphsk.png",
+    "https://i.imgur.com/Plb9o3i.png",
+    "https://i.imgur.com/EpDGrzT.png",
+    "https://i.imgur.com/KvjOZO6.png",
+    "https://i.imgur.com/bfYdCUW.png"
+  ];
+
   return (
     <>
       {/* Schedule Section */}
@@ -23,8 +33,9 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
         
         <Row justify="center">
           <Col xs={24} md={22} lg={18}>
-            <Timeline
-              mode="left"
+            <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+              <Timeline
+                mode="left"
               items={[
                 {
                   label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>09h00 - 09h20</Text>,
@@ -266,47 +277,98 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                 {
                   children: (
                     <div style={{ textAlign: 'left', marginTop: '30px', paddingLeft: '10px' }}>
-                      <Button type="primary" size="large" onClick={() => onRegisterClick('1')}>Garantir a Minha Vaga</Button>
+                      <Button type="primary" size="large" onClick={() => onRegisterClick('1')}>INSCREVA-SE AGORA</Button>
                     </div>
                   ),
                   dot: <RocketOutlined style={{ fontSize: '20px', color: '#2563eb' }} />,
                 }
               ]}
             />
+            </div>
           </Col>
         </Row>
       </section>
 
-      {/* Sponsors Section */}
-      <section style={{ padding: screens.xs ? '40px 5% 60px' : '40px 0 80px', background: 'var(--bg-alt)', overflow: 'hidden' }}>
-        <Row justify="center">
-          <Col xs={24} md={16} lg={12}>
-            <Card 
-              bordered={false}
-              style={{ 
-                background:  'var(--card-bg)', 
-                border: '1px dashed #cbd5e1',
-                borderRadius: '20px',
-                textAlign: 'center',
-                boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)'
-              }}
-            >
-              <Title level={4} style={{ color: 'var(--text-main)' }}>Seja um Parceiro</Title>
-              <Paragraph style={{ color: 'var(--text-sec)' }}>
-                Posicione a sua marca diante de centenas de pequenas empresas locais e lidere a transformação digital na região.
-              </Paragraph>
-              <Button 
-                type="primary" 
-                shape="round" 
-                icon={<RocketOutlined />}
-                onClick={() => onRegisterClick('2')}
+      {/* Sponsors Carousel Section */}
+      <div
+        style={{
+          padding: "24px 0 12px",
+          background: "var(--bg-alt)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "16px",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <Text
+            type="secondary"
+            style={{
+              letterSpacing: "2px",
+              textTransform: "uppercase",
+              fontSize: "0.75rem",
+              color: "var(--text-sec)",
+              fontWeight: 600,
+            }}
+          >
+            Apoiadores:
+          </Text>
+        </div>
+        <div
+          className="marquee-container"
+          style={{
+            margin: 0,
+            padding: "10px 0",
+            width: "100%",
+            maskImage:
+              "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+          }}
+        >
+          <div
+            className="marquee-content"
+            style={{
+              animationDuration: "40s",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            {/* Repetindo os logos para garantir scroll infinito contínuo e sem cortes */}
+            {[...sponsorLogos, ...sponsorLogos, ...sponsorLogos, ...sponsorLogos].map((logoUrl, i) => (
+              <div
+                key={i}
+                className="sponsor-logo"
+                style={{
+                  margin: "0 20px",
+                }}
               >
-                Quero ser Parceiro
-              </Button>
-            </Card>
-          </Col>
-        </Row>
-      </section>
+                <img
+                  src={logoUrl}
+                  alt={`Parceiro ${i + 1}`}
+                  style={{
+                    height: screens.xs ? "70px" : "100px",
+                    width: "auto",
+                    objectFit: "contain",
+                    filter: "grayscale(100%)",
+                    opacity: 0.7,
+                    transition: "all 0.3s",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.filter = "grayscale(0%)";
+                    e.currentTarget.style.opacity = "1";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.filter = "grayscale(100%)";
+                    e.currentTarget.style.opacity = "0.7";
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </>
   );
 };

@@ -68,7 +68,7 @@ export default function CountdownTimer() {
                 letterSpacing: '2px',
                 fontWeight: 700,
                 textTransform: 'uppercase',
-                fontFamily: "'Outfit', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 whiteSpace: 'nowrap',
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -76,21 +76,21 @@ export default function CountdownTimer() {
             >
               {language === 'PT' ? (
                 <span style={{ display: 'inline-flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                  <span style={{ whiteSpace: 'nowrap', fontFamily: "'Outfit', sans-serif" }}>
+                  <span style={{ whiteSpace: 'nowrap', fontFamily: "'Inter', sans-serif" }}>
                     09 DE JULHO 2026
                   </span>
                   <span style={{ color: 'rgba(253, 253, 253, 0.4)', margin: '0 8px', fontWeight: 300 }}>|</span>
-                  <span style={{ whiteSpace: 'nowrap', fontFamily: "'Outfit', sans-serif" }}>
+                  <span style={{ whiteSpace: 'nowrap', fontFamily: "'Inter', sans-serif" }}>
                     FALTAM <span style={{ fontSize: '18px', fontWeight: 800, fontFamily: 'monospace', margin: '0 2px' }}>{days}</span> DIAS
                   </span>
                 </span>
               ) : (
                 <span style={{ display: 'inline-flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                  <span style={{ whiteSpace: 'nowrap', fontFamily: "'Outfit', sans-serif" }}>
+                  <span style={{ whiteSpace: 'nowrap', fontFamily: "'Inter', sans-serif" }}>
                     JULY 09, 2026
                   </span>
                   <span style={{ color: 'rgba(37, 99, 235, 0.4)', margin: '0 8px', fontWeight: 300 }}>|</span>
-                  <span style={{ whiteSpace: 'nowrap', fontFamily: "'Outfit', sans-serif" }}>
+                  <span style={{ whiteSpace: 'nowrap', fontFamily: "'Inter', sans-serif" }}>
                     <span style={{ fontSize: '18px', fontWeight: 800, fontFamily: 'monospace', margin: '0 2px' }}>{days}</span> DAYS LEFT
                   </span>
                 </span>

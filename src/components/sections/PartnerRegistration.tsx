@@ -32,7 +32,7 @@ const PartnerRegistration: React.FC = () => {
       phoneNumberPlaceholder: '9xx xxx xxx',
       objectives: 'Objetivos no Evento',
       objectivesPlaceholder: 'Conte-nos brevemente o que espera alcançar com esta parceria...',
-      submit: 'Enviar Candidatura a Parceiro',
+      submit: 'INSCREVA-SE AGORA',
       success: 'Candidatura submetida com sucesso!',
       error: 'Ocorreu um erro ao submeter a candidatura.',
       validationRequired: 'Este campo é obrigatório',
@@ -60,23 +60,7 @@ const PartnerRegistration: React.FC = () => {
 
   const t = content[lang];
 
-  const handleFormInteraction = (e: React.SyntheticEvent) => {
-    if (!hasConsented) {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsPrivacyModalVisible(true);
-      if (e.target instanceof HTMLElement) {
-        e.target.blur();
-      }
-    }
-  };
-
   const onFinish = async (values: any) => {
-    if (!hasConsented) {
-      setFormValuesToSubmit(values);
-      setIsPrivacyModalVisible(true);
-      return;
-    }
 
     setLoading(true);
     
@@ -129,24 +113,8 @@ const PartnerRegistration: React.FC = () => {
         centered
         width={600}
         footer={[
-          <Button key="cancel" onClick={() => setIsPrivacyModalVisible(false)}>
-            Cancelar
-          </Button>,
-          <Button 
-            key="submit" 
-            type="primary" 
-            disabled={!gdprChecked}
-            onClick={() => {
-              setHasConsented(true);
-              setIsPrivacyModalVisible(false);
-              if (formValuesToSubmit) {
-                onFinish(formValuesToSubmit);
-                setFormValuesToSubmit(null);
-              }
-            }} 
-            style={{ backgroundColor: dossierTheme.primary, borderColor: dossierTheme.primary }}
-          >
-            Confirmar
+          <Button key="close" type="primary" onClick={() => setIsPrivacyModalVisible(false)} style={{ backgroundColor: dossierTheme.primary, borderColor: dossierTheme.primary }}>
+            Fechar
           </Button>
         ]}
       >
@@ -165,15 +133,6 @@ const PartnerRegistration: React.FC = () => {
           <p>Poderá, a qualquer momento, solicitar a alteração, remoção dos seus dados ou revogar a autorização de utilização de imagem através de:<br/>
           <span style={{ fontWeight: 600, color: '#0f172a' }}>📧 privacidade@digitalent.pt</span></p>
 
-          <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #e2e8f0' }}>
-            <Checkbox 
-              checked={gdprChecked} 
-              onChange={(e) => setGdprChecked(e.target.checked)}
-              style={{ fontWeight: 500, color: '#0f172a' }}
-            >
-              Ao submeter os seus dados, está a concordar com o seu tratamento para as finalidades acima descritas.
-            </Checkbox>
-          </div>
         </div>
       </Modal>
 
@@ -211,7 +170,7 @@ const PartnerRegistration: React.FC = () => {
             </Paragraph>
           </div>
 
-          <div onClickCapture={handleFormInteraction} onFocusCapture={handleFormInteraction}>
+          <div>
             <Form
               form={form}
               layout="vertical"
@@ -268,7 +227,20 @@ const PartnerRegistration: React.FC = () => {
                 </Col>
 
                 <Col xs={24}>
-                  <Form.Item style={{ margin: '16px 0 0 0' }}>
+                  <Form.Item 
+                    name="gdpr" 
+                    valuePropName="checked" 
+                    rules={[{ validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error(t.validationRequired || "Este campo é obrigatório")) }]}
+                    style={{ marginBottom: '16px', textAlign: 'center' }}
+                  >
+                    <Checkbox style={{ fontSize: '12px', color: dossierTheme.textMuted, fontWeight: 500 }}>
+                      Li e aceito a <a onClick={(e) => { e.preventDefault(); setIsPrivacyModalVisible(true); }} style={{ color: dossierTheme.primary }}>política de privacidade e proteção de dados (RGPD)</a>
+                    </Checkbox>
+                  </Form.Item>
+                </Col>
+
+                <Col xs={24}>
+                  <Form.Item style={{ margin: '0 0 0 0' }}>
                     <Button 
                       type="default" 
                       htmlType="submit" 

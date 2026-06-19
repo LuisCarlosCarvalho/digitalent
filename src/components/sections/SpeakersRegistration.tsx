@@ -33,7 +33,7 @@ const SpeakersRegistration: React.FC = () => {
       observations: 'Observações Adicionais (Opcional)',
       uploadHint: 'Clique ou arraste o ficheiro para esta área',
       rgpd: 'Privacidade, Proteção de Dados e Direito de Imagem (Aceitar Termos)',
-      submit: 'Submeter Candidatura',
+      submit: 'INSCREVA-SE AGORA',
       success: 'Candidatura submetida com sucesso!',
       error: 'Ocorreu um erro ao submeter a candidatura.',
       validationRequired: 'Este campo é obrigatório',
@@ -61,23 +61,9 @@ const SpeakersRegistration: React.FC = () => {
 
   const t = content[lang];
 
-  const handleFormInteraction = (e: React.SyntheticEvent) => {
-    if (!hasConsented) {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsPrivacyModalVisible(true);
-      if (e.target instanceof HTMLElement) {
-        e.target.blur();
-      }
-    }
-  };
+
 
   const onFinish = async (values: any) => {
-    if (!hasConsented) {
-      setFormValuesToSubmit(values);
-      setIsPrivacyModalVisible(true);
-      return;
-    }
 
     setLoading(true);
     
@@ -144,24 +130,8 @@ const SpeakersRegistration: React.FC = () => {
         centered
         width={600}
         footer={[
-          <Button key="cancel" onClick={() => setIsPrivacyModalVisible(false)}>
-            Cancelar
-          </Button>,
-          <Button 
-            key="submit" 
-            type="primary" 
-            disabled={!gdprChecked}
-            onClick={() => {
-              setHasConsented(true);
-              setIsPrivacyModalVisible(false);
-              if (formValuesToSubmit) {
-                onFinish(formValuesToSubmit);
-                setFormValuesToSubmit(null);
-              }
-            }} 
-            style={{ backgroundColor: dossierTheme.primary, borderColor: dossierTheme.primary }}
-          >
-            Confirmar
+          <Button key="close" type="primary" onClick={() => setIsPrivacyModalVisible(false)} style={{ backgroundColor: dossierTheme.primary, borderColor: dossierTheme.primary }}>
+            Fechar
           </Button>
         ]}
       >
@@ -180,15 +150,6 @@ const SpeakersRegistration: React.FC = () => {
           <p>Poderá, a qualquer momento, solicitar a alteração, remoção dos seus dados ou revogar a autorização de utilização de imagem através de:<br/>
           <span style={{ fontWeight: 600, color: '#0f172a' }}>📧 privacidade@digitalent.pt</span></p>
 
-          <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #e2e8f0' }}>
-            <Checkbox 
-              checked={gdprChecked} 
-              onChange={(e) => setGdprChecked(e.target.checked)}
-              style={{ fontWeight: 500, color: '#0f172a' }}
-            >
-              Ao submeter os seus dados, está a concordar com o seu tratamento para as finalidades acima descritas.
-            </Checkbox>
-          </div>
         </div>
       </Modal>
 
@@ -240,7 +201,7 @@ const SpeakersRegistration: React.FC = () => {
           </Paragraph>
         </div>
 
-        <div onClickCapture={handleFormInteraction} onFocusCapture={handleFormInteraction}>
+        <div>
           <Form
             form={form}
             layout="vertical"
@@ -380,10 +341,10 @@ const SpeakersRegistration: React.FC = () => {
                 name="dataProtectionConsent"
                 valuePropName="checked"
                 rules={[{ validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error(t.validationRequired)) }]}
-                style={{ marginTop: '16px' }}
+                style={{ marginTop: '16px', textAlign: 'center' }}
               >
-                <Checkbox style={{ color: dossierTheme.textMuted }}>
-                  {t.rgpd}
+                <Checkbox style={{ color: dossierTheme.textMuted, fontSize: "12px", fontWeight: 500 }}>
+                  Li e aceito a <a onClick={(e) => { e.preventDefault(); setIsPrivacyModalVisible(true); }} style={{ color: dossierTheme.primary }}>política de privacidade e proteção de dados (RGPD)</a>
                 </Checkbox>
               </Form.Item>
             </Col>

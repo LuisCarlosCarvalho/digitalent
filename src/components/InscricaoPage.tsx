@@ -22,7 +22,7 @@ const dictionary = {
     formHeader: 'PASSE GERAL',
     formSub: '(ACESSO ISENTO DE CUSTOS)',
     formDesc: 'Insira os seus dados de verificação abaixo para emitir a sua credencial operacional e aceder ao ecossistema.',
-    btnSubmit: 'DESBLOQUEAR MEU ACESSO GRATUITO',
+    btnSubmit: 'INSCREVA-SE AGORA',
     dateLabel: '09 DE JULHO 2026',
     preDays: 'FALTAM',
     postDays: 'DIAS',
@@ -73,7 +73,7 @@ const lightThemeConfig = {
     colorTextBase: "#0f172a",
     colorBgContainer: "#ffffff",
     borderRadius: 12,
-    fontFamily: "'Outfit', sans-serif",
+    fontFamily: "'Inter', sans-serif",
   },
   components: {
     Button: {
@@ -133,23 +133,7 @@ export default function InscriptionPage() {
     return () => clearInterval(intervalId);
   }, [calculateDaysRemaining]);
 
-  const handleFormInteraction = (e: React.SyntheticEvent) => {
-    if (!hasConsented) {
-      e.preventDefault();
-      e.stopPropagation();
-      setGdprModalVisible(true);
-      if (e.target instanceof HTMLElement) {
-        e.target.blur();
-      }
-    }
-  };
-
   const handleSubmit = async (values: any) => {
-    if (!hasConsented) {
-      setFormValuesToSubmit(values);
-      setGdprModalVisible(true);
-      return;
-    }
 
     setLoading(true);
     try {
@@ -200,7 +184,7 @@ export default function InscriptionPage() {
     }
   };
 
-  const safeFont = "'Outfit', sans-serif";
+  const safeFont = "'Inter', sans-serif";
 
   return (
     <ConfigProvider theme={lightThemeConfig}>
@@ -433,7 +417,7 @@ export default function InscriptionPage() {
                 <Title level={5} style={{ color: '#2563eb', textAlign: 'center', marginTop: 0, marginBottom: '14px', fontSize: '13px', fontWeight: 700, fontFamily: safeFont }}>{t.formSub}</Title>
                 <Paragraph style={{ color: '#475569', textAlign: 'center', fontSize: '13px', marginBottom: '24px', fontFamily: safeFont }}>{t.formDesc}</Paragraph>
 
-                <div onClickCapture={handleFormInteraction} onFocusCapture={handleFormInteraction}>
+                <div>
                   <Form form={form} layout="vertical" onFinish={handleSubmit} requiredMark={false}>
                     <Form.Item name="name" rules={[{ required: true, message: 'Insira o seu nome.' }]}>
                       <Input prefix={<UserOutlined style={{ color: '#64748b' }} />} placeholder="Nome do Proprietário / Diretor" style={{ background: '#ffffff', border: '1px solid #cbd5e1', color: '#0f172a', height: '44px', borderRadius: '8px' }} />
@@ -445,7 +429,18 @@ export default function InscriptionPage() {
                       <Input prefix={<PhoneOutlined style={{ color: '#64748b' }} />} placeholder="Telemóvel Corporativo (WhatsApp)" style={{ background: '#ffffff', border: '1px solid #cbd5e1', color: '#0f172a', height: '44px', borderRadius: '8px' }} />
                     </Form.Item>
                     
-                    <Form.Item style={{ marginBottom: 0, marginTop: '24px' }}>
+                    <Form.Item 
+                      name="gdpr" 
+                      valuePropName="checked" 
+                      rules={[{ validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error("Este campo é obrigatório")) }]}
+                      style={{ marginBottom: '16px', textAlign: 'center' }}
+                    >
+                      <Checkbox style={{ fontSize: '12px', color: '#475569', fontWeight: 500 }}>
+                        Li e aceito a <a onClick={(e) => { e.preventDefault(); setGdprModalVisible(true); }} style={{ color: '#2563eb' }}>política de privacidade e proteção de dados (RGPD)</a>
+                      </Checkbox>
+                    </Form.Item>
+
+                    <Form.Item style={{ marginBottom: 0, marginTop: '8px' }}>
                       <Button type="primary" htmlType="submit" size="large" loading={loading} block style={{ height: '50px', background: '#2563eb', borderColor: '#2563eb', borderRadius: '8px', fontWeight: 700, fontSize: '14px', letterSpacing: '0.5px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                         {t.btnSubmit} <ArrowRightOutlined />
                       </Button>
@@ -475,33 +470,52 @@ export default function InscriptionPage() {
 
         {/* GDPR Privacy Modal */}
         <Modal
-          title={t.gdprTitle}
+          title={<span>🔒 {lang === 'PT' ? 'Privacidade, Proteção de Dados e Direito de Imagem' : 'Privacy, Data Protection and Image Rights'}</span>}
           open={gdprModalVisible}
           onCancel={() => setGdprModalVisible(false)}
-          okText={t.btnConfirm}
-          cancelText={t.btnCancel}
-          okButtonProps={{ disabled: !gdprChecked, style: { background: "#2563eb", borderColor: "#2563eb" } }}
-          onOk={() => {
-            setHasConsented(true);
-            setGdprModalVisible(false);
-            if (formValuesToSubmit) {
-              handleSubmit(formValuesToSubmit);
-              setFormValuesToSubmit(null);
-            }
-          }}
+          footer={[
+            <Button key="close" type="primary" onClick={() => setGdprModalVisible(false)} style={{ background: "#2563eb", borderColor: "#2563eb" }}>
+              {lang === 'PT' ? 'Fechar' : 'Close'}
+            </Button>
+          ]}
           centered
-          width={500}
+          width={600}
         >
-          <Paragraph style={{ color: "#475569", fontFamily: safeFont }}>
-            {t.gdprText}
-          </Paragraph>
-          <Checkbox
-            checked={gdprChecked}
-            onChange={(e) => setGdprChecked(e.target.checked)}
-            style={{ fontWeight: 600, color: "#1e293b", fontFamily: safeFont }}
-          >
-            {t.gdprAccept}
-          </Checkbox>
+          {lang === 'PT' ? (
+            <div style={{ fontSize: '14px', color: '#475569', lineHeight: '1.6', fontFamily: safeFont }}>
+              <p>Na Digitalent, levamos a sua privacidade a sério. Os dados pessoais que nos são fornecidos são utilizados exclusivamente para gerir a sua inscrição ou proposta de parceria, bem como para comunicar consigo de forma relevante.</p>
+              <p>Os seus dados são tratados de forma segura, transparente e em conformidade com o RGPD e a legislação portuguesa em vigor.</p>
+              <ul style={{ listStyleType: 'none', paddingLeft: 0, marginBottom: '24px' }}>
+                <li>✓ Utilizamos os seus dados apenas para as finalidades indicadas</li>
+                <li>✓ Não partilhamos informação sem fundamento legal</li>
+                <li>✓ Garantimos os seus direitos de acesso, retificação e eliminação</li>
+              </ul>
+
+              <p style={{ fontWeight: 600, fontSize: '15px', color: '#0f172a', marginBottom: '8px' }}>📸 Captação e Utilização de Imagem</p>
+              <p>Informamos que, no âmbito do evento, poderão ser captadas imagens (fotografias e vídeo) para fins de comunicação e divulgação nas nossas plataformas, nomeadamente redes sociais, website e materiais promocionais da Digitalent.</p>
+              <p>Ao participar no evento, autoriza a recolha e utilização da sua imagem para estes fins, podendo a qualquer momento retirar o seu consentimento.</p>
+              <p>Poderá, a qualquer momento, solicitar a alteração, remoção dos seus dados ou revogar a autorização de utilização de imagem através de:<br/>
+              <span style={{ fontWeight: 600, color: '#0f172a' }}>📧 privacidade@digitalent.pt</span></p>
+
+            </div>
+          ) : (
+            <div style={{ fontSize: '14px', color: '#475569', lineHeight: '1.6', fontFamily: safeFont }}>
+              <p>At Digitalent, we take your privacy seriously. The personal data provided to us is used exclusively to manage your registration or partnership proposal, as well as to communicate with you in a relevant way.</p>
+              <p>Your data is treated securely, transparently, and in compliance with the GDPR and current Portuguese legislation.</p>
+              <ul style={{ listStyleType: 'none', paddingLeft: 0, marginBottom: '24px' }}>
+                <li>✓ We use your data only for the indicated purposes</li>
+                <li>✓ We do not share information without a legal basis</li>
+                <li>✓ We guarantee your rights of access, rectification, and deletion</li>
+              </ul>
+
+              <p style={{ fontWeight: 600, fontSize: '15px', color: '#0f172a', marginBottom: '8px' }}>📸 Image Capture and Use</p>
+              <p>Please note that during the event, images (photographs and video) may be captured for communication and dissemination purposes on our platforms, namely social networks, website, and promotional materials of Digitalent.</p>
+              <p>By participating in the event, you authorize the collection and use of your image for these purposes, and you can withdraw your consent at any time.</p>
+              <p>You may, at any time, request the modification or removal of your data or revoke the authorization for image use via:<br/>
+              <span style={{ fontWeight: 600, color: '#0f172a' }}>📧 privacidade@digitalent.pt</span></p>
+
+            </div>
+          )}
         </Modal>
 
         {/* Success Modal */}

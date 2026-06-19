@@ -18,39 +18,7 @@ const LocationSection: FC = () => {
 
   return (
     <section id="informacoes" style={{ background: '#ffffff' }}>
-      {/* Sponsors Grid Section */}
-      <div style={{ padding: screens.xs ? '60px 5%' : '80px 5%', textAlign: 'center' }}>
-        <Title level={3} style={{ color: '#1e293b', marginBottom: '40px', fontWeight: 700 }}>
-          Agradecimentos 
-        </Title>
-        
-        <Row gutter={[32, 32]} justify="center" align="middle">
-          {sponsors.map((sponsor) => (
-            <Col key={sponsor.name} xs={12} sm={8} md={4}>
-              <div style={{ 
-                height: '80px', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                filter: 'grayscale(100%) brightness(1.2)',
-                opacity: 0.6,
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.filter = 'grayscale(0%)';
-                e.currentTarget.style.opacity = '1';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.filter = 'grayscale(100%) brightness(1.2)';
-                e.currentTarget.style.opacity = '0.6';
-              }}
-              >
-                <img src={sponsor.url} alt={sponsor.name} style={{ maxWidth: '100%', maxHeight: '40px', objectFit: 'contain' }} />
-              </div>
-            </Col>
-          ))}
-        </Row>
-      </div>
+
       {/* Exact Location Section */}
       <div style={{ 
         position: 'relative', 
@@ -103,7 +71,7 @@ const LocationSection: FC = () => {
               <EnvironmentFilled style={{ fontSize: '48px', color: '#2563eb', marginBottom: '24px' }} />
               
               <Title level={2} style={{ color: '#1e293b', marginBottom: '16px', fontWeight: 800 }}>
-                Localização Exata
+                IEFP Rio Meão
               </Title>
               
               <Paragraph style={{ color: '#475569', fontSize: '1.1rem', marginBottom: '32px', lineHeight: 1.6 }}>
@@ -145,7 +113,7 @@ const LocationSection: FC = () => {
                     borderRadius: '12px',
                     fontSize: '1rem',
                     fontWeight: 700,
-                    color: '#e0dd0fff',
+                    color: '#000000',
                     borderColor: '#e2e8f0',
                     display: 'flex',
                     alignItems: 'center',

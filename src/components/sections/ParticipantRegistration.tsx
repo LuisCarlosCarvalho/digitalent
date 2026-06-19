@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Row, Col, Typography, message, Checkbox, Modal } from 'antd';
+import { Form, Input, Button, Row, Col, Typography, message, Checkbox, Modal, Select } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';
 
 const { Title, Paragraph } = Typography;
@@ -30,16 +30,19 @@ const ParticipantRegistration: React.FC = () => {
       emailPlaceholder: 'joao@empresa.pt',
       companyName: 'Nome da Empresa / Ramo (Opcional)',
       companyPlaceholder: 'Ex: Café Central / Restauração',
-      submit: 'Enviar Inscrição',
+      submit: 'INSCREVA-SE AGORA',
       success: 'Inscrição submetida com sucesso!',
       error: 'Ocorreu um erro ao submeter a inscrição.',
-      validationRequired: 'Este campo é obrigatório',
+      category: 'Categoria de Participante',
+      categoryPlaceholder: 'Selecione a sua categoria',
+      categoryStudent: 'Estudante',
+      categoryCompany: 'Empresa / Ouvinte',
       privacyFooter: 'Ao inscrever-se, concorda com a nossa Politica de Privacidade',
       perks: [
-        'Acesso total ao evento no dia',
-        'Acesso ao coffee-break',
-        'Brindes do Evento',
-        'Network com grandes agencias'
+        'Acesso total ao event',
+        'Coffee-break',
+        "Kit Digitalent'26",
+        'Rede de networking'
       ]
     },
     EN: {
@@ -57,36 +60,23 @@ const ParticipantRegistration: React.FC = () => {
       submit: 'Submit Registration',
       success: 'Registration submitted successfully!',
       error: 'An error occurred while submitting.',
-      validationRequired: 'This field is required',
+      category: 'Participant Category',
+      categoryPlaceholder: 'Select your category',
+      categoryStudent: 'Student',
+      categoryCompany: 'Company / Regular Attendee',
       privacyFooter: 'By registering, you agree to our Privacy Policy',
       perks: [
-        'Full access to the event on the day',
-        'Access to coffee-break',
-        'Event Giveaways',
-        'Networking with top agencies'
+        'Full access to the event',
+        'Coffee-break',
+        "Digitalent'26 Kit",
+        'Networking'
       ]
     }
   };
 
   const t = content[lang];
 
-  const handleFormInteraction = (e: React.SyntheticEvent) => {
-    if (!hasConsented) {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsPrivacyModalVisible(true);
-      if (e.target instanceof HTMLElement) {
-        e.target.blur();
-      }
-    }
-  };
-
   const onFinish = async (values: any) => {
-    if (!hasConsented) {
-      setFormValuesToSubmit(values);
-      setIsPrivacyModalVisible(true);
-      return;
-    }
 
     setLoading(true);
     
@@ -139,24 +129,8 @@ const ParticipantRegistration: React.FC = () => {
         centered
         width={600}
         footer={[
-          <Button key="cancel" onClick={() => setIsPrivacyModalVisible(false)}>
-            Cancelar
-          </Button>,
-          <Button 
-            key="submit" 
-            type="primary" 
-            disabled={!gdprChecked}
-            onClick={() => {
-              setHasConsented(true);
-              setIsPrivacyModalVisible(false);
-              if (formValuesToSubmit) {
-                onFinish(formValuesToSubmit);
-                setFormValuesToSubmit(null);
-              }
-            }} 
-            style={{ backgroundColor: dossierTheme.primary, borderColor: dossierTheme.primary }}
-          >
-            Confirmar
+          <Button key="close" type="primary" onClick={() => setIsPrivacyModalVisible(false)} style={{ backgroundColor: dossierTheme.primary, borderColor: dossierTheme.primary }}>
+            Fechar
           </Button>
         ]}
       >
@@ -175,15 +149,6 @@ const ParticipantRegistration: React.FC = () => {
           <p>Poderá, a qualquer momento, solicitar a alteração, remoção dos seus dados ou revogar a autorização de utilização de imagem através de:<br/>
           <span style={{ fontWeight: 600, color: '#0f172a' }}>📧 privacidade@digitalent.pt</span></p>
 
-          <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #e2e8f0' }}>
-            <Checkbox 
-              checked={gdprChecked} 
-              onChange={(e) => setGdprChecked(e.target.checked)}
-              style={{ fontWeight: 500, color: '#0f172a' }}
-            >
-              Ao submeter os seus dados, está a concordar com o seu tratamento para as finalidades acima descritas.
-            </Checkbox>
-          </div>
         </div>
       </Modal>
 
@@ -225,7 +190,7 @@ const ParticipantRegistration: React.FC = () => {
         </div>
 
         {/* Form Container (Blue bordered box) */}
-        <div onClickCapture={handleFormInteraction} onFocusCapture={handleFormInteraction}>
+        <div>
           <div style={{ 
             border: `2px solid ${dossierTheme.primary}`, 
             borderRadius: '16px', 
@@ -289,6 +254,19 @@ const ParticipantRegistration: React.FC = () => {
 
                 <Col xs={24}>
                   <Form.Item
+                    name="category"
+                    label={<span style={{ color: dossierTheme.text, fontWeight: 600 }}><span style={{color: 'red'}}>*</span> {t.category}</span>}
+                    rules={[{ required: true, message: t.validationRequired }]}
+                  >
+                    <Select size="large" placeholder={t.categoryPlaceholder} style={{ borderRadius: '8px' }}>
+                      <Select.Option value="Estudante">{t.categoryStudent}</Select.Option>
+                      <Select.Option value="Empresa">{t.categoryCompany}</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </Col>
+
+                <Col xs={24}>
+                  <Form.Item
                     name="companyName"
                     label={<span style={{ color: dossierTheme.text, fontWeight: 600 }}>{t.companyName}</span>}
                   >
@@ -297,7 +275,20 @@ const ParticipantRegistration: React.FC = () => {
                 </Col>
 
                 <Col xs={24}>
-                  <Form.Item style={{ margin: '8px 0 24px 0' }}>
+                  <Form.Item 
+                    name="gdpr" 
+                    valuePropName="checked" 
+                    rules={[{ validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error(t.validationRequired)) }]}
+                    style={{ marginBottom: '16px', textAlign: 'center' }}
+                  >
+                    <Checkbox style={{ fontSize: '12px', color: dossierTheme.textMuted, fontWeight: 500 }}>
+                      Li e aceito a <a onClick={(e) => { e.preventDefault(); setIsPrivacyModalVisible(true); }} style={{ color: dossierTheme.primary }}>política de privacidade e proteção de dados (RGPD)</a>
+                    </Checkbox>
+                  </Form.Item>
+                </Col>
+
+                <Col xs={24}>
+                  <Form.Item style={{ margin: '0 0 24px 0' }}>
                     <Button 
                       type="primary" 
                       htmlType="submit" 
@@ -352,12 +343,7 @@ const ParticipantRegistration: React.FC = () => {
               </div>
             </div>
 
-            {/* Footer Dotted Line & Text */}
-            <div style={{ borderTop: `1px dashed ${dossierTheme.primary}`, marginTop: '24px', paddingTop: '16px', textAlign: 'center' }}>
-              <span style={{ fontSize: '12px', color: dossierTheme.textMuted, fontWeight: 500 }}>
-                {t.privacyFooter}
-              </span>
-            </div>
+
 
           </div>
         </div>

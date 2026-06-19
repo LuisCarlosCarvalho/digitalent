@@ -1,21 +1,10 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 generator client {
   provider = "prisma-client-js"
-}
-
-enum AccessTier {
-  FREE
-  PRO
-  ENTERPRISE
-}
-
-enum LanguagePref {
-  PT
-  EN
 }
 
 model DossierLead {
@@ -23,7 +12,7 @@ model DossierLead {
   name             String     @map("name")
   email            String     @unique @map("email")
   phone            String     @map("phone") // WhatsApp Number
-  tierAccess       AccessTier @default(FREE) @map("tier_access")
+  tierAccess       String     @default("FREE") @map("tier_access")
   registrationDate DateTime   @default(now()) @map("registration_date")
 
   @@map("dossier_leads")
@@ -34,8 +23,8 @@ model SubscriberLead {
   fullName           String       @map("full_name")
   corporateEmail     String       @unique @map("corporate_email")
   whatsappNumber     String       @map("whatsapp_number")
-  languagePreference LanguagePref @default(PT) @map("language_preference")
-  planTier           AccessTier   @default(FREE) @map("plan_tier")
+  languagePreference String       @default("PT") @map("language_preference")
+  planTier           String       @default("FREE") @map("plan_tier")
   registrationDate   DateTime     @default(now()) @map("registration_date")
 
   @@map("subscriber_leads")
@@ -53,6 +42,7 @@ model SpeakerApplication {
   registrationCode       String?  @map("registration_code")
   attachmentVerification String   @map("attachment_verification")
   dataProtectionConsent  Boolean  @map("data_protection_consent")
+  status                 String   @default("Aguardando confirmação") @map("status")
   createdAt              DateTime @default(now()) @map("created_at")
 
   @@map("speaker_applications")
@@ -66,6 +56,8 @@ model ParticipantApplication {
   companyName           String?  @map("company_name")
   registrationCode      String?  @map("registration_code")
   dataProtectionConsent Boolean  @map("data_protection_consent")
+  status                String   @default("Aguardando confirmação") @map("status")
+  category              String   @default("Ouvinte") @map("category")
   createdAt             DateTime @default(now()) @map("created_at")
 
   @@map("participant_applications")
@@ -82,4 +74,11 @@ model PartnerApplication {
   createdAt             DateTime @default(now()) @map("created_at")
 
   @@map("partner_applications")
+}
+
+model SystemSettings {
+  id     String @id @default("1")
+  qaLink String @default("")
+
+  @@map("system_settings")
 }

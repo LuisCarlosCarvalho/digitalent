@@ -4,6 +4,8 @@ import InscricaoPage from "./components/InscricaoPage";
 import SpeakersRegistration from "./components/sections/SpeakersRegistration";
 import ParticipantRegistration from "./components/sections/ParticipantRegistration";
 import PartnerRegistration from "./components/sections/PartnerRegistration";
+import AdminPortal from "./components/AdminPortal";
+import CheckinPage from "./components/CheckinPage";
 import "./index.css";
 
 function App() {
@@ -53,6 +55,14 @@ function App() {
       return "parceiro";
     }
 
+    if (pathname === "/confirma" || pParam === "confirma") {
+      return "confirma";
+    }
+
+    if (pathname === "/checkin" || pParam === "checkin" || pathname === "/check-in") {
+      return "checkin";
+    }
+
     return "home";
   };
 
@@ -84,12 +94,12 @@ function App() {
       {route === "inscricao" ? <InscricaoPage /> : 
        route === "oradores" ? <SpeakersRegistration /> : 
        route === "participante" ? <ParticipantRegistration /> :
-       route === "parceiro" ? <PartnerRegistration /> :
-       <LandingPage />}
+       route === "parceiro" ? <PartnerRegistration /> : null}
+      {route === "confirma" && <AdminPortal />}
+      {route === "checkin" && <CheckinPage />}
+      {route === "home" && <LandingPage />}
     </div>
   );
 }
 
 export default App;
-
-
