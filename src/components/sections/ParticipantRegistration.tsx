@@ -38,6 +38,7 @@ const ParticipantRegistration: React.FC = () => {
       categoryStudent: 'Estudante',
       categoryCompany: 'Empresa / Ouvinte',
       privacyFooter: 'Ao inscrever-se, concorda com a nossa Politica de Privacidade',
+      validationRequired: 'Este campo é obrigatório.',
       perks: [
         'Acesso total ao event',
         'Coffee-break',
@@ -65,6 +66,7 @@ const ParticipantRegistration: React.FC = () => {
       categoryStudent: 'Student',
       categoryCompany: 'Company / Regular Attendee',
       privacyFooter: 'By registering, you agree to our Privacy Policy',
+      validationRequired: 'This field is required.',
       perks: [
         'Full access to the event',
         'Coffee-break',

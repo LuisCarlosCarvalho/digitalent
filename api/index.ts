@@ -565,6 +565,91 @@ app.post('/api/partners/register', async (req, res) => {
   }
 });
 
+// --- ADMIN & CHECK-IN ENDPOINTS ---
+
+app.post('/api/admin/login', (req, res) => {
+  const { email, password } = req.body;
+  if (email === 'admin@digitalent.pt' && password === 'Foresp2026') {
+    res.json({ success: true, token: 'admin-token-123' });
+  } else {
+    res.status(401).json({ success: false, error: 'Credenciais inválidas' });
+  }
+});
+
+app.get('/api/admin/users', async (req, res) => {
+  try {
+    const participants = await prisma.participantApplication.findMany();
+    const speakers = await prisma.speakerApplication.findMany();
+    res.json({ success: true, data: { participants, speakers } });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao carregar utilizadores.' });
+  }
+});
+
+app.get('/api/admin/settings', async (req, res) => {
+  try {
+    let settings = await prisma.systemSettings.findUnique({ where: { id: "1" } });
+    if (!settings) {
+      settings = await prisma.systemSettings.create({ data: { id: "1", qaLink: "" } });
+    }
+    res.json({ success: true, qaLink: settings.qaLink });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao carregar configurações.' });
+  }
+});
+
+app.post('/api/admin/settings', async (req, res) => {
+  try {
+    const { qaLink } = req.body;
+    await prisma.systemSettings.upsert({
+      where: { id: "1" },
+      update: { qaLink },
+      create: { id: "1", qaLink }
+    });
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao guardar configurações.' });
+  }
+});
+
+app.post('/api/checkin', async (req, res) => {
+  try {
+    const { code } = req.body;
+    if (!code) return res.status(400).json({ success: false, error: 'Código em falta.' });
+
+    let updated = false;
+    let participant = await prisma.participantApplication.findFirst({ where: { registrationCode: code } });
+    
+    if (participant) {
+      await prisma.participantApplication.update({
+        where: { id: participant.id },
+        data: { status: 'Confirmado, kit liberado' }
+      });
+      updated = true;
+    } else {
+      let speaker = await prisma.speakerApplication.findFirst({ where: { registrationCode: code } });
+      if (speaker) {
+        await prisma.speakerApplication.update({
+          where: { id: speaker.id },
+          data: { status: 'Confirmado, kit liberado' }
+        });
+        updated = true;
+      }
+    }
+
+    if (!updated) {
+      return res.status(404).json({ success: false, error: 'Código não encontrado.' });
+    }
+
+    const settings = await prisma.systemSettings.findUnique({ where: { id: "1" } });
+    const qaLink = settings?.qaLink || '';
+
+    res.json({ success: true, qaLink });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao efetuar checkin.' });
+  }
+});
+
 const PORT = 3001;
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => console.log(`🚀 API de Automação do WhatsApp ativa na porta ${PORT}`));
