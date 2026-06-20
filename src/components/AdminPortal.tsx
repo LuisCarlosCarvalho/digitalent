@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Typography, Input, Button, Table, Tabs, message, Tag } from 'antd';
+import { Row, Col, Typography, Input, Button, Table, Tabs, message, Tag, Switch } from 'antd';
 import { ReloadOutlined, PrinterOutlined } from '@ant-design/icons';
 import '../index.css';
 
@@ -85,6 +85,28 @@ const AdminPortal: React.FC = () => {
     }
   };
 
+  const handleToggleKit = async (record: any, checked: boolean) => {
+    try {
+      // Diferenciar entre orador e participante usando campo específico
+      const type = record.professionalTitle !== undefined ? 'speaker' : 'participant'; 
+      const newStatus = checked ? 'Confirmado, kit entregue' : 'Confirmado, kit liberado';
+      
+      const res = await fetch('/api/admin/toggle-kit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: record.id, type, status: newStatus })
+      });
+      if (res.ok) {
+        message.success('Status do kit atualizado!');
+        fetchData(); // Recarrega os dados
+      } else {
+        message.error('Erro ao atualizar kit.');
+      }
+    } catch (e) {
+      message.error('Erro de ligação ao servidor.');
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', background: '#f8fafc' }}>
@@ -119,9 +141,18 @@ const AdminPortal: React.FC = () => {
     { title: 'Email', dataIndex: 'emailAddress', key: 'emailAddress' },
     { title: 'Código Único', dataIndex: 'registrationCode', key: 'registrationCode', render: (text: string) => <Text code>{text}</Text> },
     { title: 'Status', dataIndex: 'status', key: 'status', render: (text: string) => {
-        const isConfirmed = text === 'Confirmado, kit liberado';
+        const isConfirmed = text.includes('Confirmado');
         return <Tag color={isConfirmed ? 'success' : 'warning'}>{text}</Tag>;
     }},
+    { title: 'Kits', key: 'kit', render: (_: any, record: any) => (
+      <Switch 
+        checked={record.status.includes('entregue')}
+        onChange={(checked) => handleToggleKit(record, checked)}
+        checkedChildren="Entregue"
+        unCheckedChildren="Pendente"
+        disabled={!record.status.includes('Confirmado')}
+      />
+    )},
   ];
 
   const estudantes = participants.filter(p => p.category?.toLowerCase() === 'estudante');

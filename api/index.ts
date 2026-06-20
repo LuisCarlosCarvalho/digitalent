@@ -612,6 +612,20 @@ app.post('/api/admin/settings', async (req, res) => {
   }
 });
 
+app.post('/api/admin/toggle-kit', async (req, res) => {
+  try {
+    const { id, type, status } = req.body;
+    if (type === 'speaker') {
+      await prisma.speakerApplication.update({ where: { id }, data: { status } });
+    } else {
+      await prisma.participantApplication.update({ where: { id }, data: { status } });
+    }
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Erro ao atualizar kit.' });
+  }
+});
+
 app.post('/api/checkin', async (req, res) => {
   try {
     const { code } = req.body;
