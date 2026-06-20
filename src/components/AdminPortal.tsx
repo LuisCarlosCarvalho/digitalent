@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Typography, Input, Button, Table, Tabs, message, Tag, Switch } from 'antd';
-import { ReloadOutlined, PrinterOutlined } from '@ant-design/icons';
+import { ReloadOutlined, PrinterOutlined, QrcodeOutlined } from '@ant-design/icons';
 import '../index.css';
 
 const { Title, Text } = Typography;
@@ -166,6 +166,7 @@ const AdminPortal: React.FC = () => {
           </Col>
           <Col>
             <Button icon={<ReloadOutlined />} onClick={fetchData} style={{ marginRight: '12px' }}>Atualizar</Button>
+            <Button icon={<QrcodeOutlined />} type="primary" onClick={() => window.open('/api/admin/generate-qr-pdf', '_blank')} style={{ marginRight: '12px', background: '#2563eb' }}>Imprimir QR Codes</Button>
             <Button icon={<PrinterOutlined />} type="default" onClick={() => window.print()}>Imprimir Lista</Button>
             <Button type="text" onClick={() => { localStorage.removeItem('adminToken'); setIsAuthenticated(false); }} style={{ marginLeft: '12px', color: '#ef4444' }}>Sair</Button>
           </Col>

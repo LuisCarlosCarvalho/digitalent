@@ -7,7 +7,9 @@ import nodemailer from 'nodemailer';
 import Stripe from 'stripe';
 import multer from 'multer';
 import { PrismaClient } from '@prisma/client';
+import QRCode from 'qrcode';
 import { logoDigiBase64, logoIefpBase64 } from './logos.js';
+import { mascotBase64 } from './mascot.js';
 
 dotenv.config();
 
@@ -661,6 +663,76 @@ app.post('/api/checkin', async (req, res) => {
     res.json({ success: true, qaLink });
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao efetuar checkin.' });
+  }
+});
+
+app.get('/api/admin/generate-qr-pdf', async (req, res) => {
+  try {
+    const qrUrl = "https://digitalent.pt/checkin";
+    const qrImageBuffer = await QRCode.toBuffer(qrUrl, {
+      margin: 1,
+      width: 200,
+      color: {
+        dark: '#000000',
+        light: '#ffffff'
+      }
+    });
+    
+    const doc = new PDFDocument({ margin: 0, size: 'A4', layout: 'landscape' });
+    
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline; filename="qrcodes.pdf"');
+    
+    doc.pipe(res);
+    
+    const logoDigitalent = Buffer.from(logoDigiBase64, 'base64');
+    const mascotImg = Buffer.from(mascotBase64, 'base64');
+    
+    const pageWidth = doc.page.width;
+    const pageHeight = doc.page.height;
+    
+    const cols = 2;
+    const rows = 2;
+    
+    const cellWidth = pageWidth / cols;
+    const cellHeight = pageHeight / rows;
+    
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const x = c * cellWidth;
+        const y = r * cellHeight;
+        
+        // Draw dashed borders around the "card"
+        doc.lineWidth(1).strokeColor('#4f46e5').dash(3, { space: 3 });
+        doc.rect(x + 20, y + 20, cellWidth - 40, cellHeight - 40).stroke();
+        doc.undash();
+        
+        // Logo
+        doc.image(logoDigitalent, x + 40, y + 40, { width: 140 });
+        
+        // Mascot
+        doc.image(mascotImg, x + 40, y + 100, { width: 160 });
+        
+        // QR Code Box (Blue rounded border)
+        const qrBoxX = x + 230;
+        const qrBoxY = y + 40;
+        doc.lineWidth(3).strokeColor('#0000ff');
+        doc.roundedRect(qrBoxX, qrBoxY, 150, 150, 10).stroke();
+        
+        // QR Code Image
+        doc.image(qrImageBuffer, qrBoxX + 5, qrBoxY + 5, { width: 140 });
+        
+        // Phrase
+        doc.fontSize(10).fillColor('#1e293b').font('Helvetica-Bold');
+        doc.text('"APONTE, ACESSE E LIBERE', x + 230, qrBoxY + 165, { align: 'center', width: 150 });
+        doc.text('SUA EXPERIÊNCIA."', x + 230, qrBoxY + 178, { align: 'center', width: 150 });
+      }
+    }
+    
+    doc.end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao gerar PDF' });
   }
 });
 
