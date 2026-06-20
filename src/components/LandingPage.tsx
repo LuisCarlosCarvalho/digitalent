@@ -529,22 +529,10 @@ const LandingPage: React.FC = () => {
                       para si, se tem...
                     </span>
                   </Title>
-                  <Paragraph
-                    style={{
-                      fontSize: "1.1rem",
-                      color: "var(--text-sec)",
-                      marginBottom: "32px",
-                    }}
-                  >
-                    Sabemos que gerir um negócio local não é fácil. Entre a
-                    operação diária e o atendimento ao cliente, sobra pouco
-                    tempo para o marketing. Muitos sentem receio da tecnologia ou
-                    acham que o digital é apenas para grandes marcas.
-                  </Paragraph>
                   <Space
                     direction="vertical"
                     size="middle"
-                    style={{ width: "100%" }}
+                    style={{ width: "100%", marginBottom: "32px" }}
                   >
                     {[
                       {
@@ -593,6 +581,18 @@ const LandingPage: React.FC = () => {
                       </div>
                     ))}
                   </Space>
+                  <Paragraph
+                    style={{
+                      fontSize: "1.1rem",
+                      color: "var(--text-sec)",
+                      marginBottom: "0",
+                    }}
+                  >
+                    Sabemos que gerir um negócio local não é fácil. Entre a
+                    operação diária e o atendimento ao cliente, sobra pouco
+                    tempo para o marketing. Muitos sentem receio da tecnologia ou
+                    acham que o digital é apenas para grandes marcas.
+                  </Paragraph>
                 </div>
               </Col>
               <Col xs={24} lg={12}>
