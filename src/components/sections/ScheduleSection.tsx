@@ -97,7 +97,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                       </Title>
                       <div style={{ marginTop: '4px' }}>
                         <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Sérgio Vieira</Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text>
                         <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Head of Sales & Innovation na Elevus Group)</Text>
                       </div>
                     </div>
