@@ -7,51 +7,51 @@ const { useBreakpoint } = Grid;
 
 const speakers = [
   { 
-    name: "Carlos Silva", 
-    role: "Growth Specialist & CEO", 
-    company: "DIGITALENT26",
+    name: "Orador Confirmado", 
+    role: "Estratégia de Crescimento Exponencial", 
+    company: "DIGITALENT",
     expertise: "Estratégia de Crescimento Exponencial",
-    shortBio: "O Carlos trata de toda a operação de growth, coordenando cada processo de marketing para escalar negócios de forma sustentável e rápida.",
+    shortBio: "Brevemente anunciaremos o especialista que irá conduzir este tema e desconstruir os processos de growth para escalar negócios de forma sustentável.",
     image: "https://i.imgur.com/5Q8Y4sI.png" 
   },
   { 
-    name: "Ana Rocha", 
-    role: "Local Traffic Expert", 
-    company: "ADS MASTER",
+    name: "Orador Confirmado", 
+    role: "Tráfego Pago para Comércio Local", 
+    company: "DIGITALENT",
     expertise: "Tráfego Pago para Comércio Local",
-    shortBio: "Especialista em gestão de tráfego pago para lojas físicas. A Ana foca-se no Retorno sobre o Investimento, atraindo clientes reais todos os dias.",
+    shortBio: "Brevemente anunciaremos o especialista focado no Retorno sobre o Investimento, que atrai clientes reais todos os dias para lojas físicas.",
     image: "https://i.imgur.com/5Q8Y4sI.png" 
   },
   { 
-    name: "Pedro Mendes", 
-    role: "Content Strategy Director", 
-    company: "SFL SOLUTION",
+    name: "Orador Confirmado", 
+    role: "Copywriting e Frameworks de Venda", 
+    company: "DIGITALENT",
     expertise: "Copywriting e Frameworks de Venda",
-    shortBio: "O cérebro por trás de campanhas de alta performance. O Pedro estrutura narrativas e copys que convertem curiosos em clientes pagantes.",
+    shortBio: "Brevemente anunciaremos o estratega por trás das narrativas e copys que convertem curiosos em clientes pagantes de alta performance.",
     image: "https://i.imgur.com/5Q8Y4sI.png" 
   },
   { 
-    name: "Sofia Costa", 
-    role: "Social Media Strategist", 
-    company: "SOCIAL FLOW",
+    name: "Orador Confirmado", 
+    role: "Gestão de Comunidades e Redes Sociais", 
+    company: "DIGITALENT",
     expertise: "Gestão de Comunidades e Redes Sociais",
-    shortBio: "Especialista em criar ligações autênticas através das redes sociais. A Sofia ajuda marcas a transformarem seguidores em clientes fiéis.",
+    shortBio: "Brevemente anunciaremos o especialista em criar ligações autênticas através das redes sociais, transformando seguidores em clientes fiéis.",
     image: "https://i.imgur.com/5Q8Y4sI.png" 
   },
   { 
-    name: "Ricardo Almeida", 
-    role: "Data Analytics Manager", 
-    company: "METRIX",
+    name: "Orador Confirmado", 
+    role: "Análise de Dados e Business Intelligence", 
+    company: "DIGITALENT",
     expertise: "Análise de Dados e Business Intelligence",
-    shortBio: "O mestre dos números. O Ricardo transforma dados complexos em insights práticos para tomada de decisão e otimização de campanhas.",
+    shortBio: "Brevemente anunciaremos o mestre dos números que transforma dados complexos em insights práticos para tomada de decisão e otimização.",
     image: "https://i.imgur.com/5Q8Y4sI.png" 
   },
   { 
-    name: "Marta Sousa", 
-    role: "Branding Specialist", 
-    company: "CREATIVE LAB",
-    expertise: "Posicionamento de Marca e Identidade Visual",
-    shortBio: "Com uma visão apurada para o design, a Marta constrói marcas inesquecíveis que se destacam num mercado cada vez mais competitivo.",
+    name: "Orador Confirmado", 
+    role: "Posicionamento de Marca e Identidade", 
+    company: "DIGITALENT",
+    expertise: "Posicionamento de Marca e Identidade",
+    shortBio: "Brevemente anunciaremos o designer que constrói marcas inesquecíveis, destacando-as num mercado cada vez mais competitivo.",
     image: "https://i.imgur.com/5Q8Y4sI.png" 
   }
 ];
