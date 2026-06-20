@@ -150,7 +150,6 @@ const AdminPortal: React.FC = () => {
         onChange={(checked) => handleToggleKit(record, checked)}
         checkedChildren="Entregue"
         unCheckedChildren="Pendente"
-        disabled={!record.status.includes('Confirmado')}
       />
     )},
   ];
