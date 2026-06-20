@@ -6,7 +6,9 @@ const { Title, Text } = Typography;
 const { useBreakpoint } = Grid;
 
 const speakers = [
+  // --- ORADOR 1 ---
   { 
+    id: 1,
     name: "Orador Confirmado", 
     role: "Estratégia de Crescimento Exponencial", 
     company: "DIGITALENT",
@@ -14,7 +16,9 @@ const speakers = [
     shortBio: "Brevemente anunciaremos o especialista que irá conduzir este tema e desconstruir os processos de growth para escalar negócios de forma sustentável.",
     image: "https://i.imgur.com/5Q8Y4sI.png" 
   },
+  // --- ORADOR 2 ---
   { 
+    id: 2,
     name: "Orador Confirmado", 
     role: "Tráfego Pago para Comércio Local", 
     company: "DIGITALENT",
@@ -22,7 +26,9 @@ const speakers = [
     shortBio: "Brevemente anunciaremos o especialista focado no Retorno sobre o Investimento, que atrai clientes reais todos os dias para lojas físicas.",
     image: "https://i.imgur.com/5Q8Y4sI.png" 
   },
+  // --- ORADOR 3 ---
   { 
+    id: 3,
     name: "Orador Confirmado", 
     role: "Copywriting e Frameworks de Venda", 
     company: "DIGITALENT",
@@ -30,7 +36,9 @@ const speakers = [
     shortBio: "Brevemente anunciaremos o estratega por trás das narrativas e copys que convertem curiosos em clientes pagantes de alta performance.",
     image: "https://i.imgur.com/5Q8Y4sI.png" 
   },
+  // --- ORADOR 4 ---
   { 
+    id: 4,
     name: "Orador Confirmado", 
     role: "Gestão de Comunidades e Redes Sociais", 
     company: "DIGITALENT",
@@ -38,7 +46,9 @@ const speakers = [
     shortBio: "Brevemente anunciaremos o especialista em criar ligações autênticas através das redes sociais, transformando seguidores em clientes fiéis.",
     image: "https://i.imgur.com/5Q8Y4sI.png" 
   },
+  // --- ORADOR 5 ---
   { 
+    id: 5,
     name: "Orador Confirmado", 
     role: "Análise de Dados e Business Intelligence", 
     company: "DIGITALENT",
@@ -46,7 +56,9 @@ const speakers = [
     shortBio: "Brevemente anunciaremos o mestre dos números que transforma dados complexos em insights práticos para tomada de decisão e otimização.",
     image: "https://i.imgur.com/5Q8Y4sI.png" 
   },
+  // --- ORADOR 6 ---
   { 
+    id: 6,
     name: "Orador Confirmado", 
     role: "Posicionamento de Marca e Identidade", 
     company: "DIGITALENT",
