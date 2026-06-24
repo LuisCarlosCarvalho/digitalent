@@ -139,13 +139,74 @@ const SpeakersSection: React.FC = () => {
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.95), rgba(29, 78, 216, 0.95));
             opacity: 0;
             transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 10;
+            overflow-y: auto;
+          }
+
+          .speaker-hover-overlay::-webkit-scrollbar {
+            width: 4px;
+          }
+          .speaker-hover-overlay::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          .speaker-hover-overlay::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 4px;
+          }
+
+          .speaker-hover-content {
+            min-height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px;
+            padding: 30px 20px;
             text-align: center;
-            z-index: 10;
+          }
+
+          .speaker-bio-text {
+            color: #ffffff;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-weight: 500;
+            margin-bottom: 24px;
+            white-space: pre-line;
+          }
+
+          .speaker-hover-name {
+            color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            font-family: 'Inter', sans-serif;
+          }
+
+          .speaker-hover-expertise {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.05rem;
+            font-style: italic;
+            margin-bottom: 20px;
+          }
+
+          @media (max-width: 768px) {
+            .speaker-card {
+              aspect-ratio: 3 / 4; /* provide a bit more vertical room on mobile */
+            }
+            .speaker-hover-content {
+              padding: 20px 15px;
+            }
+            .speaker-hover-name {
+              font-size: 1.5rem;
+            }
+            .speaker-hover-expertise {
+              font-size: 0.9rem;
+              margin-bottom: 15px;
+            }
+            .speaker-bio-text {
+              font-size: 0.85rem;
+              margin-bottom: 16px;
+              line-height: 1.4;
+            }
           }
 
           .speaker-card:hover .speaker-hover-overlay {
@@ -179,38 +240,40 @@ const SpeakersSection: React.FC = () => {
 
               {/* Hover State */}
               <div className="speaker-hover-overlay">
-                <Text style={{ color: '#ffffff', fontSize: '1.8rem', fontWeight: 800, marginBottom: '8px', fontFamily: "'Inter', sans-serif" }}>
-                  {speaker.name}
-                </Text>
-                <Text style={{ color: 'rgba(255, 255, 255, 0.9)', fontSize: '1.05rem', fontStyle: 'italic', marginBottom: '20px' }}>
-                  {speaker.expertise}
-                </Text>
-                <Text style={{ color: '#ffffff', fontSize: '1rem', lineHeight: 1.6, fontWeight: 500, marginBottom: '24px', whiteSpace: 'pre-line' }}>
-                  {speaker.shortBio}
-                </Text>
-                <Button 
-                  type="default" 
-                  shape="round" 
-                  icon={<ArrowRightOutlined />}
-                  href={speaker.linkedin || undefined}
-                  target={speaker.linkedin ? "_blank" : undefined}
-                  style={{
-                    background: 'transparent',
-                    color: '#ffffff',
-                    borderColor: 'rgba(255, 255, 255, 0.5)',
-                    fontWeight: 600
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#ffffff';
-                    e.currentTarget.style.color = '#2563eb';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent';
-                    e.currentTarget.style.color = '#ffffff';
-                  }}
-                >
-                  Saber mais
-                </Button>
+                <div className="speaker-hover-content">
+                  <Text className="speaker-hover-name">
+                    {speaker.name}
+                  </Text>
+                  <Text className="speaker-hover-expertise">
+                    {speaker.expertise}
+                  </Text>
+                  <Text className="speaker-bio-text">
+                    {speaker.shortBio}
+                  </Text>
+                  <Button 
+                    type="default" 
+                    shape="round" 
+                    icon={<ArrowRightOutlined />}
+                    href={speaker.linkedin || undefined}
+                    target={speaker.linkedin ? "_blank" : undefined}
+                    style={{
+                      background: 'transparent',
+                      color: '#ffffff',
+                      borderColor: 'rgba(255, 255, 255, 0.5)',
+                      fontWeight: 600
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#ffffff';
+                      e.currentTarget.style.color = '#2563eb';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent';
+                      e.currentTarget.style.color = '#ffffff';
+                    }}
+                  >
+                    Saber mais
+                  </Button>
+                </div>
               </div>
             </div>
           </Col>
