@@ -80,9 +80,9 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                         Palestra: Estratégia Digital & Gestão de Marcas
                       </Title>
                       <div style={{ marginTop: '4px' }}>
-                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradora: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Senior Global Brand Manager - Mimosa na Lactogal)</Text>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Ricardo Carneiro</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Blue Bolt Agency)</Text>
                       </div>
                     </div>
                   ),
@@ -93,12 +93,12 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Palestra: Entre Dados e Decisões: A Nova Estrutura do Talento e do Desempenho no Digital
+                        Palestra: Dados e Tomada de Decisão no Digital
                       </Title>
                       <div style={{ marginTop: '4px' }}>
                         <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Head of Sales & Innovation na Elevus Group)</Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Edgar Alves</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (MultiMaking Sports)</Text>
                       </div>
                     </div>
                   ),
@@ -123,12 +123,12 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Palestra: Redes Sociais e Marketing de Influência na Era da IA
+                        Palestra: Gestão de Inteligência Artificial na Era Digital
                       </Title>
                       <div style={{ marginTop: '4px' }}>
-                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradora: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Fundadora & CEO na Syena)</Text>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Arménio Ganga</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Gangas Digital)</Text>
                       </div>
                     </div>
                   ),
@@ -187,12 +187,11 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Palestra: SEO para Otimização na Inteligência Artificial
+                        Palestra: Gestão da Transformação digital na perspectiva de empreendedores
                       </Title>
                       <div style={{ marginTop: '4px' }}>
-                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Consultor & Orador de Marketing Digital)</Text>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradora: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Inês</Text>
                       </div>
                     </div>
                   ),
@@ -217,37 +216,35 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Palestra: O Futuro da Criação de Conteúdo com IA
+                        Palestra: Gestão da Transformação Digital
                       </Title>
                       <div style={{ marginTop: '4px' }}>
                         <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (AI Consulting & Innovation Strategist na Certidata)</Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Diogo Gaspar</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Ascendia)</Text>
                       </div>
                     </div>
                   ),
                   dot: <BulbOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
                 },
                 {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>16h00 - 16h30</Text>,
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>16h00 - 16h45</Text>,
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Painel Temático: Gestão da Transformação Digital na Perspetiva de Empreendedores
+                        Palestra: Gestão e Automação com IA
                       </Title>
                       <div style={{ marginTop: '6px' }}>
-                        <div style={{ color: 'var(--text-sec)', fontSize: '0.9rem', marginBottom: '2px' }}>Oradores Convidados:</div>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Blip), </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(coCEO LOBA) </Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>e </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Partner Link&Grow)</Text>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Filipe Duarte</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Ascendia)</Text>
                       </div>
                     </div>
                   ),
                   dot: <SolutionOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
                 },
                 {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>16h30 - 17h00</Text>,
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>16h45 - 17h15</Text>,
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
@@ -261,7 +258,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   dot: <BulbOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
                 },
                 {
-                  label: <Text style={{ color: '#dc2626', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>17h00</Text>,
+                  label: <Text style={{ color: '#dc2626', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>17h15</Text>,
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: '#dc2626', fontSize: '1.1rem', fontWeight: 700 }}>

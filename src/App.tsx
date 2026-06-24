@@ -31,7 +31,6 @@ function App() {
     if (
       pathname === "/oradores" ||
       hash === "#/oradores" ||
-      hash === "#oradores" ||
       pParam === "oradores"
     ) {
       return "oradores";

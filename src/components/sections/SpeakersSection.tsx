@@ -9,42 +9,46 @@ const speakers = [
   // --- ORADOR 1 ---
   { 
     id: 1,
-    name: "Orador Confirmado", 
-    role: "Estratégia de Crescimento Exponencial", 
-    company: "DIGITALENT",
-    expertise: "Estratégia de Crescimento Exponencial",
-    shortBio: "Brevemente anunciaremos o especialista que irá conduzir este tema e desconstruir os processos de growth para escalar negócios de forma sustentável.",
-    image: "https://i.imgur.com/5Q8Y4sI.png" 
+    name: "Arménio Ganga", 
+    role: "Gestão de Inteligência Artificial na Era Digital", 
+    company: "GANGAS DIGITAL",
+    expertise: "Gestão de Inteligência Artificial na Era Digital",
+    shortBio: "Especialista em Growth Hacking e Marketing de Performance (Google Partner), focado em maximizar o ROI de negócios através de campanhas de tráfego pago e estratégias de aquisição digital.\n\nCom mais de 9 anos de experiência, geri o crescimento de mais de 500 empresas, supervisionando atualmente carteiras de investimento (PPC) superiores a 100.000 € por mês.\n\nAdoto um método de trabalho transparente e orientado a resultados, garantindo alinhamento estratégico, eficiência e escalabilidade em cada projeto.",
+    image: "https://i.imgur.com/PBEY1If.jpeg",
+    linkedin: "https://www.linkedin.com/in/armenioganga"
   },
   // --- ORADOR 2 ---
   { 
     id: 2,
-    name: "Orador Confirmado", 
-    role: "Tráfego Pago para Comércio Local", 
-    company: "DIGITALENT",
-    expertise: "Tráfego Pago para Comércio Local",
-    shortBio: "Brevemente anunciaremos o especialista focado no Retorno sobre o Investimento, que atrai clientes reais todos os dias para lojas físicas.",
-    image: "https://i.imgur.com/5Q8Y4sI.png" 
+    name: "Diogo Gaspar", 
+    role: "Gestão da Transformação Digital", 
+    company: "IA & AUTOMAÇÃO (ASCENDIA)",
+    expertise: "Gestão da Transformação Digital",
+    shortBio: "A maioria das imobiliárias perde leads todos os dias.\nNão por falta de investimento em marketing — mas porque ninguém responde rápido o suficiente, o follow-up morre ao terceiro contacto, e os leads \"frios\" ficam esquecidos no CRM.\n\nEu criei a Ascendia para resolver exatamente isto.\nConstruo sistemas com inteligência artificial e automação que tratam dos processos que drenam tempo e perdem dinheiro — para que as equipas comerciais se foquem no que realmente importa: fechar negócios.\nSe perdes leads, tens processos lentos, ou a tua equipa gasta tempo em tarefas que deviam ser automáticas — vamos conversar.\n🌐 ascendia.pt\n📩 diogo@ascendia.pt",
+    image: "https://i.imgur.com/5Q8Y4sI.png",
+    linkedin: "https://www.linkedin.com/in/diogo-gaspar-916544340"
   },
   // --- ORADOR 3 ---
   { 
     id: 3,
-    name: "Orador Confirmado", 
-    role: "Copywriting e Frameworks de Venda", 
-    company: "DIGITALENT",
-    expertise: "Copywriting e Frameworks de Venda",
-    shortBio: "Brevemente anunciaremos o estratega por trás das narrativas e copys que convertem curiosos em clientes pagantes de alta performance.",
-    image: "https://i.imgur.com/5Q8Y4sI.png" 
+    name: "Edgar Alves", 
+    role: "Dados e Tomada de Decisão no Digital", 
+    company: "MULTIMAKING SPORTS",
+    expertise: "Dados e Tomada de Decisão no Digital",
+    shortBio: "Nos bastidores do desporto, há histórias que merecem ser contadas com profundidade.\nProduzimos podcasts e conteúdo estratégico que transformam essas histórias em autoridade para marcas.\nComunicação com propósito, consistência e impacto.\n📲 @multimaking.sports",
+    image: "https://i.imgur.com/nQD2c9Q.jpeg",
+    linkedin: "https://www.instagram.com/multimaking.sports?igsh=cXA3Y3Z3OThoM3Bu&utm_source=qr"
   },
   // --- ORADOR 4 ---
   { 
     id: 4,
-    name: "Orador Confirmado", 
-    role: "Gestão de Comunidades e Redes Sociais", 
-    company: "DIGITALENT",
-    expertise: "Gestão de Comunidades e Redes Sociais",
-    shortBio: "Brevemente anunciaremos o especialista em criar ligações autênticas através das redes sociais, transformando seguidores em clientes fiéis.",
-    image: "https://i.imgur.com/5Q8Y4sI.png" 
+    name: "Filipe Duarte", 
+    role: "Gestão e Automação com IA", 
+    company: "IA & AUTOMAÇÃO (ASCENDIA)",
+    expertise: "Gestão e Automação com IA",
+    shortBio: "Trabalho com automação e inteligência artificial porque vi, na prática, como a maioria das empresas perde oportunidades todos os dias.\nAo longo do tempo, comecei a reparar em padrões: tarefas repetitivas, processos pouco claros e uma dependência excessiva de intervenção humana para coisas que já poderiam ser sistematizadas.\nAinda existe uma aversão ao uso de IA, mas isto porque a maioria das pessoas não sabe o impacto que uma automação no seu negócio pode ter com o uso da IA.\nGosto de dizer aos meus clientes que uma automação com IA é como um ajudante que vai te surpreender quando tu decides delegar uma tarefa.",
+    image: "https://i.imgur.com/5Q8Y4sI.png",
+    linkedin: "https://www.linkedin.com/in/filipe-duarte-969372309"
   },
   // --- ORADOR 5 ---
   { 
@@ -54,17 +58,19 @@ const speakers = [
     company: "DIGITALENT",
     expertise: "Análise de Dados e Business Intelligence",
     shortBio: "Brevemente anunciaremos o mestre dos números que transforma dados complexos em insights práticos para tomada de decisão e otimização.",
-    image: "https://i.imgur.com/5Q8Y4sI.png" 
+    image: "https://i.imgur.com/5Q8Y4sI.png",
+    linkedin: ""
   },
   // --- ORADOR 6 ---
   { 
     id: 6,
-    name: "Orador Confirmado", 
-    role: "Posicionamento de Marca e Identidade", 
-    company: "DIGITALENT",
-    expertise: "Posicionamento de Marca e Identidade",
-    shortBio: "Brevemente anunciaremos o designer que constrói marcas inesquecíveis, destacando-as num mercado cada vez mais competitivo.",
-    image: "https://i.imgur.com/5Q8Y4sI.png" 
+    name: "Ricardo Carneiro", 
+    role: "Estratégia digital & gestão de marcas", 
+    company: "BLUE BOLT AGENCY",
+    expertise: "Estratégia digital & gestão de marcas",
+    shortBio: "Marketing Digital | CMO\nLicenciado em Ciências da Comunicação, Mestre em Multimédia com especialização em Educação, mas foi no Marketing que descobri a minha verdadeira vocação, concluindo em 2018 o Mestrado em Marketing na Universidade de Aveiro. Atualmente sou Head of Marketing na Blue Bolt Agency.",
+    image: "https://i.imgur.com/VTRsQ0k.jpeg",
+    linkedin: "https://www.linkedin.com/in/ricardo-doria-carneiro"
   }
 ];
 
@@ -179,13 +185,15 @@ const SpeakersSection: React.FC = () => {
                 <Text style={{ color: 'rgba(255, 255, 255, 0.9)', fontSize: '1.05rem', fontStyle: 'italic', marginBottom: '20px' }}>
                   {speaker.expertise}
                 </Text>
-                <Text style={{ color: '#ffffff', fontSize: '1rem', lineHeight: 1.6, fontWeight: 500, marginBottom: '24px' }}>
+                <Text style={{ color: '#ffffff', fontSize: '1rem', lineHeight: 1.6, fontWeight: 500, marginBottom: '24px', whiteSpace: 'pre-line' }}>
                   {speaker.shortBio}
                 </Text>
                 <Button 
                   type="default" 
                   shape="round" 
                   icon={<ArrowRightOutlined />}
+                  href={speaker.linkedin || undefined}
+                  target={speaker.linkedin ? "_blank" : undefined}
                   style={{
                     background: 'transparent',
                     color: '#ffffff',
