@@ -140,37 +140,32 @@ const SpeakersSection: React.FC = () => {
             opacity: 0;
             transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: 10;
-            overflow-y: auto;
-          }
-
-          .speaker-hover-overlay::-webkit-scrollbar {
-            width: 4px;
-          }
-          .speaker-hover-overlay::-webkit-scrollbar-track {
-            background: transparent;
-          }
-          .speaker-hover-overlay::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
           }
 
           .speaker-hover-content {
-            min-height: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px 20px;
+            padding: 20px;
             text-align: center;
           }
 
           .speaker-bio-text {
             color: #ffffff;
             font-size: 0.95rem;
-            line-height: 1.6;
+            line-height: 1.5;
             font-weight: 500;
-            margin-bottom: 24px;
-            white-space: pre-line;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: pre-wrap;
           }
 
           .speaker-hover-name {
@@ -193,19 +188,21 @@ const SpeakersSection: React.FC = () => {
               aspect-ratio: 3 / 4; /* provide a bit more vertical room on mobile */
             }
             .speaker-hover-content {
-              padding: 20px 15px;
+              padding: 15px;
             }
             .speaker-hover-name {
               font-size: 1.5rem;
+              margin-bottom: 4px;
             }
             .speaker-hover-expertise {
               font-size: 0.9rem;
-              margin-bottom: 15px;
+              margin-bottom: 12px;
             }
             .speaker-bio-text {
               font-size: 0.85rem;
               margin-bottom: 16px;
               line-height: 1.4;
+              -webkit-line-clamp: 6; /* allow one more line on mobile since text is smaller */
             }
           }
 
