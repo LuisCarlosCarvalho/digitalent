@@ -182,7 +182,10 @@ const LandingPage: React.FC = () => {
     "https://i.imgur.com/Plb9o3i.png",
     "https://i.imgur.com/EpDGrzT.png",
     "https://i.imgur.com/KvjOZO6.png",
-    "https://i.imgur.com/bfYdCUW.png"
+    "https://i.imgur.com/bfYdCUW.png",
+    "https://i.imgur.com/iFG6dJM.png",
+    "https://i.imgur.com/Sayi70U.png",
+    "https://i.imgur.com/Wi15eOJ.png"
   ];
 
   return (
