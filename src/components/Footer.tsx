@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Layout, Divider, Space, Typography } from "antd";
+import { LegalAndCookies } from "./policies/LegalAndCookies";
 import {
   InstagramOutlined,
   LinkedinOutlined,
@@ -10,6 +11,10 @@ const { Footer: AntdFooter } = Layout;
 const { Text } = Typography;
 
 export const Footer: React.FC = () => {
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  const [isCookiesOpen, setIsCookiesOpen] = useState(false);
+  const [isManagerOpen, setIsManagerOpen] = useState(false);
+
   return (
     <AntdFooter
       style={{
@@ -125,6 +130,34 @@ export const Footer: React.FC = () => {
           </a>
         </Space>
 
+        {/* Policies Links */}
+        <Space size={32} style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <Text 
+            style={{ cursor: 'pointer', color: '#64748b', fontSize: '14px', transition: 'color 0.3s' }} 
+            onClick={() => setIsPrivacyOpen(true)}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#2563eb'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#64748b'}
+          >
+            Política de Privacidade
+          </Text>
+          <Text 
+            style={{ cursor: 'pointer', color: '#64748b', fontSize: '14px', transition: 'color 0.3s' }} 
+            onClick={() => setIsCookiesOpen(true)}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#2563eb'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#64748b'}
+          >
+            Política de Cookies
+          </Text>
+          <Text 
+            style={{ cursor: 'pointer', color: '#64748b', fontSize: '14px', transition: 'color 0.3s' }} 
+            onClick={() => setIsManagerOpen(true)}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#2563eb'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#64748b'}
+          >
+            Gerir Cookies
+          </Text>
+        </Space>
+
         {/* Text / Copyright Layer */}
         <div
           style={{
@@ -143,7 +176,7 @@ export const Footer: React.FC = () => {
           >
             © 2026 Digitalent26 - Marketing com Visão. Desenvolvido pela{" "}
             <a
-              href="https://fslsolution.com"
+              href="https://umbulab.com"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -167,6 +200,15 @@ export const Footer: React.FC = () => {
           </Text>
         </div>
       </div>
+
+      <LegalAndCookies 
+        isPrivacyOpen={isPrivacyOpen}
+        setIsPrivacyOpen={setIsPrivacyOpen}
+        isCookiesOpen={isCookiesOpen}
+        setIsCookiesOpen={setIsCookiesOpen}
+        isManagerOpen={isManagerOpen}
+        setIsManagerOpen={setIsManagerOpen}
+      />
     </AntdFooter>
   );
 };
