@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Typography, Input, Button, Table, Tabs, message, Tag, Switch } from 'antd';
+import { Row, Col, Typography, Input, Button, Table, Tabs, message, Tag, Switch, Popconfirm } from 'antd';
 import { ReloadOutlined, PrinterOutlined, QrcodeOutlined } from '@ant-design/icons';
 import '../index.css';
 
@@ -107,6 +107,24 @@ const AdminPortal: React.FC = () => {
     }
   };
 
+  const handleCheckin = async (code: string) => {
+    try {
+      const res = await fetch('/api/checkin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
+      });
+      if (res.ok) {
+        message.success('Inscrição confirmada com sucesso!');
+        fetchData();
+      } else {
+        message.error('Erro ao confirmar inscrição.');
+      }
+    } catch (e) {
+      message.error('Erro de ligação ao servidor.');
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', background: '#f8fafc' }}>
@@ -139,7 +157,17 @@ const AdminPortal: React.FC = () => {
   const columns = [
     { title: 'Nome', dataIndex: 'fullName', key: 'fullName', render: (text: string) => <strong>{text}</strong> },
     { title: 'Email', dataIndex: 'emailAddress', key: 'emailAddress' },
-    { title: 'Código Único', dataIndex: 'registrationCode', key: 'registrationCode', render: (text: string) => <Text code>{text}</Text> },
+    { title: 'Código Único', dataIndex: 'registrationCode', key: 'registrationCode', render: (text: string) => (
+      <Popconfirm 
+        title="Confirmar Inscrição?" 
+        description="Tem a certeza que deseja confirmar a presença (check-in) deste participante?" 
+        onConfirm={() => handleCheckin(text)} 
+        okText="Sim" 
+        cancelText="Não"
+      >
+        <Tag color="gold" style={{ cursor: 'pointer', fontSize: '14px', padding: '4px 8px' }}>{text}</Tag>
+      </Popconfirm>
+    )},
     { title: 'Status', dataIndex: 'status', key: 'status', render: (text: string) => {
         const isConfirmed = text.includes('Confirmado');
         return <Tag color={isConfirmed ? 'success' : 'warning'}>{text}</Tag>;
@@ -153,9 +181,6 @@ const AdminPortal: React.FC = () => {
       />
     )},
   ];
-
-  const estudantes = participants.filter(p => p.category?.toLowerCase() === 'estudante');
-  const empresas = participants.filter(p => p.category?.toLowerCase() === 'empresa' || p.category?.toLowerCase() === 'ouvinte');
 
   return (
     <div style={{ background: '#f8fafc', minHeight: '100vh', padding: '40px 20px' }}>
@@ -187,13 +212,10 @@ const AdminPortal: React.FC = () => {
 
         <div style={{ background: '#fff', padding: '24px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
           <Tabs defaultActiveKey="1">
-            <Tabs.TabPane tab={`Ouvintes Estudantes (${estudantes.length})`} key="1">
-              <Table dataSource={estudantes} columns={columns} rowKey="id" pagination={false} />
+            <Tabs.TabPane tab={`Ouvintes / Empresas (${participants.length})`} key="1">
+              <Table dataSource={participants} columns={columns} rowKey="id" pagination={false} />
             </Tabs.TabPane>
-            <Tabs.TabPane tab={`Ouvintes Empresas (${empresas.length})`} key="2">
-              <Table dataSource={empresas} columns={columns} rowKey="id" pagination={false} />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab={`Oradores (${speakers.length})`} key="3">
+            <Tabs.TabPane tab={`Oradores (${speakers.length})`} key="2">
               <Table dataSource={speakers} columns={columns} rowKey="id" pagination={false} />
             </Tabs.TabPane>
           </Tabs>
