@@ -14,6 +14,7 @@ const AdminPortal: React.FC = () => {
   const [qaLink, setQaLink] = useState('');
   const [participants, setParticipants] = useState<any[]>([]);
   const [speakers, setSpeakers] = useState<any[]>([]);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
@@ -182,6 +183,14 @@ const AdminPortal: React.FC = () => {
     )},
   ];
 
+  const filteredParticipants = participants.filter(p => 
+    !searchText || p.registrationCode?.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  const filteredSpeakers = speakers.filter(p => 
+    !searchText || p.registrationCode?.toLowerCase().includes(searchText.toLowerCase())
+  );
+
   return (
     <div style={{ background: '#f8fafc', minHeight: '100vh', padding: '40px 20px' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -211,12 +220,22 @@ const AdminPortal: React.FC = () => {
         </div>
 
         <div style={{ background: '#fff', padding: '24px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
-          <Tabs defaultActiveKey="1">
-            <Tabs.TabPane tab={`Ouvintes / Empresas (${participants.length})`} key="1">
-              <Table dataSource={participants} columns={columns} rowKey="id" pagination={false} />
+          <Tabs 
+            defaultActiveKey="1"
+            tabBarExtraContent={
+              <Input.Search 
+                placeholder="Procurar código (ex: H57K)..." 
+                allowClear 
+                onChange={e => setSearchText(e.target.value)}
+                style={{ width: 250, marginBottom: 8 }}
+              />
+            }
+          >
+            <Tabs.TabPane tab={`Ouvintes / Empresas (${filteredParticipants.length})`} key="1">
+              <Table dataSource={filteredParticipants} columns={columns} rowKey="id" pagination={false} />
             </Tabs.TabPane>
-            <Tabs.TabPane tab={`Oradores (${speakers.length})`} key="2">
-              <Table dataSource={speakers} columns={columns} rowKey="id" pagination={false} />
+            <Tabs.TabPane tab={`Oradores (${filteredSpeakers.length})`} key="2">
+              <Table dataSource={filteredSpeakers} columns={columns} rowKey="id" pagination={false} />
             </Tabs.TabPane>
           </Tabs>
         </div>
