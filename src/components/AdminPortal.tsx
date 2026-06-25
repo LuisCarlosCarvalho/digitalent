@@ -89,7 +89,7 @@ const AdminPortal: React.FC = () => {
     try {
       // Diferenciar entre orador e participante usando campo específico
       const type = record.professionalTitle !== undefined ? 'speaker' : 'participant'; 
-      const newStatus = checked ? 'Confirmado, kit entregue' : 'Confirmado, kit liberado';
+      const newStatus = checked ? 'Confirmado, brinde entregue' : 'Confirmado, brinde liberado';
       
       const res = await fetch('/api/admin/toggle-kit', {
         method: 'POST',
@@ -97,7 +97,7 @@ const AdminPortal: React.FC = () => {
         body: JSON.stringify({ id: record.id, type, status: newStatus })
       });
       if (res.ok) {
-        message.success('Status do kit atualizado!');
+        message.success('Status do brinde atualizado!');
         fetchData(); // Recarrega os dados
       } else {
         message.error('Erro ao atualizar kit.');
@@ -144,7 +144,7 @@ const AdminPortal: React.FC = () => {
         const isConfirmed = text.includes('Confirmado');
         return <Tag color={isConfirmed ? 'success' : 'warning'}>{text}</Tag>;
     }},
-    { title: 'Kits', key: 'kit', render: (_: any, record: any) => (
+    { title: 'Brindes', key: 'brinde', render: (_: any, record: any) => (
       <Switch 
         checked={record.status.includes('entregue')}
         onChange={(checked) => handleToggleKit(record, checked)}

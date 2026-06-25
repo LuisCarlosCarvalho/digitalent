@@ -131,7 +131,7 @@ const MainHeroPage: React.FC = () => {
                   shape="round"
                   size="large"
                   onClick={() => {
-                    const el = document.getElementById('registration');
+                    const el = document.getElementById('inscricao');
                     if(el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
                   style={{

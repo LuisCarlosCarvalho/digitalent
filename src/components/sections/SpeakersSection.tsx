@@ -53,13 +53,13 @@ const speakers = [
   // --- ORADOR 5 ---
   { 
     id: 5,
-    name: "Orador Confirmado", 
-    role: "Análise de Dados e Business Intelligence", 
-    company: "DIGITALENT",
-    expertise: "Análise de Dados e Business Intelligence",
-    shortBio: "Brevemente anunciaremos o mestre dos números que transforma dados complexos em insights práticos para tomada de decisão e otimização.",
-    image: "https://i.imgur.com/5Q8Y4sI.png",
-    linkedin: ""
+    name: "Inês Sá Silva", 
+    role: "Redes Sociais e Marketing de Influência na Era da IA", 
+    company: "Digital Experience (DX)",
+    expertise: "Redes Sociais e Marketing de Influência na Era da IA",
+    shortBio: "Inês é especialista em Social Media e Marketing orientado por dados, com formação em Gestão e mestrado na área de Data-Driven Marketing. Atualmente a aprofundar competências em Content Marketing, combina pensamento analítico com criatividade para desenvolver estratégias digitais eficazes e orientadas para resultados.\n\nCom experiência em e-commerce, finanças e gestão de redes sociais, destaca-se pela sua visão estratégica, capacidade de liderança e foco na performance. A sua abordagem prática e orientada para impacto promete trazer insights relevantes e aplicáveis a quem procura evoluir na área do marketing digital.",
+    image: "https://i.imgur.com/gVJhUZD.jpeg",
+    linkedin: "https://www.linkedin.com/in/ines-sa-silva"
   },
   // --- ORADOR 6 ---
   { 

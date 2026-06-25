@@ -50,7 +50,7 @@ const CheckinPage: React.FC = () => {
         <CheckCircleOutlined style={{ fontSize: '80px', color: '#22c55e', marginBottom: '24px' }} />
         <Title level={2} style={{ color: '#fff', marginBottom: '16px' }}>Confirmado!</Title>
         <Paragraph style={{ color: '#94a3b8', fontSize: '16px', maxWidth: '400px' }}>
-          A tua presença foi confirmada e o kit está liberado. Vais ser redirecionado(a) para o painel de perguntas em instantes...
+          A tua presença foi confirmada e o brinde está liberado. Vais ser redirecionado(a) para o painel de perguntas em instantes...
         </Paragraph>
       </div>
     );

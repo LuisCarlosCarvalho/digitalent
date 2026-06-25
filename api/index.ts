@@ -28,9 +28,34 @@ const ADMIN_WHATSAPP_NUMBER = "351964300708";
 app.post('/api/register-whatsapp', async (req, res) => {
   const { formType, name, email, phone, company, sponsorshipLevel, adminNumber } = req.body;
 
+  // Validate if email already exists
+  const existingUser = await prisma.participantApplication.findFirst({
+    where: { emailAddress: email }
+  });
+
+  if (existingUser) {
+    return res.status(400).json({ success: false, error: 'Este e-mail já se encontra registado.' });
+  }
+
   // Usa o número enviado pelo frontend ou o padrão configurado acima
   const targetNumber = adminNumber || ADMIN_WHATSAPP_NUMBER;
   const registrationCode = 'DT26-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+  // Guardar no banco de dados para que o código funcione no /checkin e /confirma
+  try {
+    await prisma.participantApplication.create({
+      data: {
+        fullName: name,
+        phoneNumber: phone || null,
+        emailAddress: email,
+        companyName: company || null,
+        registrationCode: registrationCode,
+        dataProtectionConsent: true,
+      }
+    });
+  } catch (dbErr) {
+    console.warn("⚠️ Não foi possível salvar participante na BD. Continuando para envio de email...", dbErr);
+  }
 
   try {
     const logoDigitalent = Buffer.from(logoDigiBase64, 'base64');
@@ -117,30 +142,8 @@ app.post('/api/register-whatsapp', async (req, res) => {
         console.error("❌ Erro ao enviar e-mail de notificação:", emailError);
       }
 
-      // 4. Comunicação Invisível com a API de Integração do WhatsApp
-      const base64Pdf = pdfBuffer.toString('base64');
-      
-      try {
-        if (!process.env.WHATSAPP_API_URL || !process.env.WHATSAPP_API_TOKEN) {
-            console.warn("⚠️ WHATSAPP_API_URL ou TOKEN não configurados no .env. O registo foi processado mas a mensagem não foi enviada.");
-            return res.status(200).json({ success: true, message: "Registo processado localmente (Simulação)." });
-        }
-
-        await axios.post(`${process.env.WHATSAPP_API_URL}/send-document`, {
-          number: targetNumber,
-          caption: textMessage,
-          document: `data:application/pdf;base64,${base64Pdf}`,
-          fileName: `Inscricao_${name.replace(/\s+/g, '_')}.pdf`
-        }, {
-          headers: { 'Authorization': `Bearer ${process.env.WHATSAPP_API_TOKEN}` }
-        });
-
-        return res.status(200).json({ success: true, message: "Registo processado e enviado via WhatsApp." });
-      } catch (apiError) {
-        console.error("Erro na API do WhatsApp:", apiError);
-        // Retornamos 200 para o front não "travar", mas logamos o erro
-        return res.status(200).json({ success: true, warning: "Registo salvo, mas erro ao disparar WhatsApp." });
-      }
+      // Comunicação via WhatsApp foi removida a pedido do utilizador.
+      return res.status(200).json({ success: true, message: "Registo processado e enviado via E-mail." });
     });
 
     // Design do PDF
@@ -412,6 +415,15 @@ app.post('/api/participants/register', async (req, res) => {
       return res.status(400).json({ error: 'Data protection consent is required.' });
     }
 
+    // Validate if email already exists
+    const existingParticipant = await prisma.participantApplication.findFirst({
+      where: { emailAddress }
+    });
+
+    if (existingParticipant) {
+      return res.status(400).json({ success: false, error: 'Este e-mail já se encontra registado.' });
+    }
+
     const registrationCode = 'DT26-' + Math.random().toString(36).substring(2, 8).toUpperCase();
 
     try {
@@ -630,8 +642,14 @@ app.post('/api/admin/toggle-kit', async (req, res) => {
 
 app.post('/api/checkin', async (req, res) => {
   try {
-    const { code } = req.body;
+    let { code } = req.body;
     if (!code) return res.status(400).json({ success: false, error: 'Código em falta.' });
+
+    // Formatting code automatically if missing hyphen
+    code = code.toUpperCase().trim();
+    if (code.startsWith('DT26') && !code.startsWith('DT26-')) {
+      code = 'DT26-' + code.substring(4);
+    }
 
     let updated = false;
     let participant = await prisma.participantApplication.findFirst({ where: { registrationCode: code } });
@@ -639,7 +657,7 @@ app.post('/api/checkin', async (req, res) => {
     if (participant) {
       await prisma.participantApplication.update({
         where: { id: participant.id },
-        data: { status: 'Confirmado, kit liberado' }
+        data: { status: 'Confirmado, brinde liberado' }
       });
       updated = true;
     } else {
@@ -647,7 +665,7 @@ app.post('/api/checkin', async (req, res) => {
       if (speaker) {
         await prisma.speakerApplication.update({
           where: { id: speaker.id },
-          data: { status: 'Confirmado, kit liberado' }
+          data: { status: 'Confirmado, brinde liberado' }
         });
         updated = true;
       }
