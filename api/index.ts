@@ -8,19 +8,96 @@ import Stripe from 'stripe';
 import multer from 'multer';
 import { PrismaClient } from '@prisma/client';
 import QRCode from 'qrcode';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import cookieParser from 'cookie-parser';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { z } from 'zod';
+import sanitizeHtml from 'sanitize-html';
 import { logoDigiBase64, logoIefpBase64 } from './logos.js';
 import { mascotBase64 } from './mascot.js';
 
 dotenv.config();
 
-
-
 const app = express();
-app.use(cors());
-app.use(express.json());
+
+// Security Middleware (Defense in Depth)
+app.use(helmet());
+app.use(cookieParser());
+app.use(express.json({ limit: '10kb' })); // Limit body size
+
+// Input Sanitization Middleware
+const sanitizeMiddleware = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (req.body && typeof req.body === 'object') {
+    for (const key in req.body) {
+      if (typeof req.body[key] === 'string') {
+        req.body[key] = sanitizeHtml(req.body[key], { allowedTags: [], allowedAttributes: {} }).trim();
+      }
+    }
+  }
+  next();
+};
+app.use(sanitizeMiddleware);
+
+// Honeypot Bot-Trap Middleware
+const honeypotMiddleware = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (req.body && req.body._hp_website) {
+    // Se o honeypot for preenchido por um bot, fingimos sucesso
+    console.warn('Bot capturado pelo honeypot!');
+    return res.status(200).json({ success: true, message: 'Submetido com sucesso.' });
+  }
+  next();
+};
+app.use(honeypotMiddleware);
+
+const corsOptions = {
+  origin: ['https://digitalent.pt', 'https://www.digitalent.pt', 'http://localhost:5173'],
+  credentials: true, // required for cookies
+};
+app.use(cors(corsOptions));
+
+// Global Rate Limiter
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+  message: { success: false, error: 'Demasiados pedidos. Tente novamente mais tarde.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use('/api', globalLimiter);
+
+// Specific Rate Limiters
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: { success: false, error: 'Demasiadas tentativas de login. Tente novamente mais tarde.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const checkinLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  message: { success: false, error: 'Demasiadas tentativas de checkin.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 const prisma = new PrismaClient();
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
+
+// Authentication Middleware
+const authenticateToken = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const token = req.cookies.admin_token;
+  if (!token) return res.status(401).json({ success: false, error: 'Não autorizado. Faça login.' });
+  
+  jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret-12345', (err: any, user: any) => {
+    if (err) return res.status(403).json({ success: false, error: 'Sessão expirada ou inválida.' });
+    (req as any).user = user;
+    next();
+  });
+};
 
 // Número do Administrador configurado por si
 const ADMIN_WHATSAPP_NUMBER = "351964300708"; 
@@ -29,13 +106,13 @@ app.post('/api/register-whatsapp', async (req, res) => {
   const { formType, name, email, phone, company, sponsorshipLevel, adminNumber } = req.body;
 
   // Validate if email already exists
-  const existingUser = await prisma.participantApplication.findFirst({
-    where: { emailAddress: email }
-  });
+  // const existingUser = await prisma.participantApplication.findFirst({
+  //   where: { emailAddress: email }
+  // });
 
-  if (existingUser) {
-    return res.status(400).json({ success: false, error: 'Este e-mail já se encontra registado.' });
-  }
+  // if (existingUser) {
+  //   return res.status(400).json({ success: false, error: 'Este e-mail já se encontra registado.' });
+  // }
 
   // Usa o número enviado pelo frontend ou o padrão configurado acima
   const targetNumber = adminNumber || ADMIN_WHATSAPP_NUMBER;
@@ -110,9 +187,20 @@ app.post('/api/register-whatsapp', async (req, res) => {
               <div style="font-family: Arial, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px;">
                 <h2 style="color: #2563eb;">Olá, ${name}!</h2>
                 <p>A tua inscrição para o <strong>Digitalent'26</strong>, foi confirmada.</p>
-                <div style="background-color: #f8fafc; border-left: 4px solid #2563eb; padding: 15px; margin: 20px 0;">
-                  <p style="margin: 0; font-size: 14px; color: #64748b;">O teu Código Único de Inscrição:</p>
-                  <h3 style="margin: 5px 0 0 0; color: #0f172a; font-size: 24px; letter-spacing: 2px;">${registrationCode}</h3>
+                <div style="background-color: #f8fafc; border-left: 4px solid #2563eb; padding: 20px; margin: 20px 0;">
+                  <p style="margin: 0 0 15px 0; font-size: 14px; color: #64748b;">O teu Código Único de Inscrição e QR Code de Check-in:</p>
+                  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td align="left" valign="middle">
+                        <h3 style="margin: 0; color: #0f172a; font-size: 28px; letter-spacing: 2px;">
+                          <a href="https://digitalent.pt/checkin?code=${registrationCode}" style="color: #2563eb; text-decoration: none;">${registrationCode}</a>
+                        </h3>
+                      </td>
+                      <td align="right" valign="middle" width="160">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('https://digitalent.pt/checkin?code=' + registrationCode)}" alt="QR Code" style="display: block; border-radius: 8px; border: 2px solid #2563eb;" />
+                      </td>
+                    </tr>
+                  </table>
                 </div>
                 <p>Guarda este código. O teu PDF de admissão e credenciais de acesso ao Dossiê Antidesperdício foram também emitidos e enviados em anexo.</p>
                 <p>Estamos ansiosos por te ver impulsionar os teus resultados no Digitalent'26.</p>
@@ -375,9 +463,20 @@ app.post('/api/speakers/register', upload.fields([{ name: 'profilePhoto', maxCou
             <h2 style="color: #2563eb;">Olá, ${fullName}!</h2>
             <p>Temos o prazer de confirmar que a tua candidatura para Orador no <strong>Digitalent'26</strong> foi aceite com sucesso.</p>
             <p>O tema que propuseste — <em>"${speakerTopic}"</em> — já se encontra registado na programação do evento.</p>
-            <div style="background-color: #f8fafc; border-left: 4px solid #2563eb; padding: 15px; margin: 20px 0;">
-              <p style="margin: 0; font-size: 14px; color: #64748b;">O teu Código de Acompanhamento é:</p>
-              <h3 style="margin: 5px 0 0 0; color: #0f172a; font-size: 24px; letter-spacing: 2px;">${registrationCode}</h3>
+            <div style="background-color: #f8fafc; border-left: 4px solid #2563eb; padding: 20px; margin: 20px 0;">
+              <p style="margin: 0 0 15px 0; font-size: 14px; color: #64748b;">O teu Código de Acompanhamento e QR Code de Check-in:</p>
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="left" valign="middle">
+                    <h3 style="margin: 0; color: #0f172a; font-size: 28px; letter-spacing: 2px;">
+                      <a href="https://digitalent.pt/checkin?code=${registrationCode}" style="color: #2563eb; text-decoration: none;">${registrationCode}</a>
+                    </h3>
+                  </td>
+                  <td align="right" valign="middle" width="160">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('https://digitalent.pt/checkin?code=' + registrationCode)}" alt="QR Code" style="display: block; border-radius: 8px; border: 2px solid #2563eb;" />
+                  </td>
+                </tr>
+              </table>
             </div>
             <p>Todas as restantes informações submetidas estão em conformidade. Caso seja necessário algum detalhe adicional, entraremos em contacto utilizando este código como referência.</p>
             <p>Agradecemos a tua disponibilidade para partilhar conhecimento com a nossa comunidade — será um gosto contar contigo no evento!</p>
@@ -416,13 +515,13 @@ app.post('/api/participants/register', async (req, res) => {
     }
 
     // Validate if email already exists
-    const existingParticipant = await prisma.participantApplication.findFirst({
-      where: { emailAddress }
-    });
+    // const existingParticipant = await prisma.participantApplication.findFirst({
+    //   where: { emailAddress }
+    // });
 
-    if (existingParticipant) {
-      return res.status(400).json({ success: false, error: 'Este e-mail já se encontra registado.' });
-    }
+    // if (existingParticipant) {
+    //   return res.status(400).json({ success: false, error: 'Este e-mail já se encontra registado.' });
+    // }
 
     const registrationCode = 'DT26-' + Math.random().toString(36).substring(2, 8).toUpperCase();
 
@@ -470,9 +569,20 @@ app.post('/api/participants/register', async (req, res) => {
           <div style="font-family: Arial, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px;">
             <h2 style="color: #2563eb;">Olá, ${fullName}!</h2>
             <p>Confirmamos que a tua inscrição como participante no evento <strong>Digitalent'26</strong> foi recebida com sucesso.</p>
-            <div style="background-color: #f8fafc; border-left: 4px solid #2563eb; padding: 15px; margin: 20px 0;">
-              <p style="margin: 0; font-size: 14px; color: #64748b;">O teu Código Único de Inscrição:</p>
-              <h3 style="margin: 5px 0 0 0; color: #0f172a; font-size: 24px; letter-spacing: 2px;">${registrationCode}</h3>
+            <div style="background-color: #f8fafc; border-left: 4px solid #2563eb; padding: 20px; margin: 20px 0;">
+              <p style="margin: 0 0 15px 0; font-size: 14px; color: #64748b;">O teu Código Único de Inscrição e QR Code de Check-in:</p>
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="left" valign="middle">
+                    <h3 style="margin: 0; color: #0f172a; font-size: 28px; letter-spacing: 2px;">
+                      <a href="https://digitalent.pt/checkin?code=${registrationCode}" style="color: #2563eb; text-decoration: none;">${registrationCode}</a>
+                    </h3>
+                  </td>
+                  <td align="right" valign="middle" width="160">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('https://digitalent.pt/checkin?code=' + registrationCode)}" alt="QR Code" style="display: block; border-radius: 8px; border: 2px solid #2563eb;" />
+                  </td>
+                </tr>
+              </table>
             </div>
             <p>Guarda este código, pois será o teu bilhete de acesso no dia do evento.</p>
             <p>Fica atento à tua caixa de correio para mais novidades e detalhes sobre o cronograma. Estamos ansiosos por te receber!</p>
@@ -581,16 +691,27 @@ app.post('/api/partners/register', async (req, res) => {
 
 // --- ADMIN & CHECK-IN ENDPOINTS ---
 
-app.post('/api/admin/login', (req, res) => {
+app.post('/api/admin/login', async (req, res) => {
   const { email, password } = req.body;
   if (email === 'admin@digitalent.pt' && password === 'Foresp2026') {
-    res.json({ success: true, token: 'admin-token-123' });
-  } else {
-    res.status(401).json({ success: false, error: 'Credenciais inválidas' });
+    const token = jwt.sign({ admin: true }, process.env.JWT_SECRET || 'fallback-secret-12345', { expiresIn: '8h' });
+    res.cookie('admin_token', token, { 
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === 'production', 
+      sameSite: 'strict',
+      maxAge: 8 * 60 * 60 * 1000 
+    });
+    return res.json({ success: true });
   }
+  res.status(401).json({ success: false, error: 'Credenciais inválidas' });
 });
 
-app.get('/api/admin/users', async (req, res) => {
+app.post('/api/admin/logout', (req, res) => {
+  res.clearCookie('admin_token');
+  res.json({ success: true });
+});
+
+app.get('/api/admin/users', authenticateToken, async (req, res) => {
   try {
     const participants = await prisma.participantApplication.findMany();
     const speakers = await prisma.speakerApplication.findMany();
@@ -600,7 +721,7 @@ app.get('/api/admin/users', async (req, res) => {
   }
 });
 
-app.get('/api/admin/settings', async (req, res) => {
+app.get('/api/admin/settings', authenticateToken, async (req, res) => {
   try {
     let settings = await prisma.systemSettings.findUnique({ where: { id: "1" } });
     if (!settings) {
@@ -612,7 +733,7 @@ app.get('/api/admin/settings', async (req, res) => {
   }
 });
 
-app.post('/api/admin/settings', async (req, res) => {
+app.post('/api/admin/settings', authenticateToken, async (req, res) => {
   try {
     const { qaLink } = req.body;
     await prisma.systemSettings.upsert({
@@ -626,7 +747,82 @@ app.post('/api/admin/settings', async (req, res) => {
   }
 });
 
-app.post('/api/admin/toggle-kit', async (req, res) => {
+app.post('/api/admin/send-reminders', authenticateToken, async (req, res) => {
+  try {
+    const { emails } = req.body;
+    if (!emails || !Array.isArray(emails) || emails.length === 0) {
+      return res.status(400).json({ success: false, error: 'Nenhum e-mail fornecido.' });
+    }
+
+    const smtpUser = process.env.SMTP_USER || 'digitaltalent2026@gmail.com';
+    const smtpPass = process.env.SMTP_PASS;
+
+    if (!smtpPass) {
+      return res.status(500).json({ success: false, error: 'Configuração SMTP em falta.' });
+    }
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: parseInt(process.env.SMTP_PORT || '465'),
+      secure: process.env.SMTP_SECURE !== 'false',
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
+      },
+    });
+
+    // Calculate days remaining
+    const targetNormalized = new Date(2026, 6, 9, 0, 0, 0, 0).getTime(); // July 9, 2026
+    const clientDate = new Date();
+    const clientNormalized = new Date(clientDate.getFullYear(), clientDate.getMonth(), clientDate.getDate(), 0, 0, 0, 0).getTime();
+    const diffInMs = targetNormalized - clientNormalized;
+    const daysRemaining = Math.max(0, Math.ceil(diffInMs / (1000 * 60 * 60 * 24)));
+
+    let daysText = `Faltam ${daysRemaining} dias para o evento!`;
+    if (daysRemaining === 1) daysText = 'Falta 1 dia para o evento!';
+    if (daysRemaining === 0) daysText = 'É HOJE O GRANDE DIA!';
+
+    for (const email of emails) {
+      // Find user to get name and registrationCode (could be participant or speaker)
+      let user: any = await prisma.participantApplication.findFirst({ where: { emailAddress: email } });
+      if (!user) {
+        user = await prisma.speakerApplication.findFirst({ where: { emailAddress: email } });
+      }
+
+      if (!user) continue;
+
+      const code = user.registrationCode || 'N/A';
+      const name = user.fullName || 'Participante';
+
+      const mailOptions = {
+        from: `"Digitalent'26 (Equipa)" <${smtpUser}>`,
+        to: email,
+        subject: `⏳ ${daysText} - O Digitalent'26 aproxima-se!`,
+        html: `
+          <div style="font-family: Arial, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <h2 style="color: #2563eb;">Olá, ${name}!</h2>
+            <p style="font-size: 18px; font-weight: bold; color: #ef4444;">${daysText}</p>
+            <p>Estamos muito felizes em contar com a sua presença. Aproveitamos para relembrar o seu Código de Check-in para acesso rápido no dia:</p>
+            <div style="background-color: #f8fafc; border-left: 4px solid #2563eb; padding: 20px; margin: 20px 0;">
+              <h3 style="margin: 0; color: #0f172a; font-size: 28px; letter-spacing: 2px;">${code}</h3>
+            </div>
+            <p>Pode apresentar este código à entrada ou mostrá-lo através do seu e-mail de confirmação original (que também contém o QR Code).</p>
+            <p>Até breve!<br/><strong>A Equipa da Digitalent</strong></p>
+          </div>
+        `
+      };
+
+      await transporter.sendMail(mailOptions);
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Erro ao enviar e-mails de lembrete.' });
+  }
+});
+
+app.post('/api/admin/toggle-kit', authenticateToken, async (req, res) => {
   try {
     const { id, type, status } = req.body;
     if (type === 'speaker') {
@@ -640,7 +836,7 @@ app.post('/api/admin/toggle-kit', async (req, res) => {
   }
 });
 
-app.post('/api/checkin', async (req, res) => {
+app.post('/api/checkin', checkinLimiter, async (req, res) => {
   try {
     let { code } = req.body;
     if (!code) return res.status(400).json({ success: false, error: 'Código em falta.' });
@@ -684,7 +880,7 @@ app.post('/api/checkin', async (req, res) => {
   }
 });
 
-app.get('/api/admin/generate-qr-pdf', async (req, res) => {
+app.get('/api/admin/generate-qr-pdf', authenticateToken, async (req, res) => {
   try {
     const qrUrl = "https://digitalent.pt/checkin";
     const qrImageBuffer = await QRCode.toBuffer(qrUrl, {
