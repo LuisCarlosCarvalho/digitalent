@@ -32,7 +32,7 @@ const dictionary = {
     btnConfirm: 'Confirmar e Continuar',
     btnCancel: 'Cancelar',
     submitSuccess: 'Dossier Desbloqueado!',
-    submitSuccessDesc: 'As credenciais e o PDF de admissão foram despachados para o WhatsApp.',
+    submitSuccessDesc: 'As credenciais e o PDF de admissão foram despachados para o seu e-mail.',
     backHomeBtn: 'Voltar à Página Principal',
   },
   EN: {
@@ -60,7 +60,7 @@ const dictionary = {
     btnConfirm: 'Confirm & Continue',
     btnCancel: 'Cancel',
     submitSuccess: 'Dossier Unlocked!',
-    submitSuccessDesc: 'Your credentials and admission PDF have been dispatched to WhatsApp.',
+    submitSuccessDesc: 'Your credentials and admission PDF have been dispatched to your e-mail.',
     backHomeBtn: 'Back to Home Page',
   }
 };
@@ -170,12 +170,12 @@ export default function InscriptionPage() {
         setSuccessModalVisible(true);
         form.resetFields();
       } else {
-        throw new Error();
+        throw new Error(data.error || "Erro desconhecido");
       }
-    } catch (error) {
+    } catch (error: any) {
       notification.error({
-        message: 'System Error',
-        description: lang === 'PT' ? 'Ocorreu uma falha técnica na validação.' : 'An operational failure occurred during validation.',
+        message: 'Erro no Registo',
+        description: error.message || (lang === 'PT' ? 'Ocorreu uma falha técnica na validação.' : 'An operational failure occurred during validation.'),
         placement: 'topRight',
         style: { fontFamily: safeFont }
       });

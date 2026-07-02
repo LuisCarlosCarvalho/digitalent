@@ -149,13 +149,14 @@ const LandingPage: React.FC = () => {
         }
         setSuccessModalVisible(true);
       } else {
-        throw new Error("HTTP error " + response.status);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "HTTP error " + response.status);
       }
-    } catch (err) {
+    } catch (err: any) {
       notification.error({
         message: "Erro no Registo",
         description:
-          "Não foi possível processar a tua inscrição neste momento. Por favor, verifica a tua ligação ou tenta novamente.",
+          err.message || "Não foi possível processar a tua inscrição neste momento. Por favor, verifica a tua ligação ou tenta novamente.",
         placement: "topRight",
         style: {
           fontFamily: "'Inter', sans-serif",
@@ -239,11 +240,11 @@ const LandingPage: React.FC = () => {
               </Button>
               <Button
                 type="link"
-                href="#cronograma"
+                href="#programa"
                 className="menu-link-btn"
                 style={{ color: "var(--text-main)", fontWeight: 600 }}
               >
-                Cronograma
+                Programa
               </Button>
               <Button
                 type="link"
@@ -345,7 +346,7 @@ const LandingPage: React.FC = () => {
               <Button
                 type="link"
                 block
-                href="#cronograma"
+                href="#programa"
                 className="menu-link-btn"
                 onClick={() => setMobileMenuVisible(false)}
                 style={{
@@ -355,7 +356,7 @@ const LandingPage: React.FC = () => {
                   padding: 0,
                 }}
               >
-                Cronograma
+                Programa
               </Button>
               <Divider
                 style={{ margin: 0, borderColor: "var(--border-color)" }}
@@ -1040,7 +1041,7 @@ const LandingPage: React.FC = () => {
                               >
                                 ❯
                               </span>{" "}
-                              Kit Digitalent'26
+                              Brinde Digitalent'26
                             </div>
                             <div
                               style={{
@@ -1246,7 +1247,7 @@ const LandingPage: React.FC = () => {
                 textAlign: "center",
               }}
             >
-              Olá! O teu comprovativo oficial em PDF foi gerado e enviado com sucesso para a nossa organização via WhatsApp. Vemo-nos no Auditório do IEFP Rio Meão!
+              Olá! O teu comprovativo oficial em PDF foi gerado e enviado com sucesso para o teu e-mail. Por favor, verifica a tua caixa de entrada (incluindo a pasta de spam). Vemo-nos no Auditório do IEFP Rio Meão!
             </Paragraph>
             <Button
               type="primary"

@@ -35,6 +35,16 @@ body {
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@media print {
+  body {
+    display: none !important;
+  }
 }
 
 #root {
@@ -171,12 +181,12 @@ body {
 }
 
 .menu-link-btn:hover {
-  color: #d4af37 !important; /* Dourado Premium */
+  color: #0ea5e9 !important; /* Azul Céu */
   transform: translateY(-2px) scale(1.05);
-  text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+  text-shadow: 0 0 8px rgba(14, 165, 233, 0.3);
 }
 
-/* Sublinhado Dourado animado ao passar o mouse apenas no desktop */
+/* Sublinhado animado ao passar o mouse apenas no desktop */
 .desktop-menu .menu-link-btn::after {
   content: '';
   position: absolute;
@@ -184,7 +194,7 @@ body {
   height: 2px;
   bottom: 0;
   left: 50%;
-  background: linear-gradient(90deg, #d4af37, #f3e5ab, #d4af37);
+  background: linear-gradient(90deg, #0ea5e9, #7dd3fc, #0ea5e9);
   transition: all 0.3s ease;
   transform: translateX(-50%);
   border-radius: 2px;
@@ -196,7 +206,7 @@ body {
 
 /* Efeito ao clicar no botão */
 .menu-link-btn:active {
-  color: #b8902e !important; /* Dourado um pouco mais escuro ao clicar */
+  color: #0284c7 !important; /* Azul Céu mais escuro ao clicar */
   transform: translateY(0) scale(0.95);
   transition: all 0.1s ease !important;
 }

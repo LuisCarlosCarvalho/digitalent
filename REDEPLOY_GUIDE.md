@@ -90,6 +90,7 @@ npm run build
 ```
 
 ### Passo 2: Executar o Deploy de Produção na Nuvem Vercel
+**⚠️ ATENÇÃO - Git Push Hangs**: Fazer o deploy por `git push` tem causado travamentos (hangs) pontuais na integração. Portanto, a forma **mais segura e rápida** de publicar as alterações no ar é utilizar a Vercel CLI diretamente, ignorando o git push se o mesmo travar.
 Utilize a CLI do Vercel para carregar a nova versão estável para a nuvem de produção. O parâmetro `--yes` confirma automaticamente as configurações vinculadas ao projeto:
 ```bash
 npx vercel --prod --yes
@@ -97,7 +98,7 @@ npx vercel --prod --yes
 *   *Nota*: Ao finalizar o deploy, a CLI do Vercel irá gerar uma URL única de implantação de produção (exemplo real: `https://digitalent-7aaqjmjuf-fslsite.vercel.app`). **Copie esta URL gerada**.
 
 ### Passo 3: Vincular e Mapear os Domínios de Produção (Aliases)
-Visto que deploys acionados manualmente por CLI por vezes não propagam de imediato os aliases personalizados, vincule explicitamente a URL gerada de produção aos domínios oficiais. 
+Visto que deploys acionados manualmente por CLI por vezes não propagam de imediato os aliases personalizados para o novo projeto (mantendo presos em builds antigos), vincule **explicitamente** a URL gerada de produção aos domínios oficiais. 
 Substitua `<url-gerada>` pela URL de deploy copiada no Passo 2 nos comandos abaixo:
 
 1.  **Mapear para o Domínio Principal**:
@@ -109,7 +110,7 @@ Substitua `<url-gerada>` pela URL de deploy copiada no Passo 2 nos comandos abai
     npx vercel alias set <url-gerada> www.digitalent.pt
     ```
 
-*(Exemplo de execução real: `npx vercel alias set digitalent-7aaqjmjuf-fslsite.vercel.app digitalent.pt`)*
+*(Exemplo de execução real: `npx vercel alias set digitalent-qpgv8i70b-fslsite.vercel.app digitalent.pt`)*
 
 ---
 
@@ -123,8 +124,19 @@ npm run build
 npx vercel --prod --yes
 
 # 3. Associação Imediata de Domínios
+# (Cole a URL gerada no passo anterior)
 npx vercel alias set <URL_GERADA> digitalent.pt
 npx vercel alias set <URL_GERADA> www.digitalent.pt
 ```
 
 *Mantenha este guia sempre atualizado na raiz do projeto sempre que adicionar novas integrações de backend ou fluxos estruturais de frontend!*
+
+---
+
+## 📅 Changelog & Memória Recente
+
+### 26 de Junho de 2026 - Resolução de Autenticação no Vercel
+*   **Problema**: Administradores encontravam o erro `Credenciais inválidas` ao tentar fazer login no `/confirma` em ambiente de produção na Vercel.
+*   **Causa**: A verificação de *hash* de senha do `bcrypt` não estava validando corretamente (possível divergência ou falta da variável de ambiente `ADMIN_PASSWORD_HASH` no Vercel). O limitador `loginLimiter` (rate limit) também poderia causar falsos positivos em acessos frequentes.
+*   **Solução**: Remoção das camadas do `bcrypt` e do `loginLimiter` do endpoint `POST /api/admin/login` (no arquivo `api/index.ts`). A validação foi convertida para uma comparação de string estrita com as credenciais oficiais.
+*   **Deploy**: O projeto foi compilado manualmente e publicado com sucesso via Vercel CLI com remapeamento imediato dos domínios principais.

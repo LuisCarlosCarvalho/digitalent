@@ -9,8 +9,8 @@ const CheckinPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const handleConfirm = async () => {
-    if (!code.trim()) {
+  const processCheckin = async (codeToUse: string) => {
+    if (!codeToUse.trim()) {
       message.error('Por favor, insira o seu Código Único.');
       return;
     }
@@ -20,7 +20,7 @@ const CheckinPage: React.FC = () => {
       const res = await fetch('/api/checkin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: code.trim().toUpperCase() })
+        body: JSON.stringify({ code: codeToUse.trim().toUpperCase() })
       });
       const data = await res.json();
 
@@ -42,6 +42,19 @@ const CheckinPage: React.FC = () => {
       message.error('Erro de ligação ao servidor.');
     }
     setLoading(false);
+  };
+
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const codeParam = params.get('code');
+    if (codeParam) {
+      setCode(codeParam);
+      processCheckin(codeParam);
+    }
+  }, []);
+
+  const handleConfirm = () => {
+    processCheckin(code);
   };
 
   if (success) {

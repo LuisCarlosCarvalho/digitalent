@@ -13,7 +13,6 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
   const screens = useBreakpoint();
 
   const sponsorLogos = [
-    "https://i.imgur.com/1USX4Kp.png",
     "https://i.imgur.com/n0g2qAC.png",
     "https://i.imgur.com/SFWphsk.png",
     "https://i.imgur.com/Plb9o3i.png",
@@ -22,15 +21,21 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
     "https://i.imgur.com/bfYdCUW.png",
     "https://i.imgur.com/iFG6dJM.png",
     "https://i.imgur.com/Sayi70U.png",
-    "https://i.imgur.com/Wi15eOJ.png"
+    "https://i.imgur.com/Wi15eOJ.png",
+    "https://i.imgur.com/0chPN8K.png",
+    "https://i.imgur.com/9kdza66.png",
+    "https://i.imgur.com/dKAKHTL.png",
+    "https://i.imgur.com/woVb34r.png",
+    "https://i.imgur.com/ornrxZ9.png",
+    "https://i.imgur.com/lFpdYo0.png"
   ];
 
   return (
     <>
       {/* Schedule Section */}
-      <section id="cronograma" style={{ padding: screens.xs ? '60px 5%' : '100px 5%', background: 'var(--bg-alt)' }}>
+      <section id="programa" style={{ padding: screens.xs ? '60px 5%' : '100px 5%', background: 'var(--bg-alt)' }}>
         <div style={{ textAlign: 'center', marginBottom: screens.xs ? '40px' : '60px' }}>
-          <Title level={2} style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--text-main)' }}>Cronograma do Evento</Title>
+          <Title level={2} style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--text-main)' }}>PROGRAMA DO EVENTO</Title>
           <Text type="secondary" style={{ fontSize: '1.1rem', color: 'var(--text-sec)' }}>Um dia intensivo focado em resultados práticos.</Text>
         </div>
         
@@ -39,9 +44,9 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
             <div style={{ maxWidth: '800px', margin: '0 auto' }}>
               <Timeline
                 mode="left"
-              items={[
+                            items={[
                 {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>09h00 - 09h20</Text>,
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>09h00 - 09h30</Text>,
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
@@ -55,7 +60,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   dot: <ClockCircleOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
                 },
                 {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>09h20 - 09h50</Text>,
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>09h30 - 09h45</Text>,
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
@@ -63,12 +68,12 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                       </Title>
                       <div style={{ marginTop: '8px' }}>
                         <div style={{ marginBottom: '4px' }}>
-                          <Text style={{ color: 'var(--text-sec)', fontSize: '0.95rem' }}>• Intervenção institucional: </Text>
-                          <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Dr.ª Presidente do IEFP</Text>
+                          <Text style={{ color: 'var(--text-sec)', fontSize: '0.95rem', display: 'block' }}>Intervenção institucional: Directora do IEFP:</Text>
+                          <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem', display: 'block' }}>Dr.ª Fátima Bastos</Text>
                         </div>
                         <div>
-                          <Text style={{ color: 'var(--text-sec)', fontSize: '0.95rem' }}>• Coordenadora da Ação de Formação: </Text>
-                          <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Dr.ª Fernanda Cardoso</Text>
+                          <Text style={{ color: 'var(--text-sec)', fontSize: '0.95rem', display: 'block' }}>Coordenadora da Ação de Formação:</Text>
+                          <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem', display: 'block' }}>Dr.ª Fernanda Cardoso</Text>
                         </div>
                       </div>
                     </div>
@@ -76,7 +81,23 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   dot: <BulbOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
                 },
                 {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>09h50 - 10h20</Text>,
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>09h45 - 10h30</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Palestra: O Futuro da Criação de Conteúdo com IA
+                      </Title>
+                      <div style={{ marginTop: '4px' }}>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Filipe Monteiro</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Lead Lab)</Text>
+                      </div>
+                    </div>
+                  ),
+                  dot: <RocketOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>10h30 - 11h15</Text>,
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
@@ -89,26 +110,10 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                       </div>
                     </div>
                   ),
-                  dot: <RocketOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
-                },
-                {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>10h20 - 10h50</Text>,
-                  children: (
-                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
-                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Palestra: Dados e Tomada de Decisão no Digital
-                      </Title>
-                      <div style={{ marginTop: '4px' }}>
-                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Edgar Alves</Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (MultiMaking Sports)</Text>
-                      </div>
-                    </div>
-                  ),
                   dot: <SolutionOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
                 },
                 {
-                  label: <Text style={{ color: '#059669', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>10h50 - 11h20</Text>,
+                  label: <Text style={{ color: '#059669', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>11h15 - 11h35</Text>,
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px', background: 'rgba(5, 150, 105, 0.04)', padding: '12px 16px', borderRadius: '12px', borderLeft: '3px solid #059669' }}>
                       <Title level={5} style={{ margin: 0, color: '#059669', fontSize: '1.1rem', fontWeight: 700 }}>
@@ -122,38 +127,20 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   dot: <ClockCircleOutlined style={{ fontSize: '18px', color: '#059669' }} />,
                 },
                 {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>11h20 - 11h50</Text>,
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>11h45 - 12h30</Text>,
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Palestra: Gestão de Inteligência Artificial na Era Digital
+                        Palestra: Gestão de Redes Sociais e Marketing de Influência na Era da IA
                       </Title>
                       <div style={{ marginTop: '4px' }}>
-                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Arménio Ganga</Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Gangas Digital)</Text>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradora: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Inês Sá Silva</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Aero Agency)</Text>
                       </div>
                     </div>
                   ),
                   dot: <RocketOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
-                },
-                {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>11h50 - 12h30</Text>,
-                  children: (
-                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
-                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Painel Temático: Gestão de Inteligência Artificial na Era Digital
-                      </Title>
-                      <div style={{ marginTop: '6px' }}>
-                        <div style={{ color: 'var(--text-sec)', fontSize: '0.9rem', marginBottom: '2px' }}>Oradores:</div>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Aero Agency), </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Fundação Champalimaud) </Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>e </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservados</Text> <Text style={{ color: 'var(--text-sec)', fontSize: '0.90rem' }}>(Corticeira Amorim)</Text>
-                      </div>
-                    </div>
-                  ),
-                  dot: <SolutionOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
                 },
                 {
                   label: <Text style={{ color: '#059669', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>12h30 - 14h15</Text>,
@@ -170,38 +157,39 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   dot: <ClockCircleOutlined style={{ fontSize: '18px', color: '#059669' }} />,
                 },
                 {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>14h15 - 14h45</Text>,
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>14h15 - 15h00</Text>,
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Palestra: Personalização em Escala com IA
-                      </Title>
-                      <div style={{ marginTop: '4px' }}>
-                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Reservado</Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Co-Founder na Digital Alchimia)</Text>
-                      </div>
-                    </div>
-                  ),
-                  dot: <RocketOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
-                },
-                {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>14h45 - 15h15</Text>,
-                  children: (
-                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
-                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Palestra: Gestão da Transformação digital na perspectiva de empreendedores
+                        Palestra: Dados e Tomada de Decisão no Digital
                       </Title>
                       <div style={{ marginTop: '4px' }}>
                         <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradora: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Inês</Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Susana Carina Cunha</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Empower Think)</Text>
                       </div>
                     </div>
                   ),
                   dot: <SolutionOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
                 },
                 {
-                  label: <Text style={{ color: '#059669', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>15h15 - 15h30</Text>,
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>15h00 - 15h45</Text>,
+                  children: (
+                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
+                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
+                        Palestra: Gestão de Inteligência Artificial na Era Digital
+                      </Title>
+                      <div style={{ marginTop: '4px' }}>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Arménio Ganga</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Gangas Digital)</Text>
+                      </div>
+                    </div>
+                  ),
+                  dot: <RocketOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                },
+                {
+                  label: <Text style={{ color: '#059669', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>15h45 - 16h00</Text>,
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px', background: 'rgba(5, 150, 105, 0.04)', padding: '12px 16px', borderRadius: '12px', borderLeft: '3px solid #059669' }}>
                       <Title level={5} style={{ margin: 0, color: '#059669', fontSize: '1.1rem', fontWeight: 700 }}>
@@ -215,39 +203,23 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   dot: <ClockCircleOutlined style={{ fontSize: '18px', color: '#059669' }} />,
                 },
                 {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>15h30 - 16h00</Text>,
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>16h00 - 16h45</Text>,
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Palestra: Gestão da Transformação Digital
+                        Palestra: Gestão da Transformação Digital na Perspetiva de Empreendedores
                       </Title>
                       <div style={{ marginTop: '4px' }}>
-                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Diogo Gaspar</Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Ascendia)</Text>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradores: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Filipe Duarte e Diogo Gaspar</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Ascendi)</Text>
                       </div>
                     </div>
                   ),
                   dot: <BulbOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
                 },
                 {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>16h00 - 16h45</Text>,
-                  children: (
-                    <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
-                      <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Palestra: Gestão e Automação com IA
-                      </Title>
-                      <div style={{ marginTop: '6px' }}>
-                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Filipe Duarte</Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Ascendia)</Text>
-                      </div>
-                    </div>
-                  ),
-                  dot: <SolutionOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
-                },
-                {
-                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>16h45 - 17h15</Text>,
+                  label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>16h45 - 17h00</Text>,
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
@@ -261,7 +233,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   dot: <BulbOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
                 },
                 {
-                  label: <Text style={{ color: '#dc2626', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>17h15</Text>,
+                  label: <Text style={{ color: '#dc2626', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>17h00</Text>,
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: '#dc2626', fontSize: '1.1rem', fontWeight: 700 }}>
@@ -358,10 +330,12 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   onMouseEnter={(e) => {
                     e.currentTarget.style.filter = "grayscale(0%)";
                     e.currentTarget.style.opacity = "1";
+                    e.currentTarget.style.transform = "scale(1.2)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.filter = "grayscale(100%)";
                     e.currentTarget.style.opacity = "0.7";
+                    e.currentTarget.style.transform = "scale(1)";
                   }}
                 />
               </div>

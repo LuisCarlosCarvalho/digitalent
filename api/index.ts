@@ -106,13 +106,13 @@ app.post('/api/register-whatsapp', async (req, res) => {
   const { formType, name, email, phone, company, sponsorshipLevel, adminNumber } = req.body;
 
   // Validate if email already exists
-  // const existingUser = await prisma.participantApplication.findFirst({
-  //   where: { emailAddress: email }
-  // });
+  const existingUser = await prisma.participantApplication.findFirst({
+    where: { emailAddress: email }
+  });
 
-  // if (existingUser) {
-  //   return res.status(400).json({ success: false, error: 'Este e-mail já se encontra registado.' });
-  // }
+  if (existingUser) {
+    return res.status(400).json({ success: false, error: 'Este e-mail já está cadastrado. Por favor, verifica a tua caixa de entrada ou a pasta de spam.' });
+  }
 
   // Usa o número enviado pelo frontend ou o padrão configurado acima
   const targetNumber = adminNumber || ADMIN_WHATSAPP_NUMBER;
@@ -188,7 +188,8 @@ app.post('/api/register-whatsapp', async (req, res) => {
                 <h2 style="color: #2563eb;">Olá, ${name}!</h2>
                 <p>A tua inscrição para o <strong>Digitalent'26</strong>, foi confirmada.</p>
                 <div style="background-color: #f8fafc; border-left: 4px solid #2563eb; padding: 20px; margin: 20px 0;">
-                  <p style="margin: 0 0 15px 0; font-size: 14px; color: #64748b;">O teu Código Único de Inscrição e QR Code de Check-in:</p>
+                  <p style="margin: 0 0 5px 0; font-size: 14px; color: #64748b;">O teu Código Único de Inscrição e QR Code de Check-in:</p>
+                  <p style="margin: 0 0 15px 0; font-size: 13px; color: #2563eb; font-weight: bold;">👉 Clica no código azul abaixo para acederes ao Painel de Perguntas (Q&A)</p>
                   <table width="100%" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                       <td align="left" valign="middle">
@@ -515,13 +516,13 @@ app.post('/api/participants/register', async (req, res) => {
     }
 
     // Validate if email already exists
-    // const existingParticipant = await prisma.participantApplication.findFirst({
-    //   where: { emailAddress }
-    // });
+    const existingParticipant = await prisma.participantApplication.findFirst({
+      where: { emailAddress }
+    });
 
-    // if (existingParticipant) {
-    //   return res.status(400).json({ success: false, error: 'Este e-mail já se encontra registado.' });
-    // }
+    if (existingParticipant) {
+      return res.status(400).json({ success: false, error: 'Este e-mail já está cadastrado. Por favor, verifica a tua caixa de entrada ou a pasta de spam.' });
+    }
 
     const registrationCode = 'DT26-' + Math.random().toString(36).substring(2, 8).toUpperCase();
 
@@ -570,7 +571,8 @@ app.post('/api/participants/register', async (req, res) => {
             <h2 style="color: #2563eb;">Olá, ${fullName}!</h2>
             <p>Confirmamos que a tua inscrição como participante no evento <strong>Digitalent'26</strong> foi recebida com sucesso.</p>
             <div style="background-color: #f8fafc; border-left: 4px solid #2563eb; padding: 20px; margin: 20px 0;">
-              <p style="margin: 0 0 15px 0; font-size: 14px; color: #64748b;">O teu Código Único de Inscrição e QR Code de Check-in:</p>
+              <p style="margin: 0 0 5px 0; font-size: 14px; color: #64748b;">O teu Código Único de Inscrição e QR Code de Check-in:</p>
+              <p style="margin: 0 0 15px 0; font-size: 13px; color: #2563eb; font-weight: bold;">👉 Clica no código azul abaixo para acederes ao Painel de Perguntas (Q&A)</p>
               <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td align="left" valign="middle">
@@ -778,8 +780,8 @@ app.post('/api/admin/send-reminders', authenticateToken, async (req, res) => {
     const diffInMs = targetNormalized - clientNormalized;
     const daysRemaining = Math.max(0, Math.ceil(diffInMs / (1000 * 60 * 60 * 24)));
 
-    let daysText = `Faltam ${daysRemaining} dias para o evento!`;
-    if (daysRemaining === 1) daysText = 'Falta 1 dia para o evento!';
+    let daysText = `FALTAM ${daysRemaining} DIAS!`;
+    if (daysRemaining === 1) daysText = 'FALTA 1 DIA!';
     if (daysRemaining === 0) daysText = 'É HOJE O GRANDE DIA!';
 
     for (const email of emails) {
@@ -801,12 +803,25 @@ app.post('/api/admin/send-reminders', authenticateToken, async (req, res) => {
         html: `
           <div style="font-family: Arial, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px;">
             <h2 style="color: #2563eb;">Olá, ${name}!</h2>
-            <p style="font-size: 18px; font-weight: bold; color: #ef4444;">${daysText}</p>
+            <p style="font-size: 18px; font-weight: bold; color: #ef4444;">Está chegando a hora de fazer parte de algo especial. ${daysText}</p>
             <p>Estamos muito felizes em contar com a sua presença. Aproveitamos para relembrar o seu Código de Check-in para acesso rápido no dia:</p>
             <div style="background-color: #f8fafc; border-left: 4px solid #2563eb; padding: 20px; margin: 20px 0;">
-              <h3 style="margin: 0; color: #0f172a; font-size: 28px; letter-spacing: 2px;">${code}</h3>
+              <p style="margin: 0 0 5px 0; font-size: 14px; color: #64748b;">O teu Código Único de Inscrição e QR Code de Check-in:</p>
+              <p style="margin: 0 0 15px 0; font-size: 13px; color: #2563eb; font-weight: bold;">👉 Clica no código azul abaixo para acederes ao Painel de Perguntas (Q&A)</p>
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="left" valign="middle">
+                    <h3 style="margin: 0; color: #0f172a; font-size: 28px; letter-spacing: 2px;">
+                      <a href="https://digitalent.pt/checkin?code=${code}" style="color: #2563eb; text-decoration: none;">${code}</a>
+                    </h3>
+                  </td>
+                  <td align="right" valign="middle" width="160">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('https://digitalent.pt/checkin?code=' + code)}" alt="QR Code" style="display: block; border-radius: 8px; border: 2px solid #2563eb;" />
+                  </td>
+                </tr>
+              </table>
             </div>
-            <p>Pode apresentar este código à entrada ou mostrá-lo através do seu e-mail de confirmação original (que também contém o QR Code).</p>
+            <p>Pode apresentar este código à entrada ou aceder ao link acima para utilizar o painel Q&A durante o evento.</p>
             <p>Até breve!<br/><strong>A Equipa da Digitalent</strong></p>
           </div>
         `

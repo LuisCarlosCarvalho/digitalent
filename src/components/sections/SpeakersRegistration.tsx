@@ -258,6 +258,13 @@ const SpeakersRegistration: React.FC = () => {
               </Form.Item>
             </Col>
 
+            {/* Honeypot field - Invisible to humans, catches bots */}
+            <Col xs={24} style={{ display: 'none' }}>
+              <Form.Item name="_hp_website" label="Website">
+                <Input tabIndex={-1} autoComplete="off" />
+              </Form.Item>
+            </Col>
+
             <Col xs={24}>
               <Form.Item
                 name="speakerTopic"

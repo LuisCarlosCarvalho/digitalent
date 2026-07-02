@@ -42,7 +42,7 @@ const ParticipantRegistration: React.FC = () => {
       perks: [
         'Acesso total ao event',
         'Coffee-break',
-        "Kit Digitalent'26",
+        "Brinde Digitalent'26",
         'Rede de networking'
       ]
     },
@@ -70,7 +70,7 @@ const ParticipantRegistration: React.FC = () => {
       perks: [
         'Full access to the event',
         'Coffee-break',
-        "Digitalent'26 Kit",
+        "Brinde Digitalent'26",
         'Networking'
       ]
     }
@@ -248,9 +248,19 @@ const ParticipantRegistration: React.FC = () => {
                   <Form.Item
                     name="emailAddress"
                     label={<span style={{ color: dossierTheme.text, fontWeight: 600 }}><span style={{color: 'red'}}>*</span> {t.emailAddress}</span>}
-                    rules={[{ required: true, type: 'email', message: t.validationRequired }]}
+                    rules={[
+                      { required: true, message: t.validationRequired },
+                      { type: 'email', message: 'E-mail inválido.' }
+                    ]}
                   >
                     <Input size="large" placeholder={t.emailPlaceholder} style={{ borderRadius: '8px' }} />
+                  </Form.Item>
+                </Col>
+
+                {/* Honeypot field - Invisible to humans, catches bots */}
+                <Col xs={24} style={{ display: 'none' }}>
+                  <Form.Item name="_hp_website" label="Website">
+                    <Input tabIndex={-1} autoComplete="off" />
                   </Form.Item>
                 </Col>
 

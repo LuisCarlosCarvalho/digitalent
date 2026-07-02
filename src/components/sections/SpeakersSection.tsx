@@ -20,45 +20,45 @@ const speakers = [
   // --- ORADOR 2 ---
   { 
     id: 2,
-    name: "Diogo Gaspar", 
-    role: "Gestão da Transformação Digital", 
-    company: "IA & AUTOMAÇÃO (ASCENDIA)",
-    expertise: "Gestão da Transformação Digital",
-    shortBio: "A maioria das imobiliárias perde leads todos os dias.\nNão por falta de investimento em marketing — mas porque ninguém responde rápido o suficiente, o follow-up morre ao terceiro contacto, e os leads \"frios\" ficam esquecidos no CRM.\n\nEu criei a Ascendia para resolver exatamente isto.\nConstruo sistemas com inteligência artificial e automação que tratam dos processos que drenam tempo e perdem dinheiro — para que as equipas comerciais se foquem no que realmente importa: fechar negócios.\nSe perdes leads, tens processos lentos, ou a tua equipa gasta tempo em tarefas que deviam ser automáticas — vamos conversar.\n🌐 ascendia.pt\n📩 diogo@ascendia.pt",
-    image: "https://i.imgur.com/5Q8Y4sI.png",
-    linkedin: "https://www.linkedin.com/in/diogo-gaspar-916544340"
+    name: "Filipe Monteiro", 
+    role: "O Futuro da criação de conteúdo com IA", 
+    company: "Lead Lab",
+    expertise: "O Futuro da criação de conteúdo com IA",
+    shortBio: "Profissional com mais de 14 anos de experiência em Marketing, é CEO e cofundador da Lead Lab, atuando em marketing digital e formação empresarial. Paralelamente, é docente universitário há cerca de 10 anos em áreas como Marketing, Vendas, Social Media e CRM, lecionando no IPS e na Universidade Aberta, além de colaborar com várias entidades de formação.\n\nPossui forte experiência em consultoria tecnológica, tendo liderado o marketing de empresas como Xpand IT e Growin, contribuindo significativamente para o crescimento dessas organizações. Ao longo da carreira, trabalhou com grandes empresas internacionais como Microsoft, Red Hat e OutSystems.\n\nFormado em Marketing e com pós-graduação em Marketing Digital, já contribuiu para a formação de mais de 20.000 alunos. Também publica regularmente conteúdos e artigos em meios especializados.\n\nNo plano pessoal, destaca-se o gosto pelo desporto (especialmente futebol), artes marciais, cinema, leitura, viagens e convívio com família e amigos.",
+    image: "https://i.imgur.com/nYd5LHy.jpeg",
+    linkedin: "https://www.linkedin.com/in/filipemonteiromarketing"
   },
   // --- ORADOR 3 ---
   { 
     id: 3,
-    name: "Edgar Alves", 
+    name: "Susana Carina Cunha", 
     role: "Dados e Tomada de Decisão no Digital", 
-    company: "MULTIMAKING SPORTS",
+    company: "Empower Think",
     expertise: "Dados e Tomada de Decisão no Digital",
-    shortBio: "Nos bastidores do desporto, há histórias que merecem ser contadas com profundidade.\nProduzimos podcasts e conteúdo estratégico que transformam essas histórias em autoridade para marcas.\nComunicação com propósito, consistência e impacto.\n📲 @multimaking.sports",
-    image: "https://i.imgur.com/nQD2c9Q.jpeg",
-    linkedin: "https://www.instagram.com/multimaking.sports?igsh=cXA3Y3Z3OThoM3Bu&utm_source=qr"
+    shortBio: "A maioria das organizações falha não por falta de estratégia, mas por desalinhamento entre objetivos, pessoas e execução. O Método Integrar® foi criado para resolver esse problema, integrando os sistemas estratégico, humano e operacional, permitindo transformar estratégia em resultados concretos e sustentáveis.\n\nAtravés da EmpowerThink®, são apoiadas PMEs, líderes e equipas a alinhar estratégia, melhorar liderança, otimizar processos, desenvolver talento e aumentar a produtividade e competitividade.\n\nO método baseia-se na ideia de que resultados consistentes surgem quando há alinhamento: as pessoas entendem a direção, as lideranças atuam com clareza e os processos suportam a execução.\n\nA abordagem combina gestão, liderança, melhoria contínua e desenvolvimento organizacional, com foco no crescimento sustentável através da integração eficaz entre estratégia, pessoas e operação.",
+    image: "https://i.imgur.com/lGaz3zH.jpeg",
+    linkedin: "https://www.linkedin.com/in/susanacunhaintegrar"
   },
-  // --- ORADOR 4 ---
+  // --- ORADOR 4 (Diogo Gaspar & Filipe Duarte) ---
   { 
     id: 4,
-    name: "Filipe Duarte", 
-    role: "Gestão e Automação com IA", 
+    name: "Diogo Gaspar & Filipe Duarte", 
+    role: "Gestão da transformação Digital na perspectiva de empreendedores", 
     company: "IA & AUTOMAÇÃO (ASCENDIA)",
-    expertise: "Gestão e Automação com IA",
-    shortBio: "Trabalho com automação e inteligência artificial porque vi, na prática, como a maioria das empresas perde oportunidades todos os dias.\nAo longo do tempo, comecei a reparar em padrões: tarefas repetitivas, processos pouco claros e uma dependência excessiva de intervenção humana para coisas que já poderiam ser sistematizadas.\nAinda existe uma aversão ao uso de IA, mas isto porque a maioria das pessoas não sabe o impacto que uma automação no seu negócio pode ter com o uso da IA.\nGosto de dizer aos meus clientes que uma automação com IA é como um ajudante que vai te surpreender quando tu decides delegar uma tarefa.",
-    image: "https://i.imgur.com/5Q8Y4sI.png",
-    linkedin: "https://www.linkedin.com/in/filipe-duarte-969372309"
+    expertise: "Gestão da transformação Digital na perspectiva de empreendedores",
+    shortBio: "DIOGO GASPAR:\nA maioria das imobiliárias perde leads todos os dias.\nNão por falta de investimento em marketing — mas porque ninguém responde rápido o suficiente, o follow-up morre ao terceiro contacto, e os leads \"frios\" ficam esquecidos no CRM.\nEu criei a Ascendia para resolver exatamente isto.\nConstruo sistemas com inteligência artificial e automação que tratam dos processos que drenam tempo e perdem dinheiro.\n\nFILIPE DUARTE:\nTrabalho com automação e inteligência artificial porque vi, na prática, como a maioria das empresas perde oportunidades todos os dias.\nAo longo do tempo, comecei a reparar em padrões: tarefas repetitivas, processos pouco claros e uma dependência excessiva de intervenção humana.\nAinda existe uma aversão ao uso de IA, mas isto porque a maioria das pessoas não sabe o impacto que uma automação no seu negócio pode ter.\n\n🌐 ascendia.pt",
+    image: "https://i.imgur.com/kzMrXHz.jpeg",
+    linkedin: "https://www.linkedin.com/company/ascendia"
   },
   // --- ORADOR 5 ---
   { 
     id: 5,
     name: "Inês Sá Silva", 
-    role: "Redes Sociais e Marketing de Influência na Era da IA", 
+    role: "Gestão de redes sociais e marketing de influência na era da IA", 
     company: "Digital Experience (DX)",
-    expertise: "Redes Sociais e Marketing de Influência na Era da IA",
+    expertise: "Gestão de redes sociais e marketing de influência na era da IA",
     shortBio: "Inês é especialista em Social Media e Marketing orientado por dados, com formação em Gestão e mestrado na área de Data-Driven Marketing. Atualmente a aprofundar competências em Content Marketing, combina pensamento analítico com criatividade para desenvolver estratégias digitais eficazes e orientadas para resultados.\n\nCom experiência em e-commerce, finanças e gestão de redes sociais, destaca-se pela sua visão estratégica, capacidade de liderança e foco na performance. A sua abordagem prática e orientada para impacto promete trazer insights relevantes e aplicáveis a quem procura evoluir na área do marketing digital.",
-    image: "https://i.imgur.com/gVJhUZD.jpeg",
+    image: "https://i.imgur.com/sxZzW2v.jpeg",
     linkedin: "https://www.linkedin.com/in/ines-sa-silva"
   },
   // --- ORADOR 6 ---
