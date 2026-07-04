@@ -32,9 +32,9 @@ const speakers = [
   { 
     id: 3,
     name: "Susana Carina Cunha", 
-    role: "Dados e Tomada de Decisão no Digital", 
+    role: "Comunicação Assertiva na Era Digital", 
     company: "Empower Think",
-    expertise: "Dados e Tomada de Decisão no Digital",
+    expertise: "Comunicação Assertiva na Era Digital",
     shortBio: "A maioria das organizações falha não por falta de estratégia, mas por desalinhamento entre objetivos, pessoas e execução. O Método Integrar® foi criado para resolver esse problema, integrando os sistemas estratégico, humano e operacional, permitindo transformar estratégia em resultados concretos e sustentáveis.\n\nAtravés da EmpowerThink®, são apoiadas PMEs, líderes e equipas a alinhar estratégia, melhorar liderança, otimizar processos, desenvolver talento e aumentar a produtividade e competitividade.\n\nO método baseia-se na ideia de que resultados consistentes surgem quando há alinhamento: as pessoas entendem a direção, as lideranças atuam com clareza e os processos suportam a execução.\n\nA abordagem combina gestão, liderança, melhoria contínua e desenvolvimento organizacional, com foco no crescimento sustentável através da integração eficaz entre estratégia, pessoas e operação.",
     image: "https://i.imgur.com/lGaz3zH.jpeg",
     linkedin: "https://www.linkedin.com/in/susanacunhaintegrar"

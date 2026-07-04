@@ -161,7 +161,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Palestra: Dados e Tomada de Decisão no Digital
+                        Palestra: Comunicação Assertiva na Era Digital
                       </Title>
                       <div style={{ marginTop: '4px' }}>
                         <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradora: </Text>
