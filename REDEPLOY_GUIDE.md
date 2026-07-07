@@ -140,3 +140,7 @@ npx vercel alias set <URL_GERADA> www.digitalent.pt
 *   **Causa**: A verificação de *hash* de senha do `bcrypt` não estava validando corretamente (possível divergência ou falta da variável de ambiente `ADMIN_PASSWORD_HASH` no Vercel). O limitador `loginLimiter` (rate limit) também poderia causar falsos positivos em acessos frequentes.
 *   **Solução**: Remoção das camadas do `bcrypt` e do `loginLimiter` do endpoint `POST /api/admin/login` (no arquivo `api/index.ts`). A validação foi convertida para uma comparação de string estrita com as credenciais oficiais.
 *   **Deploy**: O projeto foi compilado manualmente e publicado com sucesso via Vercel CLI com remapeamento imediato dos domínios principais.
+
+### 07 de Julho de 2026 - Atualização da Programação do Evento
+*   **Ação**: Inversão de horários de palestras no `ScheduleSection.tsx`. A palestra de "O Futuro da Criação de Conteúdo com IA" (Filipe Monteiro) e a "Comunicação Assertiva na Era Digital" (Susana Carina Cunha) tiveram os horários invertidos (de 09h45 para 14h15 e vice-versa).
+*   **Deploy**: Realizado processo completo de compilação local, deploy de produção na Vercel (gerando a build `digitalent-8p1b6o8lk-fslsite.vercel.app`) e mapeamento imediato dos domínios principais (digitalent.pt e www.digitalent.pt) utilizando a Vercel CLI.

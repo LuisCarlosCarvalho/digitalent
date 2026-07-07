@@ -727,9 +727,9 @@ app.get('/api/admin/settings', authenticateToken, async (req, res) => {
   try {
     let settings = await prisma.systemSettings.findUnique({ where: { id: "1" } });
     if (!settings) {
-      settings = await prisma.systemSettings.create({ data: { id: "1", qaLink: "" } });
+      settings = await prisma.systemSettings.create({ data: { id: "1", qaLink: "", brindeLink: "" } });
     }
-    res.json({ success: true, qaLink: settings.qaLink });
+    res.json({ success: true, qaLink: settings.qaLink, brindeLink: settings.brindeLink });
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao carregar configurações.' });
   }
@@ -737,11 +737,11 @@ app.get('/api/admin/settings', authenticateToken, async (req, res) => {
 
 app.post('/api/admin/settings', authenticateToken, async (req, res) => {
   try {
-    const { qaLink } = req.body;
+    const { qaLink, brindeLink } = req.body;
     await prisma.systemSettings.upsert({
       where: { id: "1" },
-      update: { qaLink },
-      create: { id: "1", qaLink }
+      update: { qaLink, brindeLink },
+      create: { id: "1", qaLink, brindeLink }
     });
     res.json({ success: true });
   } catch (error) {
@@ -840,11 +840,58 @@ app.post('/api/admin/send-reminders', authenticateToken, async (req, res) => {
 app.post('/api/admin/toggle-kit', authenticateToken, async (req, res) => {
   try {
     const { id, type, status } = req.body;
+    let updatedRecord;
+    
     if (type === 'speaker') {
-      await prisma.speakerApplication.update({ where: { id }, data: { status } });
+      updatedRecord = await prisma.speakerApplication.update({ where: { id }, data: { status } });
     } else {
-      await prisma.participantApplication.update({ where: { id }, data: { status } });
+      updatedRecord = await prisma.participantApplication.update({ where: { id }, data: { status } });
     }
+    
+    // Se o status indicar que o brinde foi entregue, envia o email automático com o arquivo
+    if (status.includes('entregue') && updatedRecord.emailAddress) {
+      const settings = await prisma.systemSettings.findUnique({ where: { id: "1" } });
+      const downloadLink = settings?.brindeLink;
+      
+      if (downloadLink) {
+        const smtpUser = process.env.SMTP_USER || 'digitaltalent2026@gmail.com';
+        const smtpPass = process.env.SMTP_PASS;
+
+        if (smtpPass) {
+          const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST || 'smtp.gmail.com',
+            port: parseInt(process.env.SMTP_PORT || '465'),
+            secure: process.env.SMTP_SECURE !== 'false',
+            auth: {
+              user: smtpUser,
+              pass: smtpPass,
+            },
+          });
+
+          const mailOptions = {
+            from: `"Digitalent'26 (Equipa)" <${smtpUser}>`,
+            to: updatedRecord.emailAddress,
+            subject: `O Teu Brinde Digitalent'26 Acaba de Ser Liberado! 🎁`,
+            html: `
+              <div style="font-family: Arial, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px;">
+                <h2 style="color: #2563eb;">Olá, ${updatedRecord.fullName}!</h2>
+                <p>Verificamos que estiveste no nosso balcão e queremos agradecer a tua presença.</p>
+                <p>O teu kit e brinde digital foi validado. Clica no botão abaixo para descarregar agora os teus conteúdos exclusivos:</p>
+                <div style="text-align: center; margin: 30px 0;">
+                  <a href="${downloadLink}" style="background-color: #2563eb; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Descarregar Brinde Exclusivo</a>
+                </div>
+                <p>Em caso de dúvidas ou problemas com o link, responde diretamente a este e-mail.</p>
+                <br/>
+                <p>Continuação de um excelente evento!<br/><strong>A Equipa da Digitalent</strong></p>
+              </div>
+            `
+          };
+
+          transporter.sendMail(mailOptions).catch(err => console.error("Erro ao enviar brinde:", err));
+        }
+      }
+    }
+
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao atualizar kit.' });

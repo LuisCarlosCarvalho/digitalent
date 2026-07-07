@@ -551,9 +551,9 @@ app.get('/api/admin/settings', async (req, res) => {
   try {
     let settings = await prisma.systemSettings.findUnique({ where: { id: "1" } });
     if (!settings) {
-      settings = await prisma.systemSettings.create({ data: { id: "1", qaLink: "" } });
+      settings = await prisma.systemSettings.create({ data: { id: "1", qaLink: "", brindeLink: "" } });
     }
-    res.json({ success: true, qaLink: settings.qaLink });
+    res.json({ success: true, qaLink: settings.qaLink, brindeLink: settings.brindeLink });
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao carregar configurações.' });
   }
@@ -561,15 +561,84 @@ app.get('/api/admin/settings', async (req, res) => {
 
 app.post('/api/admin/settings', async (req, res) => {
   try {
-    const { qaLink } = req.body;
+    const { qaLink, brindeLink } = req.body;
     await prisma.systemSettings.upsert({
       where: { id: "1" },
-      update: { qaLink },
-      create: { id: "1", qaLink }
+      update: { qaLink, brindeLink },
+      create: { id: "1", qaLink, brindeLink }
     });
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro ao guardar configurações.' });
+  }
+});
+
+app.post('/api/admin/toggle-kit', async (req, res) => {
+  try {
+    const { id, type, status } = req.body;
+
+    let updatedRecord;
+    if (type === 'speaker') {
+      updatedRecord = await prisma.speakerApplication.update({
+        where: { id },
+        data: { status }
+      });
+    } else {
+      updatedRecord = await prisma.participantApplication.update({
+        where: { id },
+        data: { status }
+      });
+    }
+
+    // Se o status for alterado para 'entregue', enviar e-mail com o brinde
+    if (status.includes('entregue') && updatedRecord.emailAddress) {
+      const settings = await prisma.systemSettings.findUnique({ where: { id: "1" } });
+      const brindeLink = settings?.brindeLink || '';
+      
+      if (brindeLink) {
+        const smtpUser = process.env.SMTP_USER || 'digitaltalent2026@gmail.com';
+        const smtpPass = process.env.SMTP_PASS;
+
+        if (smtpPass) {
+          const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST || 'smtp.gmail.com',
+            port: parseInt(process.env.SMTP_PORT || '465'),
+            secure: process.env.SMTP_SECURE !== 'false',
+            auth: { user: smtpUser, pass: smtpPass },
+          });
+
+          const mailOptions = {
+            from: `"Digitalent26 (Equipa Marketing)" <${smtpUser}>`,
+            to: updatedRecord.emailAddress,
+            subject: `🎁 O teu Brinde Exclusivo do Digitalent'26 chegou!`,
+            html: `
+              <div style="font-family: Arial, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px;">
+                <h2 style="color: #2563eb;">Olá, ${updatedRecord.fullName}!</h2>
+                <p>Obrigado por participares no <strong>Digitalent'26</strong>.</p>
+                <p>Como prometido, aqui está o teu brinde exclusivo do evento:</p>
+                <div style="text-align: center; margin: 30px 0;">
+                  <a href="${brindeLink}" style="background-color: #2563eb; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 16px;">
+                    Descarregar Brinde Exclusivo
+                  </a>
+                </div>
+                <p>Ou acede diretamente por este link: <a href="${brindeLink}">${brindeLink}</a></p>
+                <p>Esperamos que aproveites este conteúdo criado especialmente para ti!</p>
+                <br/>
+                <p>Até breve,</p>
+                <p><strong>Equipa Marketing | Digitalent'26</strong></p>
+              </div>
+            `
+          };
+
+          await transporter.sendMail(mailOptions);
+        }
+      }
+    }
+
+    res.json({ success: true, data: updatedRecord });
+  } catch (error) {
+    console.error('Erro no toggle-kit:', error);
+    res.status(500).json({ success: false, error: 'Erro ao atualizar kit e enviar email.' });
   }
 });
 

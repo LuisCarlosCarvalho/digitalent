@@ -78,8 +78,9 @@ model PartnerApplication {
 }
 
 model SystemSettings {
-  id     String @id @default("1")
-  qaLink String @default("")
+  id         String @id @default("1")
+  qaLink     String @default("")
+  brindeLink String @default("")
 
   @@map("system_settings")
 }

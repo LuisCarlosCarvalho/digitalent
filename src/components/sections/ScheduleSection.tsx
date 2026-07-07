@@ -85,16 +85,16 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Palestra: O Futuro da Criação de Conteúdo com IA
+                        Palestra: Comunicação Assertiva na Era Digital
                       </Title>
                       <div style={{ marginTop: '4px' }}>
-                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Filipe Monteiro</Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Lead Lab)</Text>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradora: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Susana Carina Cunha</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Empower Think)</Text>
                       </div>
                     </div>
                   ),
-                  dot: <RocketOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                  dot: <SolutionOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
                 },
                 {
                   label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>10h30 - 11h15</Text>,
@@ -136,7 +136,7 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                       <div style={{ marginTop: '4px' }}>
                         <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradora: </Text>
                         <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Inês Sá Silva</Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Aero Agency)</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Digital Experience - DX)</Text>
                       </div>
                     </div>
                   ),
@@ -161,16 +161,16 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
                   children: (
                     <div style={{ marginBottom: '24px', paddingLeft: '10px' }}>
                       <Title level={5} style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 700 }}>
-                        Palestra: Comunicação Assertiva na Era Digital
+                        Palestra: O Futuro da Criação de Conteúdo com IA
                       </Title>
                       <div style={{ marginTop: '4px' }}>
-                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Oradora: </Text>
-                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Susana Carina Cunha</Text>
-                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Empower Think)</Text>
+                        <Text type="secondary" style={{ fontSize: '0.9rem', color: 'var(--text-sec)' }}>Orador: </Text>
+                        <Text strong style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}>Filipe Monteiro</Text>
+                        <Text style={{ color: 'var(--text-sec)', fontSize: '0.9rem' }}> (Lead Lab)</Text>
                       </div>
                     </div>
                   ),
-                  dot: <SolutionOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
+                  dot: <RocketOutlined style={{ fontSize: '18px', color: '#2563eb' }} />,
                 },
                 {
                   label: <Text style={{ color: '#2563eb', fontWeight: 800, fontSize: '1rem', whiteSpace: 'nowrap' }}>15h00 - 15h45</Text>,

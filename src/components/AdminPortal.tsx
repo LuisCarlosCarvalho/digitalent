@@ -12,6 +12,7 @@ const AdminPortal: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const [qaLink, setQaLink] = useState('');
+  const [brindeLink, setBrindeLink] = useState('');
   const [participants, setParticipants] = useState<any[]>([]);
   const [speakers, setSpeakers] = useState<any[]>([]);
   const [searchText, setSearchText] = useState('');
@@ -63,6 +64,7 @@ const AdminPortal: React.FC = () => {
       }
       if (settingsData.success) {
         setQaLink(settingsData.qaLink || '');
+        setBrindeLink(settingsData.brindeLink || '');
       }
     } catch (e) {
       console.error(e);
@@ -76,7 +78,7 @@ const AdminPortal: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
-        body: JSON.stringify({ qaLink })
+        body: JSON.stringify({ qaLink, brindeLink })
       });
       if (res.ok) {
         message.success('Configuração guardada com sucesso!');
@@ -223,13 +225,18 @@ const AdminPortal: React.FC = () => {
     )},
   ];
 
-  const filteredParticipants = participants.filter(p => 
-    !searchText || p.registrationCode?.toLowerCase().includes(searchText.toLowerCase())
-  );
+  const lowerSearch = searchText.toLowerCase();
+  const filterFn = (p: any) => {
+    if (!searchText) return true;
+    return (
+      (p.registrationCode && p.registrationCode.toLowerCase().includes(lowerSearch)) ||
+      (p.fullName && p.fullName.toLowerCase().includes(lowerSearch)) ||
+      (p.emailAddress && p.emailAddress.toLowerCase().includes(lowerSearch))
+    );
+  };
 
-  const filteredSpeakers = speakers.filter(p => 
-    !searchText || p.registrationCode?.toLowerCase().includes(searchText.toLowerCase())
-  );
+  const filteredParticipants = participants.filter(filterFn);
+  const filteredSpeakers = speakers.filter(filterFn);
 
   return (
     <div style={{ background: '#f8fafc', minHeight: '100vh', padding: '40px 20px' }}>
@@ -249,23 +256,32 @@ const AdminPortal: React.FC = () => {
 
         <div style={{ background: '#fff', padding: '24px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', marginBottom: '24px' }} className="no-print">
           <Text strong>Link do Painel (Q&A):</Text>
-          <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+          <div style={{ display: 'flex', gap: '12px', marginTop: '8px', marginBottom: '16px' }}>
             <Input 
               value={qaLink} 
               onChange={e => setQaLink(e.target.value)} 
               placeholder="ex: https://agentetalent.vercel.app/event/000/join" 
               size="large"
             />
+          </div>
+          <Text strong>Link do Brinde (PDF/Arquivo):</Text>
+          <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+            <Input 
+              value={brindeLink} 
+              onChange={e => setBrindeLink(e.target.value)} 
+              placeholder="ex: https://meusite.com/brinde.pdf" 
+              size="large"
+            />
             <Button type="primary" size="large" onClick={handleSaveSettings} style={{ background: '#2563eb' }}>Guardar</Button>
           </div>
         </div>
 
-        <div style={{ background: '#fff', padding: '24px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+        <div style={{ background: '#fff', padding: '24px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }} className="no-print">
           <Tabs 
             defaultActiveKey="1"
             tabBarExtraContent={
               <Input.Search 
-                placeholder="Procurar código (ex: H57K)..." 
+                placeholder="Procurar nome, email ou código..." 
                 allowClear 
                 onChange={e => setSearchText(e.target.value)}
                 style={{ width: 250, marginBottom: 8 }}
@@ -299,9 +315,74 @@ const AdminPortal: React.FC = () => {
           </Tabs>
         </div>
         
-        {/* Print Only Title */}
-        <div className="print-only" style={{ display: 'none' }}>
-           <h1>Lista de Check-in - Digitalent'26</h1>
+        {/* Print Only Professional Layout */}
+        <div className="print-only">
+          <div className="print-table-header">
+            <div>
+              <h1 style={{ margin: 0, fontSize: '24px', color: '#000' }}>Digitalent'26</h1>
+              <p style={{ margin: 0, fontSize: '14px', color: '#333' }}>Lista Oficial de Check-in</p>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <p style={{ margin: 0, fontWeight: 'bold' }}>Data: 09 de Julho de 2026</p>
+              <p style={{ margin: 0 }}>Total de Inscritos: {filteredParticipants.length + filteredSpeakers.length}</p>
+            </div>
+          </div>
+
+          <h2 style={{ fontSize: '16px', marginTop: '10px', marginBottom: '10px', color: '#000' }}>Ouvintes / Empresas ({filteredParticipants.length})</h2>
+          <table className="print-table">
+            <thead>
+              <tr>
+                <th style={{ width: '5%' }}>#</th>
+                <th style={{ width: '25%' }}>Nome</th>
+                <th style={{ width: '25%' }}>Email</th>
+                <th style={{ width: '15%' }}>Código</th>
+                <th style={{ width: '15%' }}>Status</th>
+                <th style={{ width: '15%' }}>Assinatura</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredParticipants.map((p, index) => (
+                <tr key={p.id || index}>
+                  <td>{index + 1}</td>
+                  <td><strong>{p.fullName}</strong></td>
+                  <td>{p.emailAddress}</td>
+                  <td>{p.registrationCode}</td>
+                  <td>{p.status?.includes('Confirmado') ? 'Confirmado' : p.status}</td>
+                  <td></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {filteredSpeakers.length > 0 && (
+            <>
+              <h2 style={{ fontSize: '16px', marginTop: '20px', marginBottom: '10px', color: '#000' }}>Oradores ({filteredSpeakers.length})</h2>
+              <table className="print-table">
+                <thead>
+                  <tr>
+                    <th style={{ width: '5%' }}>#</th>
+                    <th style={{ width: '25%' }}>Nome</th>
+                    <th style={{ width: '25%' }}>Email</th>
+                    <th style={{ width: '15%' }}>Código</th>
+                    <th style={{ width: '15%' }}>Status</th>
+                    <th style={{ width: '15%' }}>Assinatura</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredSpeakers.map((s, index) => (
+                    <tr key={s.id || index}>
+                      <td>{index + 1}</td>
+                      <td><strong>{s.fullName}</strong></td>
+                      <td>{s.emailAddress}</td>
+                      <td>{s.registrationCode}</td>
+                      <td>{s.status?.includes('Confirmado') ? 'Confirmado' : s.status}</td>
+                      <td></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
         </div>
       </div>
     </div>
