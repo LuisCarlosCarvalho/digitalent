@@ -144,3 +144,10 @@ npx vercel alias set <URL_GERADA> www.digitalent.pt
 ### 07 de Julho de 2026 - Atualização da Programação do Evento
 *   **Ação**: Inversão de horários de palestras no `ScheduleSection.tsx`. A palestra de "O Futuro da Criação de Conteúdo com IA" (Filipe Monteiro) e a "Comunicação Assertiva na Era Digital" (Susana Carina Cunha) tiveram os horários invertidos (de 09h45 para 14h15 e vice-versa).
 *   **Deploy**: Realizado processo completo de compilação local, deploy de produção na Vercel (gerando a build `digitalent-8p1b6o8lk-fslsite.vercel.app`) e mapeamento imediato dos domínios principais (digitalent.pt e www.digitalent.pt) utilizando a Vercel CLI.
+
+### 07 de Julho de 2026 - Gestão de Check-in, Disparo de Brindes e Layout de Impressão
+*   **Gestão de Brindes (Admin)**: Adicionada nova coluna `brindeLink` no banco de dados Prisma (`SystemSettings`). Agora o painel de administração (`AdminPortal.tsx`) possui um campo para o Link do Brinde. 
+*   **Disparo Automático de E-mail**: A rota `/api/admin/toggle-kit` (`api/index.ts`) foi modificada. Quando o status de um participante/orador é marcado como "Confirmado, brinde entregue" (ou contenha "entregue"), a API dispara automaticamente um e-mail dinâmico em nome da "A Equipa da Digitalent" fornecendo o link direto do brinde (PDF) configurado globalmente.
+*   **Layout de Impressão (Planilha)**: Modificadas as classes CSS e os botões de Impressão para ocultar os controlos dinâmicos (`.no-print`) e renderizar uma tabela em formato de Planilha física (`.print-only`), ideal para papel, contendo o total de inscritos dinâmico, código do bilhete e uma coluna extra de "Assinatura" para preenchimento manual à porta.
+*   **Correção de Dados**: O nome da empresa da Oradora "Inês Sá Silva" foi atualizado de "Aero Agency" para "Digital Experience - DX" diretamente na secção de programa (`ScheduleSection.tsx`).
+*   **Deploy**: Devido aos travamentos no git push, o deploy de Produção foi realizado via CLI da Vercel gerando a build `digitalent-ojif0k5i5-fslsite.vercel.app` e mapeado com sucesso para `digitalent.pt` e `www.digitalent.pt`.

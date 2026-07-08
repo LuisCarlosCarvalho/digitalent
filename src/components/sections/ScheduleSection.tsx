@@ -20,14 +20,15 @@ const ScheduleSection: React.FC<ScheduleSectionProps> = ({ onRegisterClick }) =>
     "https://i.imgur.com/KvjOZO6.png",
     "https://i.imgur.com/bfYdCUW.png",
     "https://i.imgur.com/iFG6dJM.png",
-    "https://i.imgur.com/Sayi70U.png",
     "https://i.imgur.com/Wi15eOJ.png",
     "https://i.imgur.com/0chPN8K.png",
-    "https://i.imgur.com/9kdza66.png",
     "https://i.imgur.com/dKAKHTL.png",
     "https://i.imgur.com/woVb34r.png",
     "https://i.imgur.com/ornrxZ9.png",
-    "https://i.imgur.com/lFpdYo0.png"
+    "https://i.imgur.com/lFpdYo0.png",
+    "https://i.imgur.com/is2UOaX.png",
+    "https://i.imgur.com/oy0J23M.png",
+    "https://i.imgur.com/5zgGbnp.png"
   ];
 
   return (
