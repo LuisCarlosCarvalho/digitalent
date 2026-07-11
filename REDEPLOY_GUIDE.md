@@ -151,3 +151,7 @@ npx vercel alias set <URL_GERADA> www.digitalent.pt
 *   **Layout de Impressão (Planilha)**: Modificadas as classes CSS e os botões de Impressão para ocultar os controlos dinâmicos (`.no-print`) e renderizar uma tabela em formato de Planilha física (`.print-only`), ideal para papel, contendo o total de inscritos dinâmico, código do bilhete e uma coluna extra de "Assinatura" para preenchimento manual à porta.
 *   **Correção de Dados**: O nome da empresa da Oradora "Inês Sá Silva" foi atualizado de "Aero Agency" para "Digital Experience - DX" diretamente na secção de programa (`ScheduleSection.tsx`).
 *   **Deploy**: Devido aos travamentos no git push, o deploy de Produção foi realizado via CLI da Vercel gerando a build `digitalent-ojif0k5i5-fslsite.vercel.app` e mapeado com sucesso para `digitalent.pt` e `www.digitalent.pt`.
+
+### 08 de Julho de 2026 - Atualização de Logos de Parceiros
+*   **Ação**: Substituição e atualização das logos na listagem de Apoiadores/Parceiros (`ScheduleSection.tsx` e `logos.html`), removendo imagens corrompidas ou apagadas.
+*   **Deploy**: Realizado deploy de produção via Vercel CLI (build `digitalent-5gy8lyj1w-fslsite.vercel.app`) e mapeado com sucesso para `digitalent.pt` e `www.digitalent.pt`.

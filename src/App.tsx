@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import LandingPage from "./components/LandingPage";
+import ThankYouPage from "./components/ThankYouPage";
 import InscricaoPage from "./components/InscricaoPage";
 import SpeakersRegistration from "./components/sections/SpeakersRegistration";
 import ParticipantRegistration from "./components/sections/ParticipantRegistration";
@@ -96,7 +97,7 @@ function App() {
        route === "parceiro" ? <PartnerRegistration /> : null}
       {route === "confirma" && <AdminPortal />}
       {route === "checkin" && <CheckinPage />}
-      {route === "home" && <LandingPage />}
+      {route === "home" && <ThankYouPage />}
     </div>
   );
 }
